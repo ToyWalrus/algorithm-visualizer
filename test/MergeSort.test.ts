@@ -23,10 +23,21 @@ describe('MergeSort', () => {
 
       const sortedList = await sorter.sort(shuffledList);
 
+      // listValues('Original list: ', originalList);
+      // listValues('Shuffled list: ', shuffledList);
+      // listValues('Sorted list: ', sortedList);
+
       expectListsToMatch(originalList, sortedList);
     });
   });
 });
+
+const listValues = (prefix: String, arr: Node[]): void => {
+  console.log(
+    prefix,
+    arr.map((val) => val.value)
+  );
+};
 
 const makeNodeList = (...args: number[] | string[]): Node[] => {
   const list: Node[] = [];
@@ -47,7 +58,12 @@ const expectListsToBeDifferent = (arr1: Node[], arr2: Node[], shouldBeSameLength
   if (shouldBeSameLength) {
     expect(arr1.length).toEqual(arr2.length);
   }
+  let haveDifference = false;
   for (let i = 0; i < Math.min(arr1.length, arr2.length); ++i) {
-    expect(arr1[i].value).not.toEqual(arr2[i].value);
+    if (arr1[i].value !== arr2[i].value) {
+      haveDifference = true;
+      break;
+    }
   }
+  expect(haveDifference).toBe(true);
 };

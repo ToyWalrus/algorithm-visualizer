@@ -21,6 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest test/ --passWithNoTests",
+    "tdd": "jest --watch",
     "eject": "react-scripts eject",
     "new-component": "npx generate-react-cli component"
   },
@@ -49,6 +50,6 @@
     "@types/shuffle-array": "^1.0.0",
     "babel-jest": "^26.6.3",
     "generate-react-cli": "^6.0.2",
-    "jest": "^26.6.3"
+    "jest": "^26.6.0"
   }
 }

@@ -11,11 +11,15 @@ export default class MergeSort extends SortAlgorithm {
     let mergedLeft: Node[];
     let mergedRight: Node[];
 
-    if (left.length === 1 || right.length === 1) {
+    if (left.length <= 1) {
       mergedLeft = left;
-      mergedRight = right;
     } else {
       mergedLeft = await this.merge(...this.split(left));
+    }
+
+    if (right.length <= 1) {
+      mergedRight = right;
+    } else {
       mergedRight = await this.merge(...this.split(right));
     }
 
@@ -61,14 +65,15 @@ export default class MergeSort extends SortAlgorithm {
   }
 
   private split(arr: Node[]): [Node[], Node[]] {
-    if (arr.length === 1) {
-      throw new Error('Should not be calling "Split()" on array with only 1 element!');
+    if (arr.length <= 1) {
+      throw new Error('Should not be calling "Split()" on array with 1 or fewer elements!');
     }
+
     const mid = Math.floor(arr.length / 2);
     const left: Node[] = [];
     const right: Node[] = [];
     for (let i = 0; i < arr.length; ++i) {
-      if (i <= mid) {
+      if (i < mid) {
         left.push(arr[i]);
       } else {
         right.push(arr[i]);
