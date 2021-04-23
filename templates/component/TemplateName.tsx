@@ -2,7 +2,7 @@ interface TemplateNameArgs {}
 
 const TemplateName = (args: TemplateNameArgs) => {
   return (
-    <div data-testid='TemplateName'>
+    <div className='TemplateName' data-testid='TemplateName'>
       <h1>TemplateName component</h1>
     </div>
   );

@@ -9,13 +9,17 @@ import Node from '../model/Node';
  */
 type CompareFunc = (a: Node, b: Node) => -1 | 0 | 1;
 
-export default abstract class SortAlgorithm {
-  msDelay: number | undefined;
-  comparator: CompareFunc;
+type CallbackOnWait = () => void;
 
-  constructor(comparator: CompareFunc, msDelay?: number) {
+export default abstract class SortAlgorithm {
+  comparator: CompareFunc;
+  msDelay?: number;
+  callback?: CallbackOnWait;
+
+  constructor(comparator: CompareFunc, msDelay?: number, cb?: CallbackOnWait) {
     this.comparator = comparator;
     this.msDelay = msDelay;
+    this.callback = cb;
   }
 
   /**
@@ -27,7 +31,12 @@ export default abstract class SortAlgorithm {
   protected delayIfProvided(time?: number): Promise<void> {
     return new Promise<void>((resolve) => {
       if (time && time > 0) {
-        setTimeout(resolve, time);
+        setTimeout(() => {
+          if (this.callback) {
+            this.callback();
+          }
+          resolve();
+        }, time);
       } else {
         resolve();
       }

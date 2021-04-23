@@ -1,6 +1,7 @@
 import MergeSort from '../src/algorithms/MergeSort';
 import Node from '../src/model/Node';
 import shuffle from 'shuffle-array';
+import SortAlgorithm from '../src/algorithms/SortAlgorithm';
 
 describe('MergeSort', () => {
   let sorter: MergeSort;
@@ -29,8 +30,47 @@ describe('MergeSort', () => {
 
       expectListsToMatch(originalList, sortedList);
     });
+
+    test('on a list of size 100', async () => {
+      const vals: number[] = [];
+      for (let i = 0; i < 100; ++i) {
+        vals.push(i);
+      }
+
+      const originalList = makeNodeList(...vals);
+      const shuffledList = shuffle(originalList, { copy: true });
+      expectListsToBeDifferent(originalList, shuffledList);
+
+      const sortedList = await sorter.sort(shuffledList);
+
+      expectListsToMatch(originalList, sortedList);
+    });
+
+    test('on a list of size 100000', async () => {
+      const vals: number[] = [];
+      for (let i = 0; i < 100000; ++i) {
+        vals.push(i);
+      }
+
+      const originalList = makeNodeList(...vals);
+      const shuffledList = shuffle(originalList, { copy: true });
+      expectListsToBeDifferent(originalList, shuffledList);
+
+      const sortedList = await runAndLogTime(sorter, shuffledList);
+
+      expectListsToMatch(originalList, sortedList);
+    });
   });
 });
+
+const runAndLogTime = async (sorter: SortAlgorithm, arr: Node[]): Promise<Node[]> => {
+  const startTime = new Date().getTime();
+  const sortedList = await sorter.sort(arr);
+  const endTime = new Date().getTime();
+
+  console.log('Finished sorting ' + arr.length + ' nodes in ' + ((endTime - startTime) / 1000).toFixed(3) + ' seconds');
+  return sortedList;
+};
 
 const listValues = (prefix: String, arr: Node[]): void => {
   console.log(

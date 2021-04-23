@@ -1,0 +1,17 @@
+.MergeSortVisualizer {
+  display: flex;
+  width: 80vw;
+  justify-content: space-between;
+  background-color: #30353e;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.MergeSortVisualizer.row {
+  flex-direction: column;
+}
+
+.MergeSortVisualizer.column {
+  flex-direction: row;
+  padding-right: 2%;
+}

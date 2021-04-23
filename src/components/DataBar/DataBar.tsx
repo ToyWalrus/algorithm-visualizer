@@ -23,22 +23,16 @@ interface DataBarArgs {
 
 const DataBar = (args: DataBarArgs) => {
   return (
-    <div style={{ position: 'relative', height: '100%' }}>
-      <div
-        style={GetStyle(args)}
-        key={'DataBar' + (args.index !== undefined ? `_${args.index}` : '')}
-      >
-        {args.renderValue && (args.value * 100).toPrecision(2) + '%'}
-      </div>
+    <div
+      style={{ position: 'relative', height: '100%', width: '100%' }}
+      key={'DataBar' + (args.index !== undefined ? `_${args.index}` : '')}
+    >
+      <div style={GetStyle(args)}>{args.renderValue && (args.value * 100).toPrecision(2) + '%'}</div>
     </div>
   );
 };
 
-const GetStyle = ({
-  color = 'steelblue',
-  width,
-  value,
-}: DataBarArgs): React.CSSProperties => {
+const GetStyle = ({ color = 'steelblue', width, value }: DataBarArgs): React.CSSProperties => {
   value = Math.max(Math.min(value, 1), 0);
   return {
     display: 'flex',
@@ -47,7 +41,7 @@ const GetStyle = ({
     bottom: 0,
     backgroundColor: color as any,
     height: (value * 100).toPrecision(2) + '%',
-    width: width && `${width}px`,
+    width: (width && `${width}px`) || '95%',
   };
 };
 

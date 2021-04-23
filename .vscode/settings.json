@@ -1,5 +1,12 @@
 {
     "editor.formatOnSave": true,
     "editor.tabSize": 2,
-    "tslint.configFile": ".eslintrc"
+    "tslint.configFile": ".eslintrc",
+    "tslint.exclude": [
+        "node_modules/",
+        "templates/",
+        "build/",
+        "dist/",
+        ".vscode/"
+    ]
 }
