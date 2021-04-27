@@ -3,6 +3,7 @@ import shuffle from 'shuffle-array';
 import MergeSort from '../../algorithms/MergeSort';
 import Node from '../../model/Node';
 import DataBar from '../DataBar/DataBar';
+import VisualizationArea from '../VisualizationArea/VisualizationArea';
 import './MergeSortVisualizer.css';
 
 interface MergeSortVisualizerArgs {
@@ -20,25 +21,23 @@ const MergeSortVisualizer = ({ list: initialList, layout }: MergeSortVisualizerA
     for (let i = 0; i < highestVal; ++i) {
       list.push(new Node({ value: i + 1 }));
     }
-    shuffle(list);
-    sorter = new MergeSort(
-      (a, b) => {
-        if (a.value < b.value) return -1;
-        return 1;
-      },
-      100,
-      () => {
-        setList(list);
-      }
-    );
-    sorter.sort(list);
+    // shuffle(list);
+    // sorter = new MergeSort(
+    //   (a, b) => {
+    //     if (a.value < b.value) return -1;
+    //     return 1;
+    //   },
+    //   100,
+    //   () => {
+    //     setList(list);
+    //   }
+    // );
+    // sorter.sort(list);
   });
 
   return (
-    <div className={'MergeSortVisualizer ' + layout} data-testid="MergeSortVisualizer">
-      {list.map((val, idx) => (
-        <DataBar value={(val.value as number) / highestVal} index={idx} renderValue={false} />
-      ))}
+    <div className="MergeSortVisualizer" data-testid="MergeSortVisualizer">
+      <VisualizationArea bars={list} highestVal={highestVal} />
     </div>
   );
 };

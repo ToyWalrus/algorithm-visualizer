@@ -29,6 +29,7 @@ export default abstract class SortAlgorithm {
   abstract sort(values: Node[]): Promise<Node[]>;
 
   protected delayIfProvided(time?: number): Promise<void> {
+    time = time || this.msDelay;
     return new Promise<void>((resolve) => {
       if (time && time > 0) {
         setTimeout(() => {
@@ -41,5 +42,15 @@ export default abstract class SortAlgorithm {
         resolve();
       }
     });
+  }
+}
+
+export class NodePointer {
+  node: Node;
+  nodeIndex: number;
+
+  constructor(node: Node, index: number) {
+    this.node = node;
+    this.nodeIndex = index;
   }
 }

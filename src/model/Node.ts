@@ -1,5 +1,6 @@
 interface NodeArgs {
   value: String | number;
+  index?: number;
 }
 
 export default class Node {
@@ -9,11 +10,20 @@ export default class Node {
     return this.args.value;
   }
 
-  get isBeingSorted(): boolean {
-    return true;
+  listPosition?: number;
+
+  // get isBeingSorted(): boolean {
+  //   return true;
+  // }
+  isBeingSorted: boolean;
+
+  get color(): String {
+    return this.isBeingSorted ? 'steelblue' : 'green';
   }
 
   constructor(args: NodeArgs) {
     this.args = args;
+    this.listPosition = args.index;
+    this.isBeingSorted = false;
   }
 }

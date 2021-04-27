@@ -1,0 +1,14 @@
+.VisualizationArea {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.VisualizationArea.row {
+  flex-direction: column;
+}
+
+.VisualizationArea.column {
+  flex-direction: row;
+  padding-right: 2%;
+}
