@@ -31,11 +31,12 @@ import {
 
 interface ScaffoldArgs {
   title: String;
+  hideSideNav?: boolean;
 }
 
 const Scaffold: React.FC<ScaffoldArgs> = args => {
   const classes = getStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -62,57 +63,59 @@ const Scaffold: React.FC<ScaffoldArgs> = args => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <Typography variant="h6">Drawer</Typography>
-          <IconButton onClick={handleDrawerClose} className={classes.drawerIcons}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          <ListItem button>
-            <ListItemIcon className={classes.drawerIcons}>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon className={classes.drawerIcons}>
-              <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Orders" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon className={classes.drawerIcons}>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Customers" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon className={classes.drawerIcons}>
-              <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon className={classes.drawerIcons}>
-              <LayersIcon />
-            </ListItemIcon>
-            <ListItemText primary="Integrations" />
-          </ListItem>
-        </List>
-      </Drawer>
+      {!args.hideSideNav && (
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          }}
+          open={open}
+        >
+          <div className={classes.toolbarIcon}>
+            <Typography variant="h6">Drawer</Typography>
+            <IconButton onClick={handleDrawerClose} className={classes.drawerIcons}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            <ListItem button>
+              <ListItemIcon className={classes.drawerIcons}>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon className={classes.drawerIcons}>
+                <ShoppingCartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Orders" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon className={classes.drawerIcons}>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Customers" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon className={classes.drawerIcons}>
+                <BarChartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Reports" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon className={classes.drawerIcons}>
+                <LayersIcon />
+              </ListItemIcon>
+              <ListItemText primary="Integrations" />
+            </ListItem>
+          </List>
+        </Drawer>
+      )}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {args.children}
-        {!args.children && (
+        {/* {!args.children && (
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8} lg={9}>
@@ -132,7 +135,7 @@ const Scaffold: React.FC<ScaffoldArgs> = args => {
               </Grid>
             </Grid>
           </Container>
-        )}
+        )} */}
       </main>
     </div>
   );

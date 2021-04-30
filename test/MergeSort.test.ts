@@ -6,7 +6,7 @@ import SortAlgorithm from '../src/algorithms/SortAlgorithm';
 describe('MergeSort', () => {
   let sorter: MergeSort;
 
-  describe.skip('for number Nodes', () => {
+  describe('for number Nodes', () => {
     beforeAll(() => {
       sorter = new MergeSort((a, b) => {
         let v1 = a.value as number;
@@ -61,44 +61,6 @@ describe('MergeSort', () => {
       expectListsToMatch(originalList, sortedList);
     });
   });
-
-  describe('in place', () => {
-    beforeAll(() => {
-      sorter = new MergeSort((a, b) => {
-        let v1 = a.value as number;
-        let v2 = b.value as number;
-        if (v1 < v2) return -1;
-        if (v1 > v2) return 1;
-        return 0;
-      });
-    });
-
-    test('on a list of size 10', async () => {
-      const originalList = makeNodeList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-      const shuffledList = shuffle(originalList, { copy: true });
-
-      expectListsToBeDifferent(originalList, shuffledList);
-      await sorter.sortInPlace(shuffledList);
-      listValues('Original list: ', originalList);
-      listValues('Shuffled list: ', shuffledList);
-      expectListsToMatch(originalList, shuffledList);
-    });
-
-    test.skip('on a list of size 100', async () => {
-      const vals: number[] = [];
-      for (let i = 0; i < 100; ++i) {
-        vals.push(i);
-      }
-
-      const originalList = makeNodeList(...vals);
-      const shuffledList = shuffle(originalList, { copy: true });
-      expectListsToBeDifferent(originalList, shuffledList);
-
-      await sorter.sortInPlace(shuffledList);
-
-      expectListsToMatch(originalList, shuffledList);
-    });
-  });
 });
 
 const runAndLogTime = async (sorter: SortAlgorithm, arr: Node[]): Promise<Node[]> => {
@@ -113,13 +75,13 @@ const runAndLogTime = async (sorter: SortAlgorithm, arr: Node[]): Promise<Node[]
 const listValues = (prefix: String, arr: Node[]): void => {
   console.log(
     prefix,
-    arr.map((val) => val.value)
+    arr.map(val => val.value)
   );
 };
 
 const makeNodeList = (...args: number[] | string[]): Node[] => {
   const list: Node[] = [];
-  args.forEach((arg) => {
+  args.forEach(arg => {
     list.push(new Node({ value: arg }));
   });
   return list;

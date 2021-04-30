@@ -27,12 +27,12 @@ const DataBar = (args: DataBarArgs) => {
       style={{ position: 'relative', height: '100%', width: '100%' }}
       key={'DataBar' + (args.index !== undefined ? `_${args.index}` : '')}
     >
-      <div style={GetStyle(args)}>{args.renderValue && (args.value * 100).toPrecision(2) + '%'}</div>
+      <div style={getStyle(args)}>{args.renderValue && (args.value * 100).toPrecision(2) + '%'}</div>
     </div>
   );
 };
 
-const GetStyle = ({ color = 'steelblue', width, value }: DataBarArgs): React.CSSProperties => {
+const getStyle = ({ color = 'steelblue', width, value }: DataBarArgs): React.CSSProperties => {
   value = Math.max(Math.min(value, 1), 0);
   return {
     display: 'flex',
