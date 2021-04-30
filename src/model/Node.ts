@@ -10,7 +10,7 @@ export default class Node {
     return this.args.value;
   }
 
-  listPosition?: number;
+  index?: number;
 
   // get isBeingSorted(): boolean {
   //   return true;
@@ -23,7 +23,7 @@ export default class Node {
 
   constructor(args: NodeArgs) {
     this.args = args;
-    this.listPosition = args.index;
+    this.index = args.index;
     this.isBeingSorted = false;
   }
 }

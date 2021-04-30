@@ -6,7 +6,7 @@ import SortAlgorithm from '../src/algorithms/SortAlgorithm';
 describe('MergeSort', () => {
   let sorter: MergeSort;
 
-  describe('for number Nodes', () => {
+  describe('in place', () => {
     beforeAll(() => {
       sorter = new MergeSort((a, b) => {
         let v1 = a.value as number;
@@ -20,15 +20,13 @@ describe('MergeSort', () => {
     test('on a list of size 10', async () => {
       const originalList = makeNodeList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
       const shuffledList = shuffle(originalList, { copy: true });
+
       expectListsToBeDifferent(originalList, shuffledList);
-
-      const sortedList = await sorter.sort(shuffledList);
-
-      // listValues('Original list: ', originalList);
-      // listValues('Shuffled list: ', shuffledList);
-      // listValues('Sorted list: ', sortedList);
-
-      expectListsToMatch(originalList, sortedList);
+      await sorter.sort(shuffledList);
+      // sorter.listValues('Original list: ', originalList);
+      // sorter.listValues('Shuffled list: ', shuffledList);
+      expectListsToMatch(originalList, shuffledList);
+      expectIndexesToBeCorrect(shuffledList);
     });
 
     test('on a list of size 100', async () => {
@@ -41,9 +39,10 @@ describe('MergeSort', () => {
       const shuffledList = shuffle(originalList, { copy: true });
       expectListsToBeDifferent(originalList, shuffledList);
 
-      const sortedList = await sorter.sort(shuffledList);
+      await sorter.sort(shuffledList);
 
-      expectListsToMatch(originalList, sortedList);
+      expectListsToMatch(originalList, shuffledList);
+      expectIndexesToBeCorrect(shuffledList);
     });
 
     test('on a list of size 100000', async () => {
@@ -56,33 +55,27 @@ describe('MergeSort', () => {
       const shuffledList = shuffle(originalList, { copy: true });
       expectListsToBeDifferent(originalList, shuffledList);
 
-      const sortedList = await runAndLogTime(sorter, shuffledList);
+      await runAndLogTime(sorter, shuffledList);
 
-      expectListsToMatch(originalList, sortedList);
+      expectListsToMatch(originalList, shuffledList);
+      expectIndexesToBeCorrect(shuffledList);
     });
   });
 });
 
 const runAndLogTime = async (sorter: SortAlgorithm, arr: Node[]): Promise<Node[]> => {
   const startTime = new Date().getTime();
-  const sortedList = await sorter.sort(arr);
+  const sortedList = (await sorter.sort(arr)) as Node[];
   const endTime = new Date().getTime();
 
   console.log('Finished sorting ' + arr.length + ' nodes in ' + ((endTime - startTime) / 1000).toFixed(3) + ' seconds');
   return sortedList;
 };
 
-const listValues = (prefix: String, arr: Node[]): void => {
-  console.log(
-    prefix,
-    arr.map(val => val.value)
-  );
-};
-
 const makeNodeList = (...args: number[] | string[]): Node[] => {
   const list: Node[] = [];
-  args.forEach(arg => {
-    list.push(new Node({ value: arg }));
+  args.forEach((arg, idx) => {
+    list.push(new Node({ value: arg, index: idx }));
   });
   return list;
 };
@@ -91,6 +84,13 @@ const expectListsToMatch = (arr1: Node[], arr2: Node[]): void => {
   expect(arr1.length).toEqual(arr2.length);
   for (let i = 0; i < arr1.length; ++i) {
     expect(arr1[i].value).toEqual(arr2[i].value);
+  }
+};
+
+const expectIndexesToBeCorrect = (arr: Node[]): void => {
+  for (let i = 0; i < arr.length; ++i) {
+    // console.log(`Index: ${i} - Node.value = ${arr[i].value}, Node.index = ${arr[i].index}`);
+    expect(arr[i].index).toBe(i);
   }
 };
 

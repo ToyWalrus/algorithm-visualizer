@@ -26,11 +26,18 @@ export default abstract class SortAlgorithm {
    * Sort the given nodes.
    * @param values nodes to be sorted.
    */
-  abstract sort(values: Node[]): Promise<Node[]>;
+  abstract sort(values: Node[]): Promise<Node[] | void>;
+
+  listValues = (prefix: String, arr: Node[]): void => {
+    console.log(
+      prefix,
+      arr.map(val => val.value)
+    );
+  };
 
   protected delayIfProvided(time?: number): Promise<void> {
     time = time || this.msDelay;
-    return new Promise<void>((resolve) => {
+    return new Promise<void>(resolve => {
       if (time && time > 0) {
         setTimeout(() => {
           if (this.callback) {

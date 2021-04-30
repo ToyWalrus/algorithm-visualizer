@@ -1,86 +1,69 @@
 import Node from '../model/Node';
 import SortAlgorithm from './SortAlgorithm';
 
+// Just for my own reference, it seems that the
+// recursive approach to MergeSort is much faster than
+// in place (according to the time test back when the
+// implementation was recursive).
 export default class MergeSort extends SortAlgorithm {
-  sort(values: Node[]): Promise<Node[]> {
-    return this.merge(...this.split(values));
+  sort(values: Node[]): Promise<void> {
+    return this.mergeSort(values, 0, values.length - 1);
   }
 
-  private async merge(left: Node[], right: Node[]): Promise<Node[]> {
-    const mergeResult: Node[] = [];
-    let mergedLeft: Node[];
-    let mergedRight: Node[];
+  private async mergeSort(values: Node[], leftIdx: number, rightIdx: number): Promise<void> {
+    if (leftIdx < rightIdx) {
+      const mid = Math.floor(leftIdx + (rightIdx - leftIdx) / 2);
 
-    if (left.length <= 1) {
-      mergedLeft = left;
-    } else {
-      mergedLeft = await this.merge(...this.split(left));
+      await this.mergeSort(values, leftIdx, mid);
+      await this.mergeSort(values, mid + 1, rightIdx);
+
+      await this.merge(values, leftIdx, mid, rightIdx);
+    }
+  }
+
+  // Sort in place
+  private async merge(values: Node[], startIdx: number, mid: number, endIdx: number): Promise<void> {
+    let p1 = startIdx;
+    let p2 = mid + 1;
+
+    // Is this section is already sorted?
+    if ((await this.delayAndCompare(values[mid], values[p2])) <= 0) {
+      values[mid].index = mid;
+      values[p2].index = p2;
+      return;
     }
 
-    if (right.length <= 1) {
-      mergedRight = right;
-    } else {
-      mergedRight = await this.merge(...this.split(right));
-    }
+    while (p1 <= mid && p2 <= endIdx) {
+      if ((await this.delayAndCompare(values[p1], values[p2])) <= 0) {
+        values[p1].index = p1;
+        p1++;
+      } else {
+        let idx = p2;
+        let tmp = values[idx];
 
-    let leftIdx = 0;
-    let rightIdx = 0;
-    for (let i = 0; i < mergedLeft.length + mergedRight.length; ++i) {
-      let luckyWinner: Node;
-      let l, r: Node | undefined;
+        while (idx !== p1) {
+          values[idx] = values[idx - 1];
 
-      if (leftIdx < mergedLeft.length) {
-        l = mergedLeft[leftIdx];
-      }
-      if (rightIdx < mergedRight.length) {
-        r = mergedRight[rightIdx];
-      }
+          values[idx].index = idx;
+          values[idx].isBeingSorted = true;
+          await this.delayIfProvided();
+          values[idx].isBeingSorted = false;
 
-      await this.delayIfProvided(this.msDelay);
-
-      if (l && r) {
-        const compareResult = this.comparator(l, r);
-
-        if (compareResult <= 0) {
-          luckyWinner = l;
-          leftIdx++;
-        } else {
-          luckyWinner = r;
-          rightIdx++;
+          idx--;
         }
-      } else if (l) {
-        luckyWinner = l;
-        leftIdx++;
-      } else if (r) {
-        luckyWinner = r;
-        rightIdx++;
-      } else {
-        throw new Error('Both left and right values were undefined in Merge operation!');
-      }
 
-      mergeResult.push(luckyWinner);
-    }
+        tmp.index = p1;
+        tmp.isBeingSorted = true;
+        await this.delayIfProvided();
+        tmp.isBeingSorted = false;
 
-    return mergeResult;
-  }
+        values[p1] = tmp;
 
-  private split(arr: Node[]): [Node[], Node[]] {
-    if (arr.length <= 1) {
-      throw new Error('Should not be calling "Split()" on array with 1 or fewer elements!');
-    }
-
-    const mid = Math.floor(arr.length / 2);
-    const left: Node[] = [];
-    const right: Node[] = [];
-    for (let i = 0; i < arr.length; ++i) {
-      if (i < mid) {
-        left.push(arr[i]);
-      } else {
-        right.push(arr[i]);
+        p1++;
+        p2++;
+        mid++;
       }
     }
-
-    return [right, left];
   }
 
   private async delayAndCompare(left: Node, right: Node): Promise<-1 | 0 | 1> {
