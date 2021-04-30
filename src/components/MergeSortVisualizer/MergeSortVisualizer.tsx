@@ -1,27 +1,29 @@
-import { useEffect, useState } from 'react';
-import shuffle from 'shuffle-array';
+import React from 'react';
 import MergeSort from '../../algorithms/MergeSort';
 import Node from '../../model/Node';
-import DataBar from '../DataBar/DataBar';
 import VisualizationArea from '../VisualizationArea/VisualizationArea';
-import { AnimateSharedLayout, motion } from 'framer-motion';
 import './MergeSortVisualizer.css';
-import { Button } from '@material-ui/core';
 
 interface MergeSortVisualizerArgs {
   items: Node[];
   layout?: 'column' | 'row';
 }
 
-const MergeSortVisualizer = ({ items, layout }: MergeSortVisualizerArgs) => {
-  const highestVal = items.reduce((prev, cur) => ((prev.value as number) > (cur.value as number) ? prev : cur))
-    .value as number;
-
+const MergeSortVisualizer: React.FC<MergeSortVisualizerArgs> = ({ items, layout }) => {
   return (
-    <div className="merge-sort-visualizer" data-testid="MergeSortVisualizer">
-      <Button>Shuffle!</Button>
-      <Button>Sort!</Button>
-      <VisualizationArea items={items} highestVal={highestVal} />
+    <div className="merge-sort-visualizer">
+      <VisualizationArea
+        items={items}
+        sorter={
+          new MergeSort((a, b) => {
+            let v1 = a.value as number;
+            let v2 = b.value as number;
+            if (v1 < v2) return -1;
+            if (v1 > v2) return 1;
+            return 0;
+          })
+        }
+      />
     </div>
   );
 };

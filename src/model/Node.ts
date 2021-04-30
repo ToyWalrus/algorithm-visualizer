@@ -1,5 +1,6 @@
 interface NodeArgs {
   value: string | number;
+  id: string;
   index?: number;
 }
 
@@ -8,6 +9,10 @@ export default class Node {
 
   get value(): string | number {
     return this.args.value;
+  }
+
+  get id(): string {
+    return this.args.id;
   }
 
   index?: number;

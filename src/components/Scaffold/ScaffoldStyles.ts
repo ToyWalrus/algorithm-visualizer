@@ -75,7 +75,7 @@ export default makeStyles(theme =>
       height: '100vh',
       overflow: 'auto',
       backgroundColor: '#282c34',
-      paddingLeft: 16,
+      padding: 16,
     },
     container: {
       paddingTop: theme.spacing(4),
