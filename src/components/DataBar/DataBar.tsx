@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion';
 import React from 'react';
+import './DataBar.css';
 
 interface DataBarArgs {
   /**
@@ -8,38 +10,37 @@ interface DataBarArgs {
    */
   value: number;
   /**
-   * Render the value over the data bar?
-   * Defaults to `false`.
+   * A unique identifier to differentiate this
+   * object from other DataBar objects.
    */
-  renderValue?: boolean;
+  uniqueId: string;
+  /**
+   * Renders over the bar if provided.
+   */
+  text?: string;
   /**
    * The number of pixels wide this DataBar
    * should be. Leave empty for auto-width.
    */
   width?: number;
-  color?: String;
+  color?: string;
   index?: number;
 }
 
 const DataBar = (args: DataBarArgs) => {
   return (
-    <div
-      style={{ position: 'relative', height: '100%', width: '100%' }}
-      key={'DataBar' + (args.index !== undefined ? `_${args.index}` : '')}
-    >
-      <div style={getStyle(args)}>{args.renderValue && (args.value * 100).toPrecision(2) + '%'}</div>
-    </div>
+    <motion.div layoutId={args.uniqueId} className="data-bar">
+      <div className="fill-area" style={getStyle(args)}>
+        {args.text}
+      </div>
+    </motion.div>
   );
 };
 
 const getStyle = ({ color = 'steelblue', width, value }: DataBarArgs): React.CSSProperties => {
   value = Math.max(Math.min(value, 1), 0);
   return {
-    display: 'flex',
-    color: 'whitesmoke',
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: color as any,
+    backgroundColor: color,
     height: (value * 100).toPrecision(2) + '%',
     width: (width && `${width}px`) || '95%',
   };

@@ -1,4 +1,6 @@
-.MergeSortVisualizer {
+.merge-sort-visualizer {
+  display: flex;
+  flex-direction: column;
   width: 80vw;
   background-color: #30353e;
   border-top-left-radius: 10px;

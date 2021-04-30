@@ -1,12 +1,12 @@
 interface NodeArgs {
-  value: String | number;
+  value: string | number;
   index?: number;
 }
 
 export default class Node {
   private args: NodeArgs;
 
-  get value(): String | number {
+  get value(): string | number {
     return this.args.value;
   }
 
@@ -17,7 +17,7 @@ export default class Node {
   // }
   isBeingSorted: boolean;
 
-  get color(): String {
+  get color(): string {
     return this.isBeingSorted ? 'steelblue' : 'green';
   }
 

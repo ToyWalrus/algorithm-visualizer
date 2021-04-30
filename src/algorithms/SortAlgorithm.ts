@@ -15,6 +15,7 @@ export default abstract class SortAlgorithm {
   comparator: CompareFunc;
   msDelay?: number;
   callback?: CallbackOnWait;
+  step?: () => Promise<void>;
 
   constructor(comparator: CompareFunc, msDelay?: number, cb?: CallbackOnWait) {
     this.comparator = comparator;

@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import Node from '../../model/Node';
-import DataBar from '../DataBar/DataBar';
+import DataBar, { DataBarArgs } from '../DataBar/DataBar';
 import './VisualizationArea.css';
+import { AnimateSharedLayout } from 'framer-motion';
 
 interface VisualizationAreaArgs {
-  bars: Node[];
+  items: Node[];
   highestVal: number;
 }
 
 const VisualizationArea = (args: VisualizationAreaArgs) => {
-  let [bars, setBars] = useState(args.bars);
-  useEffect(() => {
-    setTimeout(() => {
-      // setBars(
-      //   bars.map((val) => {
-      //     val.isBeingSorted = !val.isBeingSorted;
-      //     return val;
-      //   })
-      // );
-    }, 1000);
-  });
+  let [items, setItems] = useState(args.items);
+
   return (
-    <div className="VisualizationArea" data-testid="VisualizationArea">
-      {bars.map((val, idx) => (
-        <DataBar value={(val.value as number) / args.highestVal} color={val.color} index={idx} renderValue={false} />
-      ))}
-    </div>
+    <AnimateSharedLayout>
+      <ul className="visualization-area">
+        {items.map((val, idx) => (
+          <DataBar {...getDataBarArgs(val, args.highestVal)} />
+        ))}
+      </ul>
+    </AnimateSharedLayout>
   );
+};
+
+const getDataBarArgs = (node: Node, highestVal: number): DataBarArgs => {
+  return {
+    value: (node.value as number) / highestVal,
+    uniqueId: `db_${node.value}`, // will probs need a better id later since values can be the same
+    color: node.color,
+    index: node.index,
+  };
 };
 
 export default VisualizationArea;
