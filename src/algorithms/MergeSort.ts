@@ -6,35 +6,35 @@ import SortAlgorithm from './SortAlgorithm';
 // in place (according to the time test back when the
 // implementation was recursive).
 export default class MergeSort extends SortAlgorithm {
-  sort(values: Node[]): Promise<void> {
-    return this.mergeSort(values, 0, values.length - 1);
+  *sort(values: Node[]): Generator {
+    yield* this.mergeSort(values, 0, values.length - 1);
   }
 
-  private async mergeSort(values: Node[], leftIdx: number, rightIdx: number): Promise<void> {
+  private *mergeSort(values: Node[], leftIdx: number, rightIdx: number): Generator {
     if (leftIdx < rightIdx) {
       const mid = Math.floor(leftIdx + (rightIdx - leftIdx) / 2);
 
-      await this.mergeSort(values, leftIdx, mid);
-      await this.mergeSort(values, mid + 1, rightIdx);
+      yield* this.mergeSort(values, leftIdx, mid);
+      yield* this.mergeSort(values, mid + 1, rightIdx);
 
-      await this.merge(values, leftIdx, mid, rightIdx);
+      yield* this.merge(values, leftIdx, mid, rightIdx);
     }
   }
 
   // Sort in place
-  private async merge(values: Node[], startIdx: number, mid: number, endIdx: number): Promise<void> {
+  private *merge(values: Node[], startIdx: number, mid: number, endIdx: number): Generator {
     let p1 = startIdx;
     let p2 = mid + 1;
 
     // Is this section is already sorted?
-    if ((await this.delayAndCompare(values[mid], values[p2])) <= 0) {
+    if ((yield* this.delayAndCompare(values[mid], values[p2])) <= 0) {
       values[mid].index = mid;
       values[p2].index = p2;
       return;
     }
 
     while (p1 <= mid && p2 <= endIdx) {
-      if ((await this.delayAndCompare(values[p1], values[p2])) <= 0) {
+      if ((yield* this.delayAndCompare(values[p1], values[p2])) <= 0) {
         values[p1].index = p1;
         p1++;
       } else {
@@ -46,7 +46,7 @@ export default class MergeSort extends SortAlgorithm {
 
           values[idx].index = idx;
           values[idx].isBeingSorted = true;
-          await this.delayIfProvided();
+          yield;
           values[idx].isBeingSorted = false;
 
           idx--;
@@ -54,7 +54,7 @@ export default class MergeSort extends SortAlgorithm {
 
         tmp.index = p1;
         tmp.isBeingSorted = true;
-        await this.delayIfProvided();
+        yield;
         tmp.isBeingSorted = false;
 
         values[p1] = tmp;
@@ -66,11 +66,11 @@ export default class MergeSort extends SortAlgorithm {
     }
   }
 
-  private async delayAndCompare(left: Node, right: Node): Promise<-1 | 0 | 1> {
+  private *delayAndCompare(left: Node, right: Node): Generator<any, -1 | 0 | 1, any> {
     left.isBeingSorted = true;
     right.isBeingSorted = true;
 
-    await this.delayIfProvided();
+    yield;
     const result = this.comparator(left, right);
 
     left.isBeingSorted = false;

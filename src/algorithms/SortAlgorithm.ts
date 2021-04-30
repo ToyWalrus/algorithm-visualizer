@@ -9,25 +9,18 @@ import Node from '../model/Node';
  */
 type CompareFunc = (a: Node, b: Node) => -1 | 0 | 1;
 
-type CallbackOnWait = () => void;
-
 export default abstract class SortAlgorithm {
   comparator: CompareFunc;
-  msDelay?: number;
-  callback?: CallbackOnWait;
-  step?: () => Promise<void>;
 
-  constructor(comparator: CompareFunc, msDelay?: number, cb?: CallbackOnWait) {
+  constructor(comparator: CompareFunc) {
     this.comparator = comparator;
-    this.msDelay = msDelay;
-    this.callback = cb;
   }
 
   /**
    * Sort the given nodes.
    * @param values nodes to be sorted.
    */
-  abstract sort(values: Node[]): Promise<Node[] | void>;
+  abstract sort(values: Node[]): Generator;
 
   listValues = (prefix: String, arr: Node[]): void => {
     console.log(
@@ -35,30 +28,4 @@ export default abstract class SortAlgorithm {
       arr.map(val => val.value)
     );
   };
-
-  protected delayIfProvided(time?: number): Promise<void> {
-    time = time || this.msDelay;
-    return new Promise<void>(resolve => {
-      if (time && time > 0) {
-        setTimeout(() => {
-          if (this.callback) {
-            this.callback();
-          }
-          resolve();
-        }, time);
-      } else {
-        resolve();
-      }
-    });
-  }
-}
-
-export class NodePointer {
-  node: Node;
-  nodeIndex: number;
-
-  constructor(node: Node, index: number) {
-    this.node = node;
-    this.nodeIndex = index;
-  }
 }
