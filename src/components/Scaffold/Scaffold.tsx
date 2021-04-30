@@ -27,6 +27,7 @@ import {
   BarChart as BarChartIcon,
   ShoppingCart as ShoppingCartIcon,
   Layers as LayersIcon,
+  Settings as SettingsIcon,
 } from '@material-ui/icons';
 
 interface ScaffoldArgs {
@@ -56,10 +57,8 @@ const Scaffold: React.FC<ScaffoldArgs> = args => {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             {args.title}
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+          <IconButton color="inherit" size="medium">
+            <SettingsIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

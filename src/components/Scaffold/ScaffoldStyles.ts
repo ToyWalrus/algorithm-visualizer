@@ -20,7 +20,7 @@ export default makeStyles(theme =>
     },
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: '#3E6DB3',
       transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -45,13 +45,13 @@ export default makeStyles(theme =>
       textAlign: 'center',
     },
     drawerIcons: {
-      color: theme.palette.secondary.main,
+      color: theme.palette.secondary.contrastText,
     },
     drawerPaper: {
       position: 'relative',
       whiteSpace: 'nowrap',
-      backgroundColor: 'whitesmoke',
-      color: theme.palette.secondary.main,
+      backgroundColor: '#4D94FF',
+      color: theme.palette.secondary.contrastText,
       width: drawerWidth,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -73,7 +73,7 @@ export default makeStyles(theme =>
     content: {
       flexGrow: 1,
       height: '100vh',
-      overflow: 'auto',
+      overflow: 'hidden',
       backgroundColor: '#282c34',
       padding: 16,
     },

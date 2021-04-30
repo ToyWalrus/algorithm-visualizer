@@ -7,13 +7,15 @@ import './MergeSortVisualizer.css';
 interface MergeSortVisualizerArgs {
   items: Node[];
   layout?: 'column' | 'row';
+  sortStepDelay?: number;
 }
 
-const MergeSortVisualizer: React.FC<MergeSortVisualizerArgs> = ({ items, layout }) => {
+const MergeSortVisualizer: React.FC<MergeSortVisualizerArgs> = ({ items, sortStepDelay }) => {
   return (
     <div className="merge-sort-visualizer">
       <VisualizationArea
         items={items}
+        sortStepDelay={sortStepDelay}
         sorter={
           new MergeSort((a, b) => {
             let v1 = a.value as number;

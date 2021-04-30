@@ -23,7 +23,7 @@ export default class Node {
   isBeingSorted: boolean;
 
   get color(): string {
-    return this.isBeingSorted ? 'steelblue' : 'green';
+    return this.isBeingSorted ? '#bd33ff' : '#ffe741';
   }
 
   constructor(args: NodeArgs) {

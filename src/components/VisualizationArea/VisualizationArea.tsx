@@ -11,18 +11,18 @@ import './VisualizationArea.css';
 interface VisualizationAreaArgs {
   items: Node[];
   sorter: SortAlgorithm;
+  sortStepDelay?: number;
 }
 
 let timer: NodeJS.Timeout | undefined;
 
-const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: initialItems }) => {
-  let [items] = useState(initialItems);
+const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: initialItems, sortStepDelay }) => {
+  let [items, setItems] = useState(initialItems);
   let [sortIterator, setSortIterator] = useState(sorter.sort(items));
+  let forceUpdate = useForceUpdate();
 
   const highestVal = items.reduce((prev, cur) => ((prev.value as number) > (cur.value as number) ? prev : cur))
     .value as number;
-
-  let forceUpdate = useForceUpdate();
 
   const onStopClick = () => {
     if (timer) {
@@ -32,24 +32,6 @@ const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: ini
   };
 
   const onStartClick = () => {
-    startTimer();
-  };
-
-  const onResetClick = () => {
-    onStopClick();
-    shuffle(items);
-    setSortIterator(sorter.sort(items));
-  };
-
-  const onSortStepClick = () => {
-    if (sortIterator && !sortIterator.next().done) {
-      forceUpdate();
-    } else {
-      onStopClick();
-    }
-  };
-
-  const startTimer = () => {
     const stepFunction = (time: number) => {
       return setTimeout(() => {
         onSortStepClick();
@@ -58,15 +40,28 @@ const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: ini
     };
 
     onStopClick();
-    timer = stepFunction(200);
+    timer = stepFunction(sortStepDelay || 200);
+  };
+
+  const onResetClick = () => {
+    onStopClick();
+    shuffle(items);
+    items.forEach(node => {
+      node.isBeingSorted = false;
+    });
+    setSortIterator(sorter.sort(items));
+  };
+
+  const onSortStepClick = () => {
+    if (sortIterator && !sortIterator.next().done) {
+      setItems(items);
+    } else {
+      onStopClick();
+    }
   };
 
   useEffect(() => {
-    shuffle(items);
-    items.forEach((node, idx) => {
-      node.isBeingSorted = false;
-      node.index = idx;
-    });
+    onResetClick();
   }, []);
 
   return (
@@ -79,7 +74,7 @@ const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: ini
           Stop
         </Button>
         <Button variant="contained" onClick={onResetClick}>
-          Reset
+          Shuffle/Reset
         </Button>
         <Button variant="contained" onClick={onSortStepClick}>
           Sort Step
@@ -87,8 +82,8 @@ const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: ini
       </div>
       <AnimateSharedLayout>
         <div className="data-bars">
-          {items.map((val, idx) => (
-            <DataBar {...getDataBarArgs(val, highestVal)} key={val.id + idx.toString()} />
+          {items.map((node, idx) => (
+            <DataBar {...getDataBarArgs(node, highestVal)} key={node.id + idx.toString()} />
           ))}
         </div>
       </AnimateSharedLayout>

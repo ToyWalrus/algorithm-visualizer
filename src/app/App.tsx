@@ -6,6 +6,10 @@ import { motion } from 'framer-motion';
 import Scaffold from '../components/Scaffold/Scaffold';
 import Node from '../model/Node';
 
+let list: number[] = [];
+for (let i = 0; i < 100; ++i) {
+  list.push(i);
+}
 // https://www.framer.com/api/motion/animation/
 function App() {
   const [count, setCount] = useState(0);
@@ -16,8 +20,8 @@ function App() {
   });
 
   return (
-    <Scaffold title="Algorithm Visualizer" hideSideNav={true}>
-      <MergeSortVisualizer items={makeNodeList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)} />
+    <Scaffold title="Algorithm Visualizer" hideSideNav={false}>
+      <MergeSortVisualizer items={makeNodeList(...list)} sortStepDelay={2} />
       {/* <motion.div
         onClick={() => setCount(count + 1)}
         key={count}
