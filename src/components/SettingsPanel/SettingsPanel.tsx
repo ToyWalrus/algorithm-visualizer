@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from 'react';
 import { Container, Slider, Input, Typography, Grid, Divider } from '@material-ui/core';
-import React from 'react';
 
 interface SettingsPanelArgs {
   sortSpeed: number;
@@ -10,14 +10,23 @@ interface SettingsPanelArgs {
 }
 
 // Values in seconds
-const minSpeed = 0.02;
+const minSpeed = 0.01;
 const maxSpeed = 2;
-const speedStepAmount = 0.02;
+const speedStepAmount = 0.01;
 const minElements = 10;
 const maxElements = 100;
 const elementStepAmount = 1;
 
 const SettingsPanel = (args: SettingsPanelArgs) => {
+  let {
+    sortSpeed,
+    elementCount,
+    onBlurSortSpeed,
+    onBlurElementCount,
+    onChangeElementCount,
+    onChangeSortSpeed,
+  } = useSettingsPanelControls(args);
+
   return (
     <Container maxWidth="md">
       <Typography id="input-slider" gutterBottom>
@@ -30,16 +39,18 @@ const SettingsPanel = (args: SettingsPanelArgs) => {
             max={maxSpeed}
             step={speedStepAmount}
             style={{ minWidth: 100 }}
-            value={convertSortSpeed(args.sortSpeed)}
-            onChange={(_, newVal) => onChangeSortSpeed(newVal.toString(), args.onChangeSortSpeed)}
+            value={sortSpeed}
+            onChange={(_, newVal) => onChangeSortSpeed(newVal.toString())}
+            onMouseUp={onBlurSortSpeed}
           />
         </Grid>
         <Grid item xs>
           <Input
-            value={convertSortSpeed(args.sortSpeed)}
+            value={sortSpeed}
             margin="dense"
-            onChange={e => onChangeSortSpeed(e.target.value, args.onChangeSortSpeed)}
+            onChange={e => onChangeSortSpeed(e.target.value)}
             onBlur={onBlurSortSpeed}
+            onKeyDown={e => e.key === 'Enter' && e.currentTarget.blur()}
             inputProps={{
               step: speedStepAmount,
               min: minSpeed,
@@ -56,10 +67,11 @@ const SettingsPanel = (args: SettingsPanelArgs) => {
       <Grid container spacing={2} alignItems="center">
         <Grid item md>
           <Input
-            value={args.elementCount}
+            value={elementCount}
             margin="dense"
-            onChange={e => onChangeElementCount(e.target.value, args.onChangeElementCount)}
-            onBlur={onBlurSortSpeed}
+            onChange={e => onChangeElementCount(e.target.value)}
+            onBlur={onBlurElementCount}
+            onKeyDown={e => e.key === 'Enter' && e.currentTarget.blur()}
             inputProps={{
               step: elementStepAmount,
               min: minElements,
@@ -73,30 +85,48 @@ const SettingsPanel = (args: SettingsPanelArgs) => {
   );
 };
 
-// Sort speed given in milliseconds
-const convertSortSpeed = (sortSpeed: number): number => {
-  return sortSpeed / 1000;
-};
+const useSettingsPanelControls = (args: SettingsPanelArgs) => {
+  let [elementCount, setElementCount] = useState(args.elementCount);
+  let [sortSpeed, setSortSpeed] = useState(args.sortSpeed / 1000);
 
-const onChangeSortSpeed = (newSpeed: string, cb: (val: number) => void) => {
-  if (!newSpeed) {
-    return;
-  }
-  let parsedSpeed = Number.parseFloat(newSpeed);
-  parsedSpeed = Math.min(Math.max(parsedSpeed, minSpeed), maxSpeed);
-  cb(parsedSpeed * 1000);
-};
+  useEffect(() => {
+    setSortSpeed(args.sortSpeed / 1000);
+    setElementCount(args.elementCount);
+  }, [args.sortSpeed, args.elementCount]);
 
-const onChangeElementCount = (newCount: string, cb: (val: number) => void) => {
-  if (!newCount) {
-    return;
-  }
-  let parsedCount = Number.parseFloat(newCount);
-  parsedCount = Math.min(Math.max(parsedCount, minElements), maxElements);
-  cb(parsedCount);
-};
+  const onChangeSortSpeed = (newSpeed: string) => {
+    if (!newSpeed) {
+      return;
+    }
+    let parsedSpeed = Number.parseFloat(newSpeed);
+    setSortSpeed(parsedSpeed);
+  };
 
-const onBlurSortSpeed = () => {};
+  const onChangeElementCount = (newCount: string) => {
+    if (!newCount) {
+      return;
+    }
+    let parsedCount = Number.parseFloat(newCount);
+    setElementCount(parsedCount);
+  };
+
+  const onBlurSortSpeed = () => {
+    args.onChangeSortSpeed(Math.min(Math.max(sortSpeed, minSpeed), maxSpeed) * 1000);
+  };
+
+  const onBlurElementCount = () => {
+    args.onChangeElementCount(Math.min(Math.max(elementCount, minElements), maxElements));
+  };
+
+  return {
+    elementCount,
+    sortSpeed,
+    onChangeSortSpeed,
+    onBlurSortSpeed,
+    onChangeElementCount,
+    onBlurElementCount,
+  };
+};
 
 export default SettingsPanel;
 export type { SettingsPanelArgs };

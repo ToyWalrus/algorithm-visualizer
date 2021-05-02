@@ -17,7 +17,7 @@ function App() {
     for (let i = 1; i <= count; ++i) {
       list.push(i);
     }
-    setNodeList(shuffle(makeNodeList(...list)));
+    setNodeList(makeNodeList(...list));
   }, [count]);
 
   return (

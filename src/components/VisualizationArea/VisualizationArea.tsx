@@ -73,7 +73,6 @@ const VisualizationArea = ({ sorter, items: initialItems, sortStepDelay }: Visua
 
   useEffect(() => {
     setItems(initialItems);
-    onResetClick();
   }, [initialItems.length]);
 
   useEffect(() => {
