@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
 import MergeSort from '../../algorithms/MergeSort';
 import Node from '../../model/Node';
@@ -15,6 +16,7 @@ const MergeSortVisualizer = ({ items, sortStepDelay }: MergeSortVisualizerArgs) 
     <div className="merge-sort-visualizer">
       <VisualizationArea
         items={items}
+        title="Merge Sort"
         sortStepDelay={sortStepDelay}
         sorter={
           new MergeSort((a, b) => {

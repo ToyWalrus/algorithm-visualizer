@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import shuffle from 'shuffle-array';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import DataBar, { DataBarArgs } from '../DataBar/DataBar';
 import { AnimateSharedLayout } from 'framer-motion';
 import SortAlgorithm from '../../algorithms/SortAlgorithm';
@@ -12,11 +12,12 @@ interface VisualizationAreaArgs {
   items: Node[];
   sorter: SortAlgorithm;
   sortStepDelay?: number;
+  title?: string;
 }
 
 let timer: NodeJS.Timeout | undefined;
 
-const VisualizationArea = ({ sorter, items: initialItems, sortStepDelay }: VisualizationAreaArgs) => {
+const VisualizationArea = ({ sorter, items: initialItems, sortStepDelay, title }: VisualizationAreaArgs) => {
   let [items, setItems] = useState(initialItems);
   let [sortIterator, setSortIterator] = useState(sorter.sort(items));
   let forceUpdate = useForceUpdate();
@@ -97,6 +98,11 @@ const VisualizationArea = ({ sorter, items: initialItems, sortStepDelay }: Visua
           Sort Step
         </Button>
       </div>
+      {title && (
+        <Typography className="title" color="secondary" variant="h1">
+          {title}
+        </Typography>
+      )}
       <AnimateSharedLayout>
         <div className="data-bars">
           {items.map((node, idx) => (
