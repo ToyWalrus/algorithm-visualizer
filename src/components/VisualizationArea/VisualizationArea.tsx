@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import shuffle from 'shuffle-array';
 import { Button } from '@material-ui/core';
 import DataBar, { DataBarArgs } from '../DataBar/DataBar';
@@ -16,13 +16,26 @@ interface VisualizationAreaArgs {
 
 let timer: NodeJS.Timeout | undefined;
 
-const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: initialItems, sortStepDelay }) => {
+const VisualizationArea = ({ sorter, items: initialItems, sortStepDelay }: VisualizationAreaArgs) => {
   let [items, setItems] = useState(initialItems);
   let [sortIterator, setSortIterator] = useState(sorter.sort(items));
   let forceUpdate = useForceUpdate();
+  let highestVal = 0;
 
-  const highestVal = items.reduce((prev, cur) => ((prev.value as number) > (cur.value as number) ? prev : cur))
-    .value as number;
+  if (initialItems && initialItems.length) {
+    highestVal = initialItems.reduce((prev, cur) => ((prev.value as number) > (cur.value as number) ? prev : cur))
+      .value as number;
+  }
+
+  const onSortStepClick = (): boolean => {
+    if (sortIterator && !sortIterator.next().done) {
+      forceUpdate();
+      return true;
+    } else {
+      onStopClick();
+      return false;
+    }
+  };
 
   const onStopClick = () => {
     if (timer) {
@@ -32,15 +45,21 @@ const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: ini
   };
 
   const onStartClick = () => {
-    const stepFunction = (time: number) => {
+    const stepFunction = () => {
       return setTimeout(() => {
-        onSortStepClick();
-        timer = stepFunction(time);
-      }, time);
+        if (onSortStepClick()) {
+          timer = stepFunction();
+        } else {
+          items.forEach(node => {
+            node.isBeingSorted = false;
+          });
+          forceUpdate();
+        }
+      }, sortStepDelay || 200);
     };
 
     onStopClick();
-    timer = stepFunction(sortStepDelay || 200);
+    timer = stepFunction();
   };
 
   const onResetClick = () => {
@@ -52,17 +71,16 @@ const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: ini
     setSortIterator(sorter.sort(items));
   };
 
-  const onSortStepClick = () => {
-    if (sortIterator && !sortIterator.next().done) {
-      setItems(items);
-    } else {
-      onStopClick();
-    }
-  };
+  useEffect(() => {
+    setItems(initialItems);
+    onResetClick();
+  }, [initialItems.length]);
 
   useEffect(() => {
-    onResetClick();
-  }, []);
+    if (timer) {
+      onStartClick();
+    }
+  }, [sortStepDelay]);
 
   return (
     <div className="visualization-area">
@@ -83,7 +101,7 @@ const VisualizationArea: React.FC<VisualizationAreaArgs> = ({ sorter, items: ini
       <AnimateSharedLayout>
         <div className="data-bars">
           {items.map((node, idx) => (
-            <DataBar {...getDataBarArgs(node, highestVal)} key={node.id + idx.toString()} />
+            <DataBar {...getDataBarArgs(node, highestVal)} key={'db_' + node.id + '_' + idx.toString()} />
           ))}
         </div>
       </AnimateSharedLayout>

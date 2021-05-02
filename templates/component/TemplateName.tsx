@@ -1,9 +1,8 @@
 import React from 'react';
-import './TemplateName.css';
 
 interface TemplateNameArgs {}
 
-const TemplateName: React.FC<TemplateNameArgs> = args => {
+const TemplateName = (args: TemplateNameArgs) => {
   return (
     <div className="template-name">
       <h1>TemplateName component</h1>

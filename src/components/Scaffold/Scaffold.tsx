@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import getStyles from './ScaffoldStyles';
 import {
@@ -29,53 +29,56 @@ import {
   Layers as LayersIcon,
   Settings as SettingsIcon,
 } from '@material-ui/icons';
+import SettingsPanel from '../SettingsPanel/SettingsPanel';
 
 interface ScaffoldArgs {
   title: String;
   hideSideNav?: boolean;
+  hideSettings?: boolean;
+  // navigationOptions
+  settingsPanel: JSX.Element;
 }
 
 const Scaffold: React.FC<ScaffoldArgs> = args => {
   const classes = getStyles();
-  const [open, setOpen] = React.useState(false);
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const [navPanelOpen, setNavPanelOpen] = useState(false);
+  const [settingsPanelOpen, setSettingsPanelOpen] = useState(true);
+  const handleToggleNavOpen = () => {
+    setNavPanelOpen(!navPanelOpen);
   };
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleToggleSettingsOpen = () => {
+    setSettingsPanelOpen(!settingsPanelOpen);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar position="absolute" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleDrawerOpen}>
-            <MenuIcon />
-          </IconButton>
+          {!args.hideSideNav && (
+            <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleToggleNavOpen}>
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             {args.title}
           </Typography>
-          <IconButton color="inherit" size="medium">
-            <SettingsIcon />
-          </IconButton>
+          {!args.hideSettings && (
+            <IconButton color="inherit" size="medium" onClick={handleToggleSettingsOpen}>
+              <SettingsIcon />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
       {!args.hideSideNav && (
         <Drawer
           variant="permanent"
           classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+            paper: clsx(classes.navPanel, !navPanelOpen && classes.navPanelClose),
           }}
-          open={open}
+          open={navPanelOpen}
         >
-          <div className={classes.toolbarIcon}>
-            <Typography variant="h6">Drawer</Typography>
-            <IconButton onClick={handleDrawerClose} className={classes.drawerIcons}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
+          <div className={classes.appBarSpacer} />
           <Divider />
           <List>
             <ListItem button>
@@ -114,28 +117,19 @@ const Scaffold: React.FC<ScaffoldArgs> = args => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {args.children}
-        {/* {!args.children && (
-          <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper className={fixedHeightPaper}>
-                  <h1>Hello</h1>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper className={fixedHeightPaper}>
-                  <h2>i am square</h2>
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <span>look i am small</span>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Container>
-        )} */}
       </main>
+      {!args.hideSettings && (
+        <Paper
+          className={clsx(
+            classes.paper,
+            classes.container,
+            classes.settingsPanel,
+            !settingsPanelOpen && classes.settingsPanelClose
+          )}
+        >
+          {args.settingsPanel}
+        </Paper>
+      )}
     </div>
   );
 };

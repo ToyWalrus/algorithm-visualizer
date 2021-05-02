@@ -47,7 +47,7 @@ export default makeStyles(theme =>
     drawerIcons: {
       color: theme.palette.secondary.contrastText,
     },
-    drawerPaper: {
+    navPanel: {
       position: 'relative',
       whiteSpace: 'nowrap',
       backgroundColor: '#4D94FF',
@@ -58,7 +58,7 @@ export default makeStyles(theme =>
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    drawerPaperClose: {
+    navPanelClose: {
       overflowX: 'hidden',
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -68,6 +68,26 @@ export default makeStyles(theme =>
       [theme.breakpoints.up('sm')]: {
         width: theme.spacing(9),
       },
+    },
+    settingsPanel: {
+      position: 'absolute',
+      top: '25vh',
+      right: '10vw',
+      whiteSpace: 'nowrap',
+      backgroundColor: 'whitesmoke',
+      color: theme.palette.secondary.contrastText,
+      transition: theme.transitions.create('top', {
+        easing: theme.transitions.easing.sharp,
+        duration: 350,
+      }),
+    },
+    settingsPanelClose: {
+      overflowX: 'hidden',
+      top: '-100vh',
+      transition: theme.transitions.create('top', {
+        easing: theme.transitions.easing.sharp,
+        duration: 500,
+      }),
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
@@ -83,12 +103,10 @@ export default makeStyles(theme =>
     },
     paper: {
       padding: theme.spacing(2),
+      color: theme.palette.text.primary,
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column',
-    },
-    fixedHeight: {
-      height: 240,
     },
   })
 );

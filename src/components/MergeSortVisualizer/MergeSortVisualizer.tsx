@@ -10,7 +10,7 @@ interface MergeSortVisualizerArgs {
   sortStepDelay?: number;
 }
 
-const MergeSortVisualizer: React.FC<MergeSortVisualizerArgs> = ({ items, sortStepDelay }) => {
+const MergeSortVisualizer = ({ items, sortStepDelay }: MergeSortVisualizerArgs) => {
   return (
     <div className="merge-sort-visualizer">
       <VisualizationArea

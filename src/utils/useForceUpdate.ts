@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 const useForceUpdate = () => {
-  let [internalState, setInternalState] = useState(0);
+  let [_, setInternalState] = useState(0);
   return () => {
-    setInternalState(internalState + 1);
+    setInternalState(state => state + 1);
   };
 };
 
-export default (() => useForceUpdate)();
+export default useForceUpdate;

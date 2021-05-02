@@ -25,11 +25,16 @@ interface DataBarArgs {
   width?: number;
   color?: string;
   index?: number;
+  animationDuration?: number;
 }
 
 const DataBar = (args: DataBarArgs) => {
   return (
-    <motion.div layoutId={args.uniqueId} className="data-bar">
+    <motion.div
+      layoutId={args.uniqueId}
+      className="data-bar"
+      transition={{ duration: args.animationDuration || 0.25, type: 'spring' }}
+    >
       <div className="fill-area" style={getStyle(args)}>
         {args.text}
       </div>
