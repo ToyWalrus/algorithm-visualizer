@@ -43,12 +43,7 @@ export default class MergeSort extends SortAlgorithm {
 
         while (idx !== p1) {
           values[idx] = values[idx - 1];
-
           values[idx].index = idx;
-          values[idx].isBeingSorted = true;
-          yield;
-          values[idx].isBeingSorted = false;
-
           idx--;
         }
 
