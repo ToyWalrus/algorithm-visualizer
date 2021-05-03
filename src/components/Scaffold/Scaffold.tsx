@@ -1,41 +1,15 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import getStyles from './ScaffoldStyles';
-import {
-  CssBaseline,
-  AppBar,
-  Drawer,
-  Toolbar,
-  List,
-  ListItem,
-  Typography,
-  Divider,
-  IconButton,
-  Badge,
-  Container,
-  Grid,
-  Paper,
-  ListItemIcon,
-  ListItemText,
-} from '@material-ui/core';
-import {
-  Menu as MenuIcon,
-  ChevronLeft as ChevronLeftIcon,
-  Notifications as NotificationsIcon,
-  Dashboard as DashboardIcon,
-  People as PeopleIcon,
-  BarChart as BarChartIcon,
-  ShoppingCart as ShoppingCartIcon,
-  Layers as LayersIcon,
-  Settings as SettingsIcon,
-} from '@material-ui/icons';
-import SettingsPanel from '../SettingsPanel/SettingsPanel';
+import { CssBaseline, AppBar, Drawer, Toolbar, Typography, IconButton, Paper } from '@material-ui/core';
+import { Menu as MenuIcon, Settings as SettingsIcon } from '@material-ui/icons';
+import NavItems, { NavItem } from '../NavItems/NavItems';
 
 interface ScaffoldArgs {
   title: String;
+  navItems: NavItem[];
   hideSideNav?: boolean;
   hideSettings?: boolean;
-  // navigationOptions
   settingsPanel: JSX.Element;
 }
 
@@ -79,39 +53,7 @@ const Scaffold: React.FC<ScaffoldArgs> = args => {
           open={navPanelOpen}
         >
           <div className={classes.appBarSpacer} />
-          <Divider />
-          <List>
-            <ListItem button>
-              <ListItemIcon className={classes.drawerIcons}>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon className={classes.drawerIcons}>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Orders" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon className={classes.drawerIcons}>
-                <PeopleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Customers" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon className={classes.drawerIcons}>
-                <BarChartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Reports" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon className={classes.drawerIcons}>
-                <LayersIcon />
-              </ListItemIcon>
-              <ListItemText primary="Integrations" />
-            </ListItem>
-          </List>
+          <NavItems items={args.navItems} classes={classes} />
         </Drawer>
       )}
       <main className={classes.content}>

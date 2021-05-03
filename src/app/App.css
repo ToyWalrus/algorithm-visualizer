@@ -15,6 +15,10 @@
   }
 }
 
+.merge-sort-icon {
+  transform: rotateZ(180deg);
+}
+
 .App-header {
   height: 50vh;
   display: flex;

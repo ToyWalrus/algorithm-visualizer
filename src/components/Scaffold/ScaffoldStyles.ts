@@ -35,6 +35,12 @@ export default makeStyles(theme =>
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
+    navIcon: {
+      color: theme.palette.primary.contrastText,
+    },
+    navIconSelected: {
+      color: theme.palette.secondary.main,
+    },
     menuButton: {
       marginRight: 36,
     },
