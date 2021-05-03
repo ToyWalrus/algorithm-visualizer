@@ -1,3 +1,5 @@
+import theme from '../app/theme/theme';
+
 interface NodeArgs {
   value: string | number;
   id: string;
@@ -23,7 +25,7 @@ export default class Node {
   isBeingSorted: boolean;
 
   get color(): string {
-    return this.isBeingSorted ? '#bd33ff' : '#ffe741';
+    return this.isBeingSorted ? theme.palette.secondary.main : theme.palette.info.main;
   }
 
   constructor(args: NodeArgs) {

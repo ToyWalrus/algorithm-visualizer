@@ -9,6 +9,8 @@ export default makeStyles(theme =>
     },
     toolbar: {
       paddingRight: 24,
+      paddingLeft: 16,
+      backgroundColor: theme.palette.primary.dark,
     },
     toolbarIcon: {
       display: 'flex',
@@ -20,7 +22,6 @@ export default makeStyles(theme =>
     },
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
-      backgroundColor: '#3E6DB3',
       transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -45,13 +46,13 @@ export default makeStyles(theme =>
       textAlign: 'center',
     },
     drawerIcons: {
-      color: theme.palette.secondary.contrastText,
+      color: theme.palette.primary.contrastText,
     },
     navPanel: {
       position: 'relative',
       whiteSpace: 'nowrap',
-      backgroundColor: '#4D94FF',
-      color: theme.palette.secondary.contrastText,
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
       width: drawerWidth,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -64,9 +65,8 @@ export default makeStyles(theme =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      width: theme.spacing(7),
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9),
+        width: theme.spacing(7),
       },
     },
     settingsPanel: {
@@ -94,7 +94,7 @@ export default makeStyles(theme =>
       flexGrow: 1,
       height: '100vh',
       overflow: 'hidden',
-      backgroundColor: '#282c34',
+      backgroundColor: theme.palette.common.black,
       padding: 16,
     },
     container: {

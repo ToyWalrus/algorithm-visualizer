@@ -99,7 +99,7 @@ const VisualizationArea = ({ sorter, items: initialItems, sortStepDelay, title }
         </Button>
       </div>
       {title && (
-        <Typography className="title" color="secondary" variant="h1">
+        <Typography className="title" color="primary" variant="h1">
           {title}
         </Typography>
       )}

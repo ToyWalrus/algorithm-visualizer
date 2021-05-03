@@ -11,7 +11,7 @@ interface SettingsPanelArgs {
 
 // Values in seconds
 const minSpeed = 0.01;
-const maxSpeed = 2;
+const maxSpeed = 1;
 const speedStepAmount = 0.01;
 const minElements = 10;
 const maxElements = 100;
@@ -39,6 +39,7 @@ const SettingsPanel = (args: SettingsPanelArgs) => {
             max={maxSpeed}
             step={speedStepAmount}
             style={{ minWidth: 100 }}
+            color="secondary"
             value={sortSpeed}
             onChange={(_, newVal) => onChangeSortSpeed(newVal.toString())}
             onMouseUp={onBlurSortSpeed}

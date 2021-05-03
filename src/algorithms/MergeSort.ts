@@ -48,11 +48,11 @@ export default class MergeSort extends SortAlgorithm {
         }
 
         tmp.index = p1;
+        values[p1] = tmp;
+
         tmp.isBeingSorted = true;
         yield;
         tmp.isBeingSorted = false;
-
-        values[p1] = tmp;
 
         p1++;
         p2++;

@@ -14,12 +14,14 @@
 
 .visualization-area .title {
   position: absolute;
+  cursor: default;
+  user-select: none;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 60%;
+  opacity: 40%;
   font-weight: 900;
-  /* kerning:  */
+  letter-spacing: 16px;
 }
 
 .visualization-area .data-bars {

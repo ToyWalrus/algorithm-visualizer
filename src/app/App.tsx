@@ -5,6 +5,8 @@ import Scaffold from '../components/Scaffold/Scaffold';
 import Node from '../model/Node';
 import SettingsPanel, { SettingsPanelArgs } from '../components/SettingsPanel/SettingsPanel';
 import './App.css';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './theme/theme';
 
 // https://www.framer.com/api/motion/animation/
 function App() {
@@ -21,18 +23,20 @@ function App() {
   }, [count]);
 
   return (
-    <Scaffold
-      title="Algorithm Visualizer"
-      hideSideNav={false}
-      settingsPanel={makeSettingsPanel({
-        sortSpeed: sortSpeed,
-        onChangeSortSpeed: setSortSpeed,
-        elementCount: count,
-        onChangeElementCount: setCount,
-      })}
-    >
-      <MergeSortVisualizer items={nodeList} sortStepDelay={sortSpeed} />
-    </Scaffold>
+    <ThemeProvider theme={theme}>
+      <Scaffold
+        title="Algorithm Visualizer"
+        hideSideNav={false}
+        settingsPanel={makeSettingsPanel({
+          sortSpeed: sortSpeed,
+          onChangeSortSpeed: setSortSpeed,
+          elementCount: count,
+          onChangeElementCount: setCount,
+        })}
+      >
+        <MergeSortVisualizer items={nodeList} sortStepDelay={sortSpeed} />
+      </Scaffold>
+    </ThemeProvider>
   );
 }
 
