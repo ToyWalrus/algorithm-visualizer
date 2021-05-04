@@ -4,6 +4,7 @@ import {
   BubbleChart as BubbleSortIcon,
   LowPriority as QuickSortIcon,
 } from '@material-ui/icons';
+import BubbleSortVisualizer from '../components/BubbleSortVisualizer/BubbleSortVisualizer';
 
 interface RouteArgs {
   path: string;
@@ -22,6 +23,7 @@ const routes: RouteArgs[] = [
   {
     path: '/bubbleSort',
     title: 'Bubble Sort',
+    Visualizer: BubbleSortVisualizer,
     icon: <BubbleSortIcon />,
   },
   {

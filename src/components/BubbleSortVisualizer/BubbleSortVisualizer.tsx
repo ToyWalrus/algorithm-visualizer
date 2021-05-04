@@ -1,21 +1,21 @@
 import Node from '../../model/Node';
-import MergeSort from '../../algorithms/MergeSort';
+import BubbleSort from '../../algorithms/BubbleSort';
 import VisualizationArea from '../VisualizationArea/VisualizationArea';
 
-interface MergeSortVisualizerArgs {
+interface BubbleSortVisualizerArgs {
   items: Node[];
   sortStepDelay?: number;
 }
 
-const MergeSortVisualizer = ({ items, sortStepDelay }: MergeSortVisualizerArgs) => {
+const BubbleSortVisualizer = ({ items, sortStepDelay }: BubbleSortVisualizerArgs) => {
   return (
     <div className="sort-visualizer">
       <VisualizationArea
         items={items}
-        title="Merge Sort"
+        title="Bubble Sort"
         sortStepDelay={sortStepDelay}
         sorter={
-          new MergeSort((a, b) => {
+          new BubbleSort((a, b) => {
             let v1 = a.value as number;
             let v2 = b.value as number;
             if (v1 < v2) return -1;
@@ -28,5 +28,5 @@ const MergeSortVisualizer = ({ items, sortStepDelay }: MergeSortVisualizerArgs) 
   );
 };
 
-export default MergeSortVisualizer;
-export type { MergeSortVisualizerArgs };
+export default BubbleSortVisualizer;
+export type { BubbleSortVisualizerArgs };

@@ -4,9 +4,10 @@ import SortAlgorithm from './SortAlgorithm';
 export default class BubbleSort extends SortAlgorithm {
   *sort(values: Node[]): Generator<unknown, any, unknown> {
     let didSwap: boolean;
+    let endIdx = values.length - 1;
     do {
       didSwap = false;
-      for (let i = 1; i < values.length; ++i) {
+      for (let i = 1; i <= endIdx; ++i) {
         let v1 = values[i - 1];
         let v2 = values[i];
         if ((yield* this.yieldAndCompare(v1, v2)) === 1) {
@@ -26,6 +27,7 @@ export default class BubbleSort extends SortAlgorithm {
           didSwap = true;
         }
       }
+      endIdx--;
     } while (didSwap);
   }
 }
