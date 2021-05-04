@@ -15,6 +15,7 @@ import {
   BubbleChart as BubbleSortIcon,
   LowPriority as QuickSortIcon,
 } from '@material-ui/icons';
+import { NavItem } from '../components/NavItems/NavItems';
 
 // https://www.framer.com/api/motion/animation/
 function App() {
@@ -36,9 +37,13 @@ function App() {
         <Scaffold
           title="Algorithm Visualizer"
           hideSideNav={false}
-          navItems={routes.map(route => ({
-            route,
-          }))}
+          navItems={routes.map<NavItem>(route => {
+            let isActiveRoute = window.location.pathname === route.path;
+            return {
+              route,
+              selected: isActiveRoute,
+            };
+          })}
           settingsPanel={makeSettingsPanel({
             sortSpeed: sortSpeed,
             onChangeSortSpeed: setSortSpeed,

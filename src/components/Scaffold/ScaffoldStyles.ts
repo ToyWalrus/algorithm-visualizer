@@ -39,7 +39,7 @@ export default makeStyles(theme =>
       color: theme.palette.primary.contrastText,
     },
     navIconSelected: {
-      color: theme.palette.secondary.main,
+      color: theme.palette.common.black,
     },
     menuButton: {
       marginRight: 36,

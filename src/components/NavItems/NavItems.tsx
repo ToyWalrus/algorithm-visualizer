@@ -39,7 +39,7 @@ const NavItems = ({ items, classes }: NavItemsArgs) => {
             <ListItemIcon className={clsx(classes.navIcon, navItem.selected && classes.navIconSelected)}>
               {navItem.route.icon}
             </ListItemIcon>
-            <ListItemText primary={navItem.route.title} />
+            <ListItemText primary={navItem.route.title} className={clsx(navItem.selected && classes.navIconSelected)} />
           </ListItem>
         );
       })}
