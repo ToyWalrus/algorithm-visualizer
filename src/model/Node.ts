@@ -19,9 +19,6 @@ export default class Node {
 
   index?: number;
 
-  // get isBeingSorted(): boolean {
-  //   return true;
-  // }
   isBeingSorted: boolean;
 
   get color(): string {

@@ -27,14 +27,14 @@ export default class MergeSort extends SortAlgorithm {
     let p2 = mid + 1;
 
     // Is this section is already sorted?
-    if ((yield* this.delayAndCompare(values[mid], values[p2])) <= 0) {
+    if ((yield* this.yieldAndCompare(values[mid], values[p2])) <= 0) {
       values[mid].index = mid;
       values[p2].index = p2;
       return;
     }
 
     while (p1 <= mid && p2 <= endIdx) {
-      if ((yield* this.delayAndCompare(values[p1], values[p2])) <= 0) {
+      if ((yield* this.yieldAndCompare(values[p1], values[p2])) <= 0) {
         values[p1].index = p1;
         p1++;
       } else {
@@ -59,18 +59,5 @@ export default class MergeSort extends SortAlgorithm {
         mid++;
       }
     }
-  }
-
-  private *delayAndCompare(left: Node, right: Node): Generator<any, -1 | 0 | 1, any> {
-    left.isBeingSorted = true;
-    right.isBeingSorted = true;
-
-    yield;
-    const result = this.comparator(left, right);
-
-    left.isBeingSorted = false;
-    right.isBeingSorted = false;
-
-    return result;
   }
 }

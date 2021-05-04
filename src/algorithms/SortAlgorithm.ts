@@ -7,7 +7,7 @@ import Node from '../model/Node';
  * - 0 if a is equal to b
  * - 1 if a is greater than b
  */
-type CompareFunc = (a: Node, b: Node) => -1 | 0 | 1;
+export type CompareFunc = (a: Node, b: Node) => -1 | 0 | 1;
 
 export default abstract class SortAlgorithm {
   comparator: CompareFunc;
@@ -28,4 +28,17 @@ export default abstract class SortAlgorithm {
       arr.map(val => val.value)
     );
   };
+
+  protected *yieldAndCompare(a: Node, b: Node): Generator<any, -1 | 0 | 1, any> {
+    a.isBeingSorted = true;
+    b.isBeingSorted = true;
+
+    yield;
+    const result = this.comparator(a, b);
+
+    a.isBeingSorted = false;
+    b.isBeingSorted = false;
+
+    return result;
+  }
 }
