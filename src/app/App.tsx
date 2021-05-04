@@ -20,8 +20,10 @@ import { NavItem } from '../components/NavItems/NavItems';
 // https://www.framer.com/api/motion/animation/
 function App() {
   const [count, setCount] = useState(10);
+  const [updateRoute, setUpdateRoute] = useState(0);
   const [sortSpeed, setSortSpeed] = useState(250);
   const [nodeList, setNodeList] = useState([] as Node[]);
+  const [mappedRoutes, setMappedRoutes] = useState([] as NavItem[]);
 
   useEffect(() => {
     let list: number[] = [];
@@ -31,19 +33,26 @@ function App() {
     setNodeList(makeNodeList(...list));
   }, [count]);
 
+  useEffect(() => {
+    setMappedRoutes(
+      routes.map<NavItem>(route => {
+        let isActiveRoute = window.location.pathname === route.path;
+        return {
+          route,
+          selected: isActiveRoute,
+        };
+      })
+    );
+  }, [updateRoute]);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Scaffold
           title="Algorithm Visualizer"
           hideSideNav={false}
-          navItems={routes.map<NavItem>(route => {
-            let isActiveRoute = window.location.pathname === route.path;
-            return {
-              route,
-              selected: isActiveRoute,
-            };
-          })}
+          navItems={mappedRoutes}
+          onChangeRoute={() => setUpdateRoute(updateRoute + 1)}
           settingsPanel={makeSettingsPanel({
             sortSpeed: sortSpeed,
             onChangeSortSpeed: setSortSpeed,

@@ -4,13 +4,15 @@ import getStyles from './ScaffoldStyles';
 import { CssBaseline, AppBar, Drawer, Toolbar, Typography, IconButton, Paper } from '@material-ui/core';
 import { Menu as MenuIcon, Settings as SettingsIcon } from '@material-ui/icons';
 import NavItems, { NavItem } from '../NavItems/NavItems';
+import { RouteArgs } from '../../app/routes';
 
 interface ScaffoldArgs {
   title: String;
   navItems: NavItem[];
+  settingsPanel: JSX.Element;
   hideSideNav?: boolean;
   hideSettings?: boolean;
-  settingsPanel: JSX.Element;
+  onChangeRoute?: (route: RouteArgs) => void;
 }
 
 const Scaffold: React.FC<ScaffoldArgs> = args => {
@@ -53,7 +55,7 @@ const Scaffold: React.FC<ScaffoldArgs> = args => {
           open={navPanelOpen}
         >
           <div className={classes.appBarSpacer} />
-          <NavItems items={args.navItems} classes={classes} />
+          <NavItems items={args.navItems} classes={classes} onChangeRoute={args.onChangeRoute} />
         </Drawer>
       )}
       <main className={classes.content}>

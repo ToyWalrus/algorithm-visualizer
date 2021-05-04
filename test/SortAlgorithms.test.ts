@@ -1,6 +1,7 @@
 import SortAlgorithm, { CompareFunc } from '../src/algorithms/SortAlgorithm';
 import MergeSort from '../src/algorithms/MergeSort';
 import BubbleSort from '../src/algorithms/BubbleSort';
+import QuickSort from '../src/algorithms/QuickSort';
 import Node from '../src/model/Node';
 import shuffle from 'shuffle-array';
 
@@ -20,6 +21,11 @@ describe('SortAlgorithms', () => {
       title: 'Bubble Sort',
       getSorter: c => new BubbleSort(c),
       listSizes: [10, 100, 1000],
+    },
+    {
+      title: 'Quick Sort',
+      getSorter: c => new QuickSort(c),
+      listSizes: [10, 100, 10000],
     },
   ];
 

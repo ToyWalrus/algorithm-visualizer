@@ -13,14 +13,18 @@ interface NavItem {
 interface NavItemsArgs {
   items: NavItem[];
   classes: any;
+  onChangeRoute?: (route: RouteArgs) => void;
 }
 
-const NavItems = ({ items, classes }: NavItemsArgs) => {
+const NavItems = ({ items, classes, onChangeRoute }: NavItemsArgs) => {
   const history = useHistory();
 
   const onClickItem = (item: NavItem) => {
     if (item.route) {
       history.push(item.route.path);
+      if (onChangeRoute) {
+        onChangeRoute(item.route);
+      }
     }
   };
 
