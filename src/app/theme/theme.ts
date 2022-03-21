@@ -4,7 +4,7 @@ let primary = '#1EB053'; // main
 let accent = '#F2CF63'; // secondary
 let secondary = '#9340CF'; // accent
 let black = '#262626'; // background
-let white = '#EFF0FF'; // white
+let white = '#F5F5F5'; // white
 
 const theme = createMuiTheme({
   palette: {
@@ -25,6 +25,10 @@ const theme = createMuiTheme({
       dark: '#7d9aae',
       light: '#bad3e4',
       contrastText: black,
+    },
+    text: {
+      primary: white,
+      secondary: '#74AED2',
     },
     common: {
       black,

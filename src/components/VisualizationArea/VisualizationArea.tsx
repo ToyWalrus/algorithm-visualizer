@@ -17,7 +17,43 @@ interface VisualizationAreaArgs {
 
 let timer: NodeJS.Timeout | undefined;
 
-const VisualizationArea = ({ sorter, items: initialItems, sortStepDelay, title }: VisualizationAreaArgs) => {
+const VisualizationArea = ({ title, ...args }: VisualizationAreaArgs) => {
+  const { onResetClick, highestVal, items, onSortStepClick, onStartClick, onStopClick } =
+    useVisualizationAreaHook(args);
+
+  return (
+    <div className="visualization-area">
+      <div className="control-buttons">
+        <Button variant="contained" onClick={onStartClick}>
+          Start
+        </Button>
+        <Button variant="contained" onClick={onStopClick}>
+          Stop
+        </Button>
+        <Button variant="contained" onClick={onResetClick}>
+          Shuffle/Reset
+        </Button>
+        <Button variant="contained" onClick={onSortStepClick}>
+          Sort Step
+        </Button>
+      </div>
+      {title && (
+        <Typography className="title" color="primary" variant="h1">
+          {title}
+        </Typography>
+      )}
+      <AnimateSharedLayout>
+        <div className="data-bars">
+          {items.map((node, idx) => (
+            <DataBar {...getDataBarArgs(node, highestVal)} key={'db_' + node.id + '_' + idx.toString()} />
+          ))}
+        </div>
+      </AnimateSharedLayout>
+    </div>
+  );
+};
+
+const useVisualizationAreaHook = ({ items: initialItems, sorter, sortStepDelay }: VisualizationAreaArgs) => {
   let [items, setItems] = useState(initialItems);
   let [sortIterator, setSortIterator] = useState(sorter.sort(items));
   let forceUpdate = useForceUpdate();
@@ -82,36 +118,14 @@ const VisualizationArea = ({ sorter, items: initialItems, sortStepDelay, title }
     }
   }, [sortStepDelay]);
 
-  return (
-    <div className="visualization-area">
-      <div className="control-buttons">
-        <Button variant="contained" onClick={onStartClick}>
-          Start
-        </Button>
-        <Button variant="contained" onClick={onStopClick}>
-          Stop
-        </Button>
-        <Button variant="contained" onClick={onResetClick}>
-          Shuffle/Reset
-        </Button>
-        <Button variant="contained" onClick={onSortStepClick}>
-          Sort Step
-        </Button>
-      </div>
-      {title && (
-        <Typography className="title" color="primary" variant="h1">
-          {title}
-        </Typography>
-      )}
-      <AnimateSharedLayout>
-        <div className="data-bars">
-          {items.map((node, idx) => (
-            <DataBar {...getDataBarArgs(node, highestVal)} key={'db_' + node.id + '_' + idx.toString()} />
-          ))}
-        </div>
-      </AnimateSharedLayout>
-    </div>
-  );
+  return {
+    items,
+    onStartClick,
+    onStopClick,
+    onResetClick,
+    onSortStepClick,
+    highestVal,
+  };
 };
 
 const getDataBarArgs = (node: Node, highestVal: number): DataBarArgs => {
