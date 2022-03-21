@@ -1,6 +1,6 @@
 import React from 'react';
-import QuickSort from '../../algorithms/QuickSort';
-import Node from '../../model/Node';
+import QuickSort from '../../../algorithms/QuickSort';
+import Node from '../../../model/Node';
 import VisualizationArea from '../VisualizationArea/VisualizationArea';
 
 interface QuickSortVisualizerArgs {

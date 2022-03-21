@@ -1,5 +1,5 @@
-import Node from '../../model/Node';
-import BubbleSort from '../../algorithms/BubbleSort';
+import Node from '../../../model/Node';
+import BubbleSort from '../../../algorithms/BubbleSort';
 import VisualizationArea from '../VisualizationArea/VisualizationArea';
 
 interface BubbleSortVisualizerArgs {

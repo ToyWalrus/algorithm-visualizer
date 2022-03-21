@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import shuffle from 'shuffle-array';
 import { Button, Typography } from '@material-ui/core';
-import DataBar, { DataBarArgs } from '../DataBar/DataBar';
+import DataBar, { DataBarArgs } from '../../DataBar/DataBar';
 import { AnimateSharedLayout } from 'framer-motion';
-import SortAlgorithm from '../../algorithms/SortAlgorithm';
-import useForceUpdate from '../../utils/useForceUpdate';
-import Node from '../../model/Node';
+import SortAlgorithm from '../../../algorithms/SortAlgorithm';
+import useForceUpdate from '../../../utils/useForceUpdate';
+import Node from '../../../model/Node';
 import './VisualizationArea.css';
 
 interface VisualizationAreaArgs {

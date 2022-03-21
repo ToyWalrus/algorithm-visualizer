@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import shuffle from 'shuffle-array';
-import MergeSortVisualizer from '../components/MergeSortVisualizer/MergeSortVisualizer';
+import MergeSortVisualizer from '../components/Visualizers/MergeSortVisualizer/MergeSortVisualizer';
 import Scaffold from '../components/Scaffold/Scaffold';
 import Node from '../model/Node';
 import SettingsPanel, { SettingsPanelArgs } from '../components/SettingsPanel/SettingsPanel';

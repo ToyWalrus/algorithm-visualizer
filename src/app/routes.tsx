@@ -1,11 +1,11 @@
-import MergeSortVisualizer from '../components/MergeSortVisualizer/MergeSortVisualizer';
+import MergeSortVisualizer from '../components/Visualizers/MergeSortVisualizer/MergeSortVisualizer';
 import {
 	MenuOpen as MergeSortIcon,
 	BubbleChart as BubbleSortIcon,
 	LowPriority as QuickSortIcon,
 } from '@material-ui/icons';
-import BubbleSortVisualizer from '../components/BubbleSortVisualizer/BubbleSortVisualizer';
-import QuickSortVisualizer from '../components/QuickSortVisualizer/QuickSortVisualizer';
+import BubbleSortVisualizer from '../components/Visualizers/BubbleSortVisualizer/BubbleSortVisualizer';
+import QuickSortVisualizer from '../components/Visualizers/QuickSortVisualizer/QuickSortVisualizer';
 
 interface RouteArgs {
 	path: string;

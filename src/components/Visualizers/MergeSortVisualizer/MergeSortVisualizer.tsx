@@ -1,5 +1,5 @@
-import Node from '../../model/Node';
-import MergeSort from '../../algorithms/MergeSort';
+import Node from '../../../model/Node';
+import MergeSort from '../../../algorithms/MergeSort';
 import VisualizationArea from '../VisualizationArea/VisualizationArea';
 
 interface MergeSortVisualizerArgs {
