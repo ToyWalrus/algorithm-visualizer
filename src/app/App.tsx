@@ -1,20 +1,13 @@
 import { useEffect, useState } from 'react';
-import shuffle from 'shuffle-array';
-import MergeSortVisualizer from '../components/Visualizers/MergeSortVisualizer/MergeSortVisualizer';
 import Scaffold from '../components/Scaffold/Scaffold';
 import Node from '../model/Node';
-import SettingsPanel, { SettingsPanelArgs } from '../components/SettingsPanel/SettingsPanel';
+import SettingsPanel, { SettingsPanelProps } from '../components/SettingsPanel/SettingsPanel';
 import './App.css';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './theme/theme';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import routes from './routes';
 import { Typography } from '@material-ui/core';
-import {
-	MenuOpen as MergeSortIcon,
-	BubbleChart as BubbleSortIcon,
-	LowPriority as QuickSortIcon,
-} from '@material-ui/icons';
 import { NavItem } from '../components/NavItems/NavItems';
 
 // https://www.framer.com/api/motion/animation/
@@ -82,7 +75,7 @@ function App() {
 	);
 }
 
-const makeSettingsPanel = (args: SettingsPanelArgs) => {
+const makeSettingsPanel = (args: SettingsPanelProps) => {
 	return <SettingsPanel {...args} />;
 };
 

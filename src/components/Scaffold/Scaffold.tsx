@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import getStyles from './ScaffoldStyles';
-import { CssBaseline, AppBar, Drawer, Toolbar, Typography, IconButton, Paper } from '@material-ui/core';
+import { AppBar, CssBaseline, Drawer, IconButton, Paper, Toolbar, Typography } from '@material-ui/core';
 import { Menu as MenuIcon, Settings as SettingsIcon } from '@material-ui/icons';
 import NavItems, { NavItem } from '../NavItems/NavItems';
-import { RouteArgs } from '../../app/routes';
+import { RouteProps } from '../../app/routes';
 
-interface ScaffoldArgs {
+interface ScaffoldProps {
 	title: String;
 	navItems: NavItem[];
 	settingsPanel: JSX.Element;
 	hideSideNav?: boolean;
 	hideSettings?: boolean;
-	onChangeRoute?: (route: RouteArgs) => void;
+	onChangeRoute?: (route: RouteProps) => void;
 }
 
-const Scaffold: React.FC<ScaffoldArgs> = args => {
+const Scaffold: React.FC<ScaffoldProps> = args => {
 	const classes = getStyles();
 	const [navPanelOpen, setNavPanelOpen] = useState(false);
 	const [settingsPanelOpen, setSettingsPanelOpen] = useState(true);

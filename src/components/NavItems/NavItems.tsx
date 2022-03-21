@@ -1,22 +1,22 @@
 import { Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
-import { RouteArgs } from '../../app/routes';
+import { RouteProps } from '../../app/routes';
 
 interface NavItem {
-	route: RouteArgs;
+	route: RouteProps;
 	selected?: boolean;
 	disabled?: boolean;
 	divider?: boolean;
 }
 
-interface NavItemsArgs {
+interface NavItemsProps {
 	items: NavItem[];
 	classes: any;
-	onChangeRoute?: (route: RouteArgs) => void;
+	onChangeRoute?: (route: RouteProps) => void;
 }
 
-const NavItems = ({ items, classes, onChangeRoute }: NavItemsArgs) => {
+const NavItems = ({ items, classes, onChangeRoute }: NavItemsProps) => {
 	const history = useHistory();
 
 	const onClickItem = (item: NavItem) => {
@@ -55,4 +55,4 @@ const NavItems = ({ items, classes, onChangeRoute }: NavItemsArgs) => {
 };
 
 export default NavItems;
-export type { NavItemsArgs, NavItem };
+export type { NavItemsProps, NavItem };

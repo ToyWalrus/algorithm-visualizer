@@ -1,33 +1,36 @@
 import { useEffect, useState } from 'react';
 import shuffle from 'shuffle-array';
 import { Button, Typography } from '@material-ui/core';
-import DataBar, { DataBarArgs } from '../../DataBar/DataBar';
+import DataBar, { DataBarProps } from '../../DataBar/DataBar';
 import { AnimateSharedLayout } from 'framer-motion';
 import SortAlgorithm from '../../../algorithms/SortAlgorithm';
 import useForceUpdate from '../../../utils/useForceUpdate';
 import Node from '../../../model/Node';
 import './VisualizationArea.css';
 
-interface VisualizationAreaArgs {
+export interface VisualizationAreaComponentProps {
 	items: Node[];
-	sorter: SortAlgorithm;
 	sortStepDelay?: number;
+}
+
+interface VisualizationAreaProps extends VisualizationAreaComponentProps {
+	sorter: SortAlgorithm;
 	title?: string;
 }
 
 let timer: NodeJS.Timeout | undefined;
 
-const VisualizationArea = ({ title, ...args }: VisualizationAreaArgs) => {
+const VisualizationArea = ({ title, ...args }: VisualizationAreaProps) => {
 	const { onResetClick, highestVal, items, onSortStepClick, onStartClick, onStopClick } =
 		useVisualizationAreaHook(args);
 
 	return (
-		<div className="visualization-area">
-			<div className="control-buttons">
-				<Button variant="contained" onClick={onStartClick}>
+		<div className='visualization-area'>
+			<div className='control-buttons'>
+				<Button variant='contained' onClick={onStartClick}>
 					Start
 				</Button>
-				<Button variant="contained" onClick={onStopClick}>
+				<Button variant='contained' onClick={onStopClick}>
 					Stop
 				</Button>
 				<Button variant="contained" onClick={onResetClick}>
@@ -53,7 +56,7 @@ const VisualizationArea = ({ title, ...args }: VisualizationAreaArgs) => {
 	);
 };
 
-const useVisualizationAreaHook = ({ items: initialItems, sorter, sortStepDelay }: VisualizationAreaArgs) => {
+const useVisualizationAreaHook = ({ items: initialItems, sorter, sortStepDelay }: VisualizationAreaProps) => {
 	let [items, setItems] = useState(initialItems);
 	let [sortIterator, setSortIterator] = useState(sorter.sort(items));
 	let forceUpdate = useForceUpdate();
@@ -128,7 +131,7 @@ const useVisualizationAreaHook = ({ items: initialItems, sorter, sortStepDelay }
 	};
 };
 
-const getDataBarArgs = (node: Node, highestVal: number): DataBarArgs => {
+const getDataBarArgs = (node: Node, highestVal: number): DataBarProps => {
 	return {
 		value: (node.value as number) / highestVal,
 		uniqueId: `db_${node.id}`,
@@ -138,4 +141,4 @@ const getDataBarArgs = (node: Node, highestVal: number): DataBarArgs => {
 };
 
 export default VisualizationArea;
-export type { VisualizationAreaArgs };
+export type { VisualizationAreaProps };

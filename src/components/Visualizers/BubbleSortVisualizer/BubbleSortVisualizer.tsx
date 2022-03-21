@@ -1,18 +1,12 @@
-import Node from '../../../model/Node';
 import BubbleSort from '../../../algorithms/BubbleSort';
-import VisualizationArea from '../VisualizationArea/VisualizationArea';
+import VisualizationArea, { VisualizationAreaComponentProps } from '../VisualizationArea/VisualizationArea';
 
-interface BubbleSortVisualizerArgs {
-	items: Node[];
-	sortStepDelay?: number;
-}
-
-const BubbleSortVisualizer = ({ items, sortStepDelay }: BubbleSortVisualizerArgs) => {
+const BubbleSortVisualizer = ({ items, sortStepDelay }: VisualizationAreaComponentProps) => {
 	return (
-		<div className="sort-visualizer">
+		<div className='sort-visualizer'>
 			<VisualizationArea
 				items={items}
-				title="Bubble Sort"
+				title='Bubble Sort'
 				sortStepDelay={sortStepDelay}
 				sorter={
 					new BubbleSort((a, b) => {
@@ -29,4 +23,3 @@ const BubbleSortVisualizer = ({ items, sortStepDelay }: BubbleSortVisualizerArgs
 };
 
 export default BubbleSortVisualizer;
-export type { BubbleSortVisualizerArgs };

@@ -1,18 +1,12 @@
-import Node from '../../../model/Node';
+import VisualizationArea, { VisualizationAreaComponentProps } from '../VisualizationArea/VisualizationArea';
 import MergeSort from '../../../algorithms/MergeSort';
-import VisualizationArea from '../VisualizationArea/VisualizationArea';
 
-interface MergeSortVisualizerArgs {
-	items: Node[];
-	sortStepDelay?: number;
-}
-
-const MergeSortVisualizer = ({ items, sortStepDelay }: MergeSortVisualizerArgs) => {
+const MergeSortVisualizer = ({ items, sortStepDelay }: VisualizationAreaComponentProps) => {
 	return (
-		<div className="sort-visualizer">
+		<div className='sort-visualizer'>
 			<VisualizationArea
 				items={items}
-				title="Merge Sort"
+				title='Merge Sort'
 				sortStepDelay={sortStepDelay}
 				sorter={
 					new MergeSort((a, b) => {
@@ -29,4 +23,3 @@ const MergeSortVisualizer = ({ items, sortStepDelay }: MergeSortVisualizerArgs) 
 };
 
 export default MergeSortVisualizer;
-export type { MergeSortVisualizerArgs };

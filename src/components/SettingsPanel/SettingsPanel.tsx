@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Slider, Input, Typography, Grid, Divider } from '@material-ui/core';
+import { Container, Divider, Grid, Input, Slider, Typography } from '@material-ui/core';
 
-interface SettingsPanelArgs {
+interface SettingsPanelProps {
 	sortSpeed: number;
 	onChangeSortSpeed: (speed: number) => void;
 	// colors?
@@ -17,16 +17,16 @@ const minElements = 10;
 const maxElements = 100;
 const elementStepAmount = 1;
 
-const SettingsPanel = (args: SettingsPanelArgs) => {
+const SettingsPanel = (args: SettingsPanelProps) => {
 	let { sortSpeed, elementCount, onBlurSortSpeed, onBlurElementCount, onChangeElementCount, onChangeSortSpeed } =
 		useSettingsPanelControls(args);
 
 	return (
-		<Container maxWidth="md">
-			<Typography id="input-slider" gutterBottom>
+		<Container maxWidth='md'>
+			<Typography id='input-slider' gutterBottom>
 				Sort speed
 			</Typography>
-			<Grid container spacing={2} alignItems="center">
+			<Grid container spacing={2} alignItems='center'>
 				<Grid item md>
 					<Slider
 						min={minSpeed}
@@ -80,7 +80,7 @@ const SettingsPanel = (args: SettingsPanelArgs) => {
 	);
 };
 
-const useSettingsPanelControls = (args: SettingsPanelArgs) => {
+const useSettingsPanelControls = (args: SettingsPanelProps) => {
 	let [elementCount, setElementCount] = useState(args.elementCount);
 	let [sortSpeed, setSortSpeed] = useState(args.sortSpeed / 1000);
 
@@ -124,4 +124,4 @@ const useSettingsPanelControls = (args: SettingsPanelArgs) => {
 };
 
 export default SettingsPanel;
-export type { SettingsPanelArgs };
+export type { SettingsPanelProps };

@@ -1,20 +1,22 @@
 import theme from '../app/theme/theme';
 
-interface NodeArgs {
+interface NodeProps {
 	value: string | number;
 	id: string;
 	index?: number;
 }
 
 export default class Node {
-	private args: NodeArgs;
+	private props: NodeProps;
 
-	get value(): string | number {
-		return this.args.value;
+	constructor(props: NodeProps) {
+		this.props = props;
+		this.index = props.index;
+		this.isBeingSorted = false;
 	}
 
-	get id(): string {
-		return this.args.id;
+	get value(): string | number {
+		return this.props.value;
 	}
 
 	index?: number;
@@ -25,9 +27,7 @@ export default class Node {
 		return this.isBeingSorted ? theme.palette.secondary.main : theme.palette.info.main;
 	}
 
-	constructor(args: NodeArgs) {
-		this.args = args;
-		this.index = args.index;
-		this.isBeingSorted = false;
+	get id(): string {
+		return this.props.id;
 	}
 }

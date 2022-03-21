@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import './DataBar.scss';
 
-interface DataBarArgs {
+interface DataBarProps {
 	/**
 	 * A number between 0 and 1 representing
 	 * the height value, with 0 being no height
@@ -28,21 +28,21 @@ interface DataBarArgs {
 	animationDuration?: number;
 }
 
-const DataBar = (args: DataBarArgs) => {
+const DataBar = (args: DataBarProps) => {
 	return (
 		<motion.div
 			layoutId={args.uniqueId}
-			className="data-bar"
+			className='data-bar'
 			transition={{ duration: args.animationDuration || 0.25, type: 'spring' }}
 		>
-			<div className="fill-area" style={getStyle(args)}>
+			<div className='fill-area' style={getStyle(args)}>
 				{args.text}
 			</div>
 		</motion.div>
 	);
 };
 
-const getStyle = ({ color = 'steelblue', width, value }: DataBarArgs): React.CSSProperties => {
+const getStyle = ({ color = 'steelblue', width, value }: DataBarProps): React.CSSProperties => {
 	value = Math.max(Math.min(value, 1), 0);
 	return {
 		backgroundColor: color,
@@ -52,4 +52,4 @@ const getStyle = ({ color = 'steelblue', width, value }: DataBarArgs): React.CSS
 };
 
 export default DataBar;
-export type { DataBarArgs };
+export type { DataBarProps };
