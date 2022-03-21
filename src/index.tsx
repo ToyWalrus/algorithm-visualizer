@@ -4,8 +4,8 @@ import App from './app/App';
 import './index.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('algorithm-visualizer')
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+	document.getElementById('algorithm-visualizer')
 );

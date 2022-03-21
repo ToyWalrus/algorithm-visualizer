@@ -1,18 +1,38 @@
 {
-    "arrowParens": "avoid",
-    "bracketSpacing": true,
-    "htmlWhitespaceSensitivity": "css",
-    "insertPragma": false,
-    "jsxBracketSameLine": false,
-    "jsxSingleQuote": false,
-    "printWidth": 120,
-    "proseWrap": "preserve",
-    "quoteProps": "as-needed",
-    "requirePragma": false,
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": true,
-    "parser": "typescript"
-  }
+	"arrowParens": "avoid",
+	"bracketSpacing": true,
+	"htmlWhitespaceSensitivity": "css",
+	"insertPragma": false,
+	"jsxBracketSameLine": false,
+	"jsxSingleQuote": false,
+	"printWidth": 120,
+	"proseWrap": "preserve",
+	"quoteProps": "as-needed",
+	"requirePragma": false,
+	"semi": true,
+	"singleQuote": true,
+	"tabWidth": 2,
+	"trailingComma": "es5",
+	"useTabs": true,
+	"overrides": [
+		{
+			"files": ["*.ts", "*.tsx"],
+			"options": {
+				"parser": "typescript",
+				"tabWidth": 4
+			}
+		},
+		{
+			"files": ["*.css"],
+			"options": {
+				"parser": "css"
+			}
+		},
+		{
+			"files": ["*.scss"],
+			"options": {
+				"parser": "scss"
+			}
+		}
+	]
+}

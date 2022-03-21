@@ -4,51 +4,54 @@ import clsx from 'clsx';
 import { RouteArgs } from '../../app/routes';
 
 interface NavItem {
-  route: RouteArgs;
-  selected?: boolean;
-  disabled?: boolean;
-  divider?: boolean;
+	route: RouteArgs;
+	selected?: boolean;
+	disabled?: boolean;
+	divider?: boolean;
 }
 
 interface NavItemsArgs {
-  items: NavItem[];
-  classes: any;
-  onChangeRoute?: (route: RouteArgs) => void;
+	items: NavItem[];
+	classes: any;
+	onChangeRoute?: (route: RouteArgs) => void;
 }
 
 const NavItems = ({ items, classes, onChangeRoute }: NavItemsArgs) => {
-  const history = useHistory();
+	const history = useHistory();
 
-  const onClickItem = (item: NavItem) => {
-    if (item.route) {
-      history.push(item.route.path);
-      if (onChangeRoute) {
-        onChangeRoute(item.route);
-      }
-    }
-  };
+	const onClickItem = (item: NavItem) => {
+		if (item.route) {
+			history.push(item.route.path);
+			if (onChangeRoute) {
+				onChangeRoute(item.route);
+			}
+		}
+	};
 
-  return (
-    <List>
-      {items.map(navItem => {
-        if (navItem.divider) {
-          return <Divider />;
-        }
-        return (
-          <ListItem
-            button
-            onClick={() => onClickItem(navItem)}
-            disabled={navItem.disabled || !navItem.route.Visualizer}
-          >
-            <ListItemIcon className={clsx(classes.navIcon, navItem.selected && classes.navIconSelected)}>
-              {navItem.route.icon}
-            </ListItemIcon>
-            <ListItemText primary={navItem.route.title} className={clsx(navItem.selected && classes.navIconSelected)} />
-          </ListItem>
-        );
-      })}
-    </List>
-  );
+	return (
+		<List>
+			{items.map(navItem => {
+				if (navItem.divider) {
+					return <Divider />;
+				}
+				return (
+					<ListItem
+						button
+						onClick={() => onClickItem(navItem)}
+						disabled={navItem.disabled || !navItem.route.Visualizer}
+					>
+						<ListItemIcon className={clsx(classes.navIcon, navItem.selected && classes.navIconSelected)}>
+							{navItem.route.icon}
+						</ListItemIcon>
+						<ListItemText
+							primary={navItem.route.title}
+							className={clsx(navItem.selected && classes.navIconSelected)}
+						/>
+					</ListItem>
+				);
+			})}
+		</List>
+	);
 };
 
 export default NavItems;

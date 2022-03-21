@@ -11,85 +11,87 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import routes from './routes';
 import { Typography } from '@material-ui/core';
 import {
-  MenuOpen as MergeSortIcon,
-  BubbleChart as BubbleSortIcon,
-  LowPriority as QuickSortIcon,
+	MenuOpen as MergeSortIcon,
+	BubbleChart as BubbleSortIcon,
+	LowPriority as QuickSortIcon,
 } from '@material-ui/icons';
 import { NavItem } from '../components/NavItems/NavItems';
 
 // https://www.framer.com/api/motion/animation/
 function App() {
-  const [count, setCount] = useState(10);
-  const [updateRoute, setUpdateRoute] = useState(0);
-  const [sortSpeed, setSortSpeed] = useState(250);
-  const [nodeList, setNodeList] = useState([] as Node[]);
-  const [mappedRoutes, setMappedRoutes] = useState([] as NavItem[]);
+	const [count, setCount] = useState(10);
+	const [updateRoute, setUpdateRoute] = useState(0);
+	const [sortSpeed, setSortSpeed] = useState(250);
+	const [nodeList, setNodeList] = useState([] as Node[]);
+	const [mappedRoutes, setMappedRoutes] = useState([] as NavItem[]);
 
-  useEffect(() => {
-    let list: number[] = [];
-    for (let i = 1; i <= count; ++i) {
-      list.push(i);
-    }
-    setNodeList(makeNodeList(...list));
-  }, [count]);
+	useEffect(() => {
+		let list: number[] = [];
+		for (let i = 1; i <= count; ++i) {
+			list.push(i);
+		}
+		setNodeList(makeNodeList(...list));
+	}, [count]);
 
-  useEffect(() => {
-    setMappedRoutes(
-      routes.map<NavItem>(route => {
-        let isActiveRoute = window.location.pathname === route.path;
-        return {
-          route,
-          selected: isActiveRoute,
-        };
-      })
-    );
-  }, [updateRoute]);
+	useEffect(() => {
+		setMappedRoutes(
+			routes.map<NavItem>(route => {
+				let isActiveRoute = window.location.pathname === route.path;
+				return {
+					route,
+					selected: isActiveRoute,
+				};
+			})
+		);
+	}, [updateRoute]);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Scaffold
-          title="Algorithm Visualizer"
-          hideSideNav={false}
-          navItems={mappedRoutes}
-          onChangeRoute={() => setUpdateRoute(updateRoute + 1)}
-          settingsPanel={makeSettingsPanel({
-            sortSpeed: sortSpeed,
-            onChangeSortSpeed: setSortSpeed,
-            elementCount: count,
-            onChangeElementCount: setCount,
-          })}
-        >
-          <Switch>
-            {routes.map(route => {
-              return (
-                <Route key={route.path} path={route.path}>
-                  {route.Visualizer && <route.Visualizer items={nodeList} sortStepDelay={sortSpeed} />}
-                </Route>
-              );
-            })}
-            <Route key="home" path="/">
-              <Typography variant="h1" style={{ color: theme.palette.primary.contrastText }}>
-                Home
-              </Typography>
-            </Route>
-          </Switch>
-        </Scaffold>
-      </Router>
-    </ThemeProvider>
-  );
+	return (
+		<ThemeProvider theme={theme}>
+			<Router>
+				<Scaffold
+					title="Algorithm Visualizer"
+					hideSideNav={false}
+					navItems={mappedRoutes}
+					onChangeRoute={() => setUpdateRoute(updateRoute + 1)}
+					settingsPanel={makeSettingsPanel({
+						sortSpeed: sortSpeed,
+						onChangeSortSpeed: setSortSpeed,
+						elementCount: count,
+						onChangeElementCount: setCount,
+					})}
+				>
+					<Switch>
+						{routes.map(route => {
+							return (
+								<Route key={route.path} path={route.path}>
+									{route.Visualizer && (
+										<route.Visualizer items={nodeList} sortStepDelay={sortSpeed} />
+									)}
+								</Route>
+							);
+						})}
+						<Route key="home" path="/">
+							<Typography variant="h1" style={{ color: theme.palette.primary.contrastText }}>
+								Home
+							</Typography>
+						</Route>
+					</Switch>
+				</Scaffold>
+			</Router>
+		</ThemeProvider>
+	);
 }
 
 const makeSettingsPanel = (args: SettingsPanelArgs) => {
-  return <SettingsPanel {...args} />;
+	return <SettingsPanel {...args} />;
 };
 
 const makeNodeList = (...args: number[] | string[]): Node[] => {
-  const list: Node[] = [];
-  args.forEach((arg, idx) => {
-    list.push(new Node({ value: arg, index: idx, id: idx }));
-  });
-  return list;
+	const list: Node[] = [];
+	args.forEach((arg, idx) => {
+		list.push(new Node({ value: arg, index: idx, id: idx }));
+	});
+	return list;
 };
 
 export default App;
