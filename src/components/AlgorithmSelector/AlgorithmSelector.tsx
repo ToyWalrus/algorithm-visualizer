@@ -1,15 +1,56 @@
 import React from 'react';
+import clsx from 'clsx';
+import './AlgorithmSelector.scss';
 
-interface AlgorithmSelectorProps {
+interface AlgorithmOptions {
+	title: string;
+	onSelect: VoidFunction;
+	isSelected?: boolean;
 }
 
-const AlgorithmSelector = (args: AlgorithmSelectorProps) => {
+interface AlgorithmSelectorProps {
+	options: AlgorithmOptions[];
+}
+
+const AlgorithmSelector = (props: AlgorithmSelectorProps) => {
 	return (
-		<div className='template-name'>
-			<h1>AlgorithmSelector component</h1>
+		<div className='algorithm-selector'>
+			<h3 className='algorithm-selector-title'>Algorithm selection</h3>
+			<EnumSwitcher options={props.options} />
+		</div>
+	);
+};
+
+const EnumSwitcher = ({ options }: AlgorithmSelectorProps) => {
+	return (
+		<div className='enum-switcher'>
+			{
+				options.map((op, i) => <EnumSwitcherItem key={op.title} isFirst={i === 0} isLast={i === options.length - 1}
+																								 option={op} />)
+			}
+		</div>
+	);
+};
+
+interface EnumSwitcherItemProps {
+	option: AlgorithmOptions;
+	isFirst: boolean;
+	isLast: boolean;
+}
+
+const EnumSwitcherItem = ({ isFirst, isLast, option }: EnumSwitcherItemProps) => {
+	return (
+		<div
+			onClick={option.onSelect}
+			className={clsx('enum-switcher-item', {
+				'first': isFirst,
+				'last': isLast,
+				'is-selected': option.isSelected,
+			})}
+		>
+			{option.title}
 		</div>
 	);
 };
 
 export default AlgorithmSelector;
-export type { AlgorithmSelectorProps };

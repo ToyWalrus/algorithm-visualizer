@@ -1,22 +1,20 @@
 import { useEffect, useState } from 'react';
-import Scaffold from '../components/Scaffold/Scaffold';
 import Node from '../model/Node';
 import SettingsPanel, { SettingsPanelProps } from '../components/SettingsPanel/SettingsPanel';
-import './App.css';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from './theme/theme';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import routes from './routes';
-import { Typography } from '@material-ui/core';
 import { NavItem } from '../components/NavItems/NavItems';
+import './App.css';
+import AlgorithmSelector from '../components/AlgorithmSelector/AlgorithmSelector';
 
 // https://www.framer.com/api/motion/animation/
-function App() {
+const App = () => {
 	const [count, setCount] = useState(10);
 	const [updateRoute, setUpdateRoute] = useState(0);
 	const [sortSpeed, setSortSpeed] = useState(250);
 	const [nodeList, setNodeList] = useState([] as Node[]);
 	const [mappedRoutes, setMappedRoutes] = useState([] as NavItem[]);
+	const history = useHistory();
 
 	useEffect(() => {
 		let list: number[] = [];
@@ -34,46 +32,43 @@ function App() {
 					route,
 					selected: isActiveRoute,
 				};
-			})
+			}),
 		);
 	}, [updateRoute]);
 
 	return (
-		<ThemeProvider theme={theme}>
-			<Router>
-				<Scaffold
-					title="Algorithm Visualizer"
-					hideSideNav={false}
-					navItems={mappedRoutes}
-					onChangeRoute={() => setUpdateRoute(updateRoute + 1)}
-					settingsPanel={makeSettingsPanel({
-						sortSpeed: sortSpeed,
-						onChangeSortSpeed: setSortSpeed,
-						elementCount: count,
-						onChangeElementCount: setCount,
-					})}
-				>
-					<Switch>
-						{routes.map(route => {
-							return (
-								<Route key={route.path} path={route.path}>
-									{route.Visualizer && (
-										<route.Visualizer items={nodeList} sortStepDelay={sortSpeed} />
-									)}
-								</Route>
-							);
-						})}
-						<Route key="home" path="/">
-							<Typography variant="h1" style={{ color: theme.palette.primary.contrastText }}>
-								Home
-							</Typography>
+		<Router>
+			<AlgorithmSelector options={[
+				{
+					onSelect: () => history.push('/mergeSort'),
+					isSelected: false,
+					title: 'Merge sort',
+				},
+				{
+					onSelect: () => history.push('/bubbleSort'),
+					isSelected: true,
+					title: 'Bubble sort',
+				},
+				{
+					onSelect: () => history.push('/quickSort'),
+					isSelected: false,
+					title: 'Quick sort',
+				},
+			]} />
+			<Switch>
+				{routes.map(route => {
+					return (
+						<Route key={route.path} path={route.path}>
+							{route.Visualizer && (
+								<route.Visualizer items={nodeList} sortStepDelay={sortSpeed} />
+							)}
 						</Route>
-					</Switch>
-				</Scaffold>
-			</Router>
-		</ThemeProvider>
+					);
+				})}
+			</Switch>
+		</Router>
 	);
-}
+};
 
 const makeSettingsPanel = (args: SettingsPanelProps) => {
 	return <SettingsPanel {...args} />;
