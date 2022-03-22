@@ -1,127 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Divider, Grid, Input, Slider, Typography } from '@material-ui/core';
+import React from 'react';
+import clsx from 'clsx';
+import './SettingsPanel.scss';
 
 interface SettingsPanelProps {
-	sortSpeed: number;
-	onChangeSortSpeed: (speed: number) => void;
-	// colors?
-	elementCount: number;
-	onChangeElementCount: (count: number) => void;
+	sections: PanelSectionProps[];
+	isOpen?: boolean;
 }
 
-// Values in seconds
-const minSpeed = 0.01;
-const maxSpeed = 1;
-const speedStepAmount = 0.01;
-const minElements = 10;
-const maxElements = 100;
-const elementStepAmount = 1;
-
-const SettingsPanel = (args: SettingsPanelProps) => {
-	let { sortSpeed, elementCount, onBlurSortSpeed, onBlurElementCount, onChangeElementCount, onChangeSortSpeed } =
-		useSettingsPanelControls(args);
-
+const SettingsPanel = ({ isOpen = true, sections }: SettingsPanelProps) => {
 	return (
-		<Container maxWidth='md'>
-			<Typography id='input-slider' gutterBottom>
-				Sort speed
-			</Typography>
-			<Grid container spacing={2} alignItems='center'>
-				<Grid item md>
-					<Slider
-						min={minSpeed}
-						max={maxSpeed}
-						step={speedStepAmount}
-						style={{ minWidth: 100 }}
-						color="secondary"
-						value={sortSpeed}
-						onChange={(_, newVal) => onChangeSortSpeed(newVal.toString())}
-						onMouseUp={onBlurSortSpeed}
-					/>
-				</Grid>
-				<Grid item xs>
-					<Input
-						value={sortSpeed}
-						margin="dense"
-						onChange={e => onChangeSortSpeed(e.target.value)}
-						onBlur={onBlurSortSpeed}
-						onKeyDown={e => e.key === 'Enter' && e.currentTarget.blur()}
-						inputProps={{
-							step: speedStepAmount,
-							min: minSpeed,
-							max: maxSpeed,
-							type: 'number',
-						}}
-					/>
-				</Grid>
-			</Grid>
-			<Divider />
-			<Typography id="input-slider" gutterBottom>
-				Number of elements
-			</Typography>
-			<Grid container spacing={2} alignItems="center">
-				<Grid item md>
-					<Input
-						value={elementCount}
-						margin="dense"
-						onChange={e => onChangeElementCount(e.target.value)}
-						onBlur={onBlurElementCount}
-						onKeyDown={e => e.key === 'Enter' && e.currentTarget.blur()}
-						inputProps={{
-							step: elementStepAmount,
-							min: minElements,
-							max: maxElements,
-							type: 'number',
-						}}
-					/>
-				</Grid>
-			</Grid>
-		</Container>
+		<div className={clsx('settings-panel', { open: isOpen })}>
+			{sections.map((sec, i) => (
+				<PanelSection {...sec} hasVisualBreak={i !== sections.length - 1} key={i} />
+			))}
+		</div>
 	);
 };
 
-const useSettingsPanelControls = (args: SettingsPanelProps) => {
-	let [elementCount, setElementCount] = useState(args.elementCount);
-	let [sortSpeed, setSortSpeed] = useState(args.sortSpeed / 1000);
+export interface PanelSectionProps {
+	title?: string;
+	className?: string;
+	hasVisualBreak?: boolean;
+	content: JSX.Element | JSX.Element[];
+}
 
-	useEffect(() => {
-		setSortSpeed(args.sortSpeed / 1000);
-		setElementCount(args.elementCount);
-	}, [args.sortSpeed, args.elementCount]);
-
-	const onChangeSortSpeed = (newSpeed: string) => {
-		if (!newSpeed) {
-			return;
-		}
-		let parsedSpeed = Number.parseFloat(newSpeed);
-		setSortSpeed(parsedSpeed);
-	};
-
-	const onChangeElementCount = (newCount: string) => {
-		if (!newCount) {
-			return;
-		}
-		let parsedCount = Number.parseFloat(newCount);
-		setElementCount(parsedCount);
-	};
-
-	const onBlurSortSpeed = () => {
-		args.onChangeSortSpeed(Math.min(Math.max(sortSpeed, minSpeed), maxSpeed) * 1000);
-	};
-
-	const onBlurElementCount = () => {
-		args.onChangeElementCount(Math.min(Math.max(elementCount, minElements), maxElements));
-	};
-
-	return {
-		elementCount,
-		sortSpeed,
-		onChangeSortSpeed,
-		onBlurSortSpeed,
-		onChangeElementCount,
-		onBlurElementCount,
-	};
+const PanelSection = ({ content, title, className, hasVisualBreak }: PanelSectionProps) => {
+	return (
+		<section className={clsx('panel-section', className)}>
+			{title && <h2 className="section-title">{title}</h2>}
+			{content}
+			{hasVisualBreak && <hr />}
+		</section>
+	);
 };
 
 export default SettingsPanel;
-export type { SettingsPanelProps };

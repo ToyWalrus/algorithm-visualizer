@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import Node from '../model/Node';
-import SettingsPanel, { SettingsPanelProps } from '../components/SettingsPanel/SettingsPanel';
+import SettingsPanel from '../components/SettingsPanel/SettingsPanel';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import routes from './routes';
 import { NavItem } from '../components/NavItems/NavItems';
 import './App.css';
-import AlgorithmSelector from '../components/AlgorithmSelector/AlgorithmSelector';
+import AlgorithmSelector from '../components/SettingsPanel/panels/AlgorithmSelector/AlgorithmSelector';
 
 // https://www.framer.com/api/motion/animation/
 const App = () => {
@@ -32,46 +32,76 @@ const App = () => {
 					route,
 					selected: isActiveRoute,
 				};
-			}),
+			})
 		);
 	}, [updateRoute]);
 
+	const settingsPanelSections = [
+		{
+			title: 'Algorithm selection',
+			content: (
+				<AlgorithmSelector
+					options={[
+						{
+							onSelect: () => history.push('/mergeSort'),
+							isSelected: false,
+							title: 'Merge sort',
+						},
+						{
+							onSelect: () => history.push('/bubbleSort'),
+							isSelected: true,
+							title: 'Bubble sort',
+						},
+						{
+							onSelect: () => history.push('/quickSort'),
+							isSelected: false,
+							title: 'Quick sort',
+						},
+					]}
+				/>
+			),
+		},
+		{
+			title: 'Algorithm selection',
+			content: (
+				<AlgorithmSelector
+					options={[
+						{
+							onSelect: () => history.push('/mergeSort'),
+							isSelected: false,
+							title: 'Merge sort',
+						},
+						{
+							onSelect: () => history.push('/bubbleSort'),
+							isSelected: true,
+							title: 'Bubble sort',
+						},
+						{
+							onSelect: () => history.push('/quickSort'),
+							isSelected: false,
+							title: 'Quick sort',
+						},
+					]}
+				/>
+			),
+		},
+	];
+
 	return (
 		<Router>
-			<AlgorithmSelector options={[
-				{
-					onSelect: () => history.push('/mergeSort'),
-					isSelected: false,
-					title: 'Merge sort',
-				},
-				{
-					onSelect: () => history.push('/bubbleSort'),
-					isSelected: true,
-					title: 'Bubble sort',
-				},
-				{
-					onSelect: () => history.push('/quickSort'),
-					isSelected: false,
-					title: 'Quick sort',
-				},
-			]} />
+			<SettingsPanel sections={settingsPanelSections} />
+
 			<Switch>
 				{routes.map(route => {
 					return (
 						<Route key={route.path} path={route.path}>
-							{route.Visualizer && (
-								<route.Visualizer items={nodeList} sortStepDelay={sortSpeed} />
-							)}
+							{route.Visualizer && <route.Visualizer items={nodeList} sortStepDelay={sortSpeed} />}
 						</Route>
 					);
 				})}
 			</Switch>
 		</Router>
 	);
-};
-
-const makeSettingsPanel = (args: SettingsPanelProps) => {
-	return <SettingsPanel {...args} />;
 };
 
 const makeNodeList = (...args: number[] | string[]): Node[] => {

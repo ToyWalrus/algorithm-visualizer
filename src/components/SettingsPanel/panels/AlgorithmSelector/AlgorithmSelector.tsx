@@ -12,22 +12,12 @@ interface AlgorithmSelectorProps {
 	options: AlgorithmOptions[];
 }
 
-const AlgorithmSelector = (props: AlgorithmSelectorProps) => {
+const AlgorithmSelector = ({ options }: AlgorithmSelectorProps) => {
 	return (
-		<div className='algorithm-selector'>
-			<h3 className='algorithm-selector-title'>Algorithm selection</h3>
-			<EnumSwitcher options={props.options} />
-		</div>
-	);
-};
-
-const EnumSwitcher = ({ options }: AlgorithmSelectorProps) => {
-	return (
-		<div className='enum-switcher'>
-			{
-				options.map((op, i) => <EnumSwitcherItem key={op.title} isFirst={i === 0} isLast={i === options.length - 1}
-																								 option={op} />)
-			}
+		<div className="enum-switcher">
+			{options.map((op, i) => (
+				<EnumSwitcherItem key={op.title} isFirst={i === 0} isLast={i === options.length - 1} option={op} />
+			))}
 		</div>
 	);
 };
@@ -43,8 +33,8 @@ const EnumSwitcherItem = ({ isFirst, isLast, option }: EnumSwitcherItemProps) =>
 		<div
 			onClick={option.onSelect}
 			className={clsx('enum-switcher-item', {
-				'first': isFirst,
-				'last': isLast,
+				first: isFirst,
+				last: isLast,
 				'is-selected': option.isSelected,
 			})}
 		>
