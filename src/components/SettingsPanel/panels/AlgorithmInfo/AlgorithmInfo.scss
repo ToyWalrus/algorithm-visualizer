@@ -17,11 +17,19 @@
 			margin-left: 16px;
 		}
 
+		&.complexity {
+			.info-text > * {
+				font-style: italic;
+				font-weight: 500;
+			}
+		}
+
 		.info-icon {
 			position: relative;
 			color: #9340cf;
 			transform: skewX(-10deg);
 		}
+
 		.info-icon-backdrop {
 			position: absolute;
 			left: -5px;
@@ -32,13 +40,6 @@
 
 			background-color: #9340cf3e;
 			border-radius: 100%;
-		}
-
-		&.complexity {
-			.info-text > * {
-				font-style: italic;
-				font-weight: 500;
-			}
 		}
 	}
 }

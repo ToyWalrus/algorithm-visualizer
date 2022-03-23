@@ -1,0 +1,21 @@
+.input-field {
+	min-height: 20px;
+	min-width: 200px;
+
+	border-radius: 10px;
+	border: 1px solid #262626;
+
+	transition: border 100ms linear;
+
+	padding: 8px 16px;
+
+	&:focus,
+	&:hover {
+		border: 1px solid #9340cf;
+	}
+
+	&[type='number']::-webkit-inner-spin-button,
+	&[type='number']::-webkit-outer-spin-button {
+		opacity: 1;
+	}
+}

@@ -1,3 +1,4 @@
+// TODO: make a global styles file
 $border-radius: 10px;
 $primary-color: #9340cf;
 $primary-color-faded: #9340cf99;
@@ -18,7 +19,7 @@ $transition-time: 150ms;
 		padding: 8px 16px;
 		border: 1px solid $primary-color;
 		border-left: none;
-		background-color: transparent;
+		background-color: white;
 
 		text-align: center;
 		font-weight: 500;

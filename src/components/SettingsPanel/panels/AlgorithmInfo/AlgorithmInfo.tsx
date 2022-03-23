@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import './AlgorithmInfo.scss';
+import InputField from '../../../Inputs/InputField';
 
 interface AlgorithmInfoProps {
 	description: string | JSX.Element;
@@ -14,6 +15,7 @@ const AlgorithmInfo = (props: AlgorithmInfoProps) => {
 			<InfoSection text={props.description} className="description" />
 			<InfoSection text={props.complexity} className="complexity" prependElement="Complexity: " />
 			{props.uses && <InfoSection text={props.uses} className="uses" />}
+			<InputField value={2} type="number" onChange={() => {}} />
 		</div>
 	);
 };
