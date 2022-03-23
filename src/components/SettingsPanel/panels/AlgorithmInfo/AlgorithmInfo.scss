@@ -1,0 +1,44 @@
+.algorithm-info {
+	display: flex;
+	flex-direction: column;
+
+	.info-section {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		margin-top: 16px;
+
+		&:first-child {
+			margin-top: 8px;
+		}
+
+		.info-text {
+			margin-left: 16px;
+		}
+
+		.info-icon {
+			position: relative;
+			color: #9340cf;
+			transform: skewX(-10deg);
+		}
+		.info-icon-backdrop {
+			position: absolute;
+			left: -5px;
+			top: -5px;
+			height: 30px;
+			width: 10px;
+			transform: skewX(10deg);
+
+			background-color: #9340cf3e;
+			border-radius: 100%;
+		}
+
+		&.complexity {
+			.info-text > * {
+				font-style: italic;
+				font-weight: 500;
+			}
+		}
+	}
+}

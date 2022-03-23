@@ -6,6 +6,7 @@ import routes from './routes';
 import { NavItem } from '../components/NavItems/NavItems';
 import './App.css';
 import AlgorithmSelector from '../components/SettingsPanel/panels/AlgorithmSelector/AlgorithmSelector';
+import AlgorithmInfo from '../components/SettingsPanel/panels/AlgorithmInfo/AlgorithmInfo';
 
 // https://www.framer.com/api/motion/animation/
 const App = () => {
@@ -38,7 +39,7 @@ const App = () => {
 
 	const settingsPanelSections = [
 		{
-			title: 'Algorithm selection',
+			title: 'Algorithm Selection',
 			content: (
 				<AlgorithmSelector
 					options={[
@@ -62,26 +63,16 @@ const App = () => {
 			),
 		},
 		{
-			title: 'Algorithm selection',
+			title: 'Algorithm Info',
 			content: (
-				<AlgorithmSelector
-					options={[
-						{
-							onSelect: () => history.push('/mergeSort'),
-							isSelected: false,
-							title: 'Merge sort',
-						},
-						{
-							onSelect: () => history.push('/bubbleSort'),
-							isSelected: true,
-							title: 'Bubble sort',
-						},
-						{
-							onSelect: () => history.push('/quickSort'),
-							isSelected: false,
-							title: 'Quick sort',
-						},
-					]}
+				<AlgorithmInfo
+					description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+					uses="Useful when you have a small list I guess?"
+					complexity={
+						<span>
+							O(n<sup>2</sup>)
+						</span>
+					}
 				/>
 			),
 		},
