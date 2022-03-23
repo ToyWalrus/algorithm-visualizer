@@ -1,21 +1,88 @@
+$primary-color: #9340cf;
+$hover-color: #9340cf3e;
+$border-color: #262626;
+
+$border-radius: 10px;
+$default-border: 1px solid $border-color;
+$focused-border: 1px solid $primary-color;
+$input-background-color: white;
+$vertical-padding: 8px;
+$horizontal-padding: 16px;
+$list-item-height: 20px;
+
+$transition-time: 100ms;
+$transition-curve: linear;
+
 .input-field {
 	min-height: 20px;
 	min-width: 200px;
+	padding: $vertical-padding $horizontal-padding;
+	background-color: $input-background-color;
 
-	border-radius: 10px;
-	border: 1px solid #262626;
+	border-radius: $border-radius;
+	border: $default-border;
 
-	transition: border 100ms linear;
-
-	padding: 8px 16px;
+	transition: border $transition-time $transition-curve;
 
 	&:focus,
 	&:hover {
-		border: 1px solid #9340cf;
+		border: $focused-border;
 	}
 
-	&[type='number']::-webkit-inner-spin-button,
-	&[type='number']::-webkit-outer-spin-button {
+	&input[type='number']::-webkit-inner-spin-button,
+	&input[type='number']::-webkit-outer-spin-button {
+		// TODO: maybe make as chevron icons instead?
 		opacity: 1;
+	}
+
+	&.dropdown {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+
+		.chevron {
+			color: $border-color;
+			transition: color $transition-time $transition-curve;
+		}
+
+		&:focus .chevron,
+		&:hover .chevron {
+			color: $primary-color;
+		}
+	}
+}
+
+.dropdown-floating-list {
+	z-index: 100;
+	position: fixed;
+	min-height: $border-radius;
+	max-height: 250px;
+
+	border-radius: $border-radius;
+	border: $focused-border;
+
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	overflow-y: scroll;
+
+	.floating-list-item {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: $vertical-padding $horizontal-padding;
+		background-color: $input-background-color;
+
+		transition: background-color $transition-time $transition-curve;
+		height: $list-item-height;
+
+		&:hover {
+			background-color: $hover-color;
+		}
+
+		.check-icon {
+			color: $primary-color;
+		}
 	}
 }
