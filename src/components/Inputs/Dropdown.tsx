@@ -1,21 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
+import clsx from 'clsx';
 import './InputStyles.scss';
 
-export type DropdownItem = { value: string; label: string };
+export type DropdownItem = { value: any; label: string };
 
 interface DropdownProps {
-	value: string | undefined;
+	value: any;
 	options?: string[] | DropdownItem[];
-	onChange?: (newValue: string) => void;
+	onChange?: (newValue: any) => void;
+	className?: string;
 }
 
-const Dropdown = ({ value, onChange, options }: DropdownProps) => {
+const Dropdown = ({ value, onChange, options, className }: DropdownProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const anchorEl = useRef<HTMLButtonElement>(null);
 
 	return (
 		<>
-			<button ref={anchorEl} className="input-field dropdown" onClick={() => setIsOpen(wasOpen => !wasOpen)}>
+			<button
+				ref={anchorEl}
+				className={clsx('input-field dropdown', className)}
+				onClick={() => setIsOpen(wasOpen => !wasOpen)}
+			>
 				<span>{value}</span>
 				<i className="fa fa-chevron-down chevron" />
 			</button>
@@ -40,7 +46,7 @@ interface DropdownFloatingListProps {
 	anchorEl: React.RefObject<HTMLButtonElement>;
 	options: string[] | DropdownItem[] | undefined;
 	selectedOption: string | undefined;
-	onSelect: (option?: string) => void;
+	onSelect: (option?: any) => void;
 }
 
 const DropdownFloatingList = ({ anchorEl, onSelect, options, selectedOption }: DropdownFloatingListProps) => {
@@ -51,6 +57,8 @@ const DropdownFloatingList = ({ anchorEl, onSelect, options, selectedOption }: D
 	}, []);
 
 	const anchorRect = anchorEl.current?.getBoundingClientRect();
+
+	// TODO: extra calculations for bottom screen cutoff
 
 	return (
 		<div

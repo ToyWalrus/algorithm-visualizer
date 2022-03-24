@@ -8,13 +8,13 @@ $focused-border: 1px solid $primary-color;
 $input-background-color: white;
 $vertical-padding: 8px;
 $horizontal-padding: 16px;
-$list-item-height: 20px;
+$list-item-height: 30px;
+$font-size: 1.1em;
 
 $transition-time: 100ms;
 $transition-curve: linear;
 
 .input-field {
-	min-height: 20px;
 	min-width: 200px;
 	padding: $vertical-padding $horizontal-padding;
 	background-color: $input-background-color;
@@ -24,15 +24,11 @@ $transition-curve: linear;
 
 	transition: border $transition-time $transition-curve;
 
+	font-size: $font-size;
+
 	&:focus,
 	&:hover {
 		border: $focused-border;
-	}
-
-	&input[type='number']::-webkit-inner-spin-button,
-	&input[type='number']::-webkit-outer-spin-button {
-		// TODO: maybe make as chevron icons instead?
-		opacity: 1;
 	}
 
 	&.dropdown {
@@ -43,6 +39,10 @@ $transition-curve: linear;
 		.chevron {
 			color: $border-color;
 			transition: color $transition-time $transition-curve;
+		}
+
+		&:hover {
+			cursor: pointer;
 		}
 
 		&:focus .chevron,
@@ -56,7 +56,7 @@ $transition-curve: linear;
 	z-index: 100;
 	position: fixed;
 	min-height: $border-radius;
-	max-height: 250px;
+	max-height: 200px;
 
 	border-radius: $border-radius;
 	border: $focused-border;
@@ -65,6 +65,14 @@ $transition-curve: linear;
 	flex-direction: column;
 	align-items: stretch;
 	overflow-y: scroll;
+
+	box-shadow: 2px 2px 7px -5px $border-color;
+
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
 
 	.floating-list-item {
 		display: flex;
@@ -76,13 +84,26 @@ $transition-curve: linear;
 
 		transition: background-color $transition-time $transition-curve;
 		height: $list-item-height;
+		font-size: $font-size;
+		border: none;
 
 		&:hover {
+			cursor: pointer;
 			background-color: $hover-color;
 		}
 
 		.check-icon {
 			color: $primary-color;
 		}
+	}
+}
+
+input.input-field {
+	width: 1rem;
+	&[type='number']::-webkit-inner-spin-button,
+	&[type='number']::-webkit-outer-spin-button {
+		// TODO: maybe make as chevron icons instead?
+		opacity: 1;
+		height: 2em;
 	}
 }

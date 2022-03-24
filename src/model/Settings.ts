@@ -1,17 +1,7 @@
 import React from 'react';
+import { SortSpeed } from '../utils/Enums';
 
 // https://www.figma.com/file/jiEIMLcab13bjbBR5dtGQ0/Algorithm-Visualizer?node-id=0%3A1
-
-export enum SortSpeed {
-	verySlow,
-	slow,
-	lessSlow,
-	medium,
-	lessFast,
-	fast,
-	veryFast,
-	wickedFast,
-}
 
 export interface NodeColor {
 	defaultColor: string;
@@ -25,7 +15,7 @@ interface AlgorithmSettings {
 }
 
 const settings: AlgorithmSettings = {
-	sortSpeed: SortSpeed.medium,
+	sortSpeed: SortSpeed.normal,
 	nodeCount: 10,
 };
 

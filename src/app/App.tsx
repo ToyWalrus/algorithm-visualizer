@@ -7,6 +7,8 @@ import { NavItem } from '../components/NavItems/NavItems';
 import './App.css';
 import AlgorithmSelector from '../components/SettingsPanel/panels/AlgorithmSelector/AlgorithmSelector';
 import AlgorithmInfo from '../components/SettingsPanel/panels/AlgorithmInfo/AlgorithmInfo';
+import VisualizationSettings from '../components/SettingsPanel/VisualizationSettings/VisualizationSettings';
+import { SortSpeed } from '../utils/Enums';
 
 // https://www.framer.com/api/motion/animation/
 const App = () => {
@@ -73,6 +75,21 @@ const App = () => {
 							O(n<sup>2</sup>)
 						</span>
 					}
+				/>
+			),
+		},
+		{
+			title: 'Settings',
+			content: (
+				<VisualizationSettings
+					nodeCount={10}
+					sortSpeed={SortSpeed.fast}
+					primaryColor="F2CF63"
+					alternateColor="9340cf"
+					onNodeCountChange={() => null}
+					onSortSpeedChange={() => null}
+					onPrimaryColorChange={() => null}
+					onAlternateColorChange={() => null}
 				/>
 			),
 		},
