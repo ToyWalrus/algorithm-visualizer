@@ -33,7 +33,7 @@ const Dropdown = ({ value, onChange, options, valueEquator, className }: Dropdow
 				selectedOption={value}
 				valueEquator={valueEquator}
 				onSelect={val => {
-					if (val && onChange) {
+					if (typeof val !== 'undefined' && onChange) {
 						onChange(val);
 					}
 					setIsOpen(false);
@@ -90,11 +90,13 @@ const DropdownFloatingList = ({
 		>
 			{options &&
 				options.map((op: string | DropdownItem, i: number) => {
+					let selected: boolean;
 					if (typeof op === 'string') {
+						selected = isEqual(op, selectedOption);
 						return (
 							<DropdownFloatingListItem
-								key={i + op}
-								selected={isEqual(op, selectedOption)}
+								key={i + op + selected}
+								selected={selected}
 								onSelect={() => onSelect(op)}
 							>
 								{op}
@@ -102,10 +104,11 @@ const DropdownFloatingList = ({
 						);
 					}
 					const val = op.value;
+					selected = isEqual(val, selectedOption);
 					return (
 						<DropdownFloatingListItem
-							key={i + val}
-							selected={isEqual(val, selectedOption)}
+							key={i + val + selected}
+							selected={selected}
 							onSelect={() => onSelect(val)}
 						>
 							{op.label}
@@ -129,7 +132,7 @@ const DropdownFloatingListItem = ({
 	return (
 		<button className="floating-list-item" onClick={onSelect}>
 			<span>{children}</span>
-			{selected && <i className="fa fa-check check-icon" />}
+			<i className={clsx('fa fa-check check-icon', { selected })} />
 		</button>
 	);
 };

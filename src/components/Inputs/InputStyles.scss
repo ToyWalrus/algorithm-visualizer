@@ -105,6 +105,12 @@ $transition-curve: linear;
 
 		.check-icon {
 			color: $primary-color;
+			opacity: 0;
+			transition: opacity 100ms linear;
+
+			&.selected {
+				opacity: 1;
+			}
 		}
 	}
 }
