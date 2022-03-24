@@ -35,36 +35,22 @@ const App = () => {
 					route,
 					selected: isActiveRoute,
 				};
-			}),
+			})
 		);
 	}, [updateRoute]);
 
 	const settingsPanelSections = [
 		{
 			title: 'Algorithm Selection',
-			content: (
-				<AlgorithmSelector />
-			),
+			content: <AlgorithmSelector />,
 		},
 		{
 			title: 'Algorithm Info',
-			content: (
-				<AlgorithmInfo
-					description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
-					uses='Useful when you have a small list I guess?'
-					complexity={
-						<span>
-							O(n<sup>2</sup>)
-						</span>
-					}
-				/>
-			),
+			content: <AlgorithmInfo />,
 		},
 		{
 			title: 'Settings',
-			content: (
-				<VisualizationSettings />
-			),
+			content: <VisualizationSettings />,
 		},
 	];
 

@@ -1,25 +1,31 @@
 import React, { useContext } from 'react';
 import clsx from 'clsx';
 import './AlgorithmSelector.scss';
-import SettingsContext, { AlgorithmOption, allAlgorithms } from '../../../../model/Settings';
-
+import SettingsContext from '../../../../model/SettingsContext';
+import allAlgorithms, { AlgorithmOption } from '../../../../model/Algorithms';
 
 const AlgorithmSelector = () => {
 	const { updateSettings } = useContext(SettingsContext);
 
 	return (
-		<div className='enum-switcher'>
+		<div className="enum-switcher">
 			{allAlgorithms.map((op, i) => (
-				<EnumSwitcherItem key={op.title} isFirst={i === 0} isLast={i === allAlgorithms.length - 1} onSelect={() => {
-					updateSettings({ algorithmOption: op });
-				}} option={op} />
+				<EnumSwitcherItem
+					key={op.title}
+					isFirst={i === 0}
+					isLast={i === allAlgorithms.length - 1}
+					onSelect={() => {
+						updateSettings({ algorithmOption: op });
+					}}
+					option={op}
+				/>
 			))}
 		</div>
 	);
 };
 
 interface EnumSwitcherItemProps {
-	onSelect: VoidFunction,
+	onSelect: VoidFunction;
 	option: AlgorithmOption;
 	isFirst: boolean;
 	isLast: boolean;

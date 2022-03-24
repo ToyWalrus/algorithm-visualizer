@@ -1,25 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
+import SettingsContext from '../../../../model/SettingsContext';
 import './AlgorithmInfo.scss';
 
-interface AlgorithmInfoProps {
-	description: string | JSX.Element;
-	complexity: string | JSX.Element;
-	uses?: string | JSX.Element;
-}
+const AlgorithmInfo = () => {
+	const { settings } = useContext(SettingsContext);
+	const selectedAlgorithm = settings.algorithmOption;
 
-const AlgorithmInfo = (props: AlgorithmInfoProps) => {
 	return (
 		<div className="algorithm-info">
-			<InfoSection text={props.description} className="description" />
-			<InfoSection text={props.complexity} className="complexity" prependElement="Complexity: " />
-			{props.uses && <InfoSection text={props.uses} className="uses" />}
+			<InfoSection text={selectedAlgorithm.description} className="description" />
+			<InfoSection text={selectedAlgorithm.complexity} className="complexity" prependElement="Complexity: " />
+			{selectedAlgorithm.uses && <InfoSection text={selectedAlgorithm.uses} className="uses" />}
 		</div>
 	);
 };
 
 interface InfoSectionProps {
-	text: string | JSX.Element;
+	text?: string | JSX.Element;
 	prependElement?: string | JSX.Element;
 	className?: string;
 }
