@@ -4,7 +4,7 @@ import { NavItem } from 'components/NavItems/NavItems';
 import SettingsPanel from 'components/SettingsPanel/SettingsPanel';
 import AlgorithmSelector from 'components/SettingsPanel/panels/AlgorithmSelector/AlgorithmSelector';
 import AlgorithmInfo from 'components/SettingsPanel/panels/AlgorithmInfo/AlgorithmInfo';
-import VisualizationSettings from 'components/SettingsPanel/VisualizationSettings/VisualizationSettings';
+import VisualizationSettings from 'components/SettingsPanel/panels/VisualizationSettings/VisualizationSettings';
 import SettingsProvider from 'components/SettingsProvider';
 import Node from 'model/Node';
 import routes from './routes';
