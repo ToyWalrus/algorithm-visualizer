@@ -1,41 +1,39 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
 import './AlgorithmSelector.scss';
+import SettingsContext, { AlgorithmOption, allAlgorithms } from '../../../../model/Settings';
 
-interface AlgorithmOptions {
-	title: string;
-	onSelect: VoidFunction;
-	isSelected?: boolean;
-}
 
-interface AlgorithmSelectorProps {
-	options: AlgorithmOptions[];
-}
+const AlgorithmSelector = () => {
+	const { updateSettings } = useContext(SettingsContext);
 
-const AlgorithmSelector = ({ options }: AlgorithmSelectorProps) => {
 	return (
-		<div className="enum-switcher">
-			{options.map((op, i) => (
-				<EnumSwitcherItem key={op.title} isFirst={i === 0} isLast={i === options.length - 1} option={op} />
+		<div className='enum-switcher'>
+			{allAlgorithms.map((op, i) => (
+				<EnumSwitcherItem key={op.title} isFirst={i === 0} isLast={i === allAlgorithms.length - 1} onSelect={() => {
+					updateSettings({ algorithmOption: op });
+				}} option={op} />
 			))}
 		</div>
 	);
 };
 
 interface EnumSwitcherItemProps {
-	option: AlgorithmOptions;
+	onSelect: VoidFunction,
+	option: AlgorithmOption;
 	isFirst: boolean;
 	isLast: boolean;
 }
 
-const EnumSwitcherItem = ({ isFirst, isLast, option }: EnumSwitcherItemProps) => {
+const EnumSwitcherItem = ({ isFirst, isLast, onSelect, option }: EnumSwitcherItemProps) => {
+	const { settings } = useContext(SettingsContext);
 	return (
 		<div
-			onClick={option.onSelect}
+			onClick={onSelect}
 			className={clsx('enum-switcher-item', {
 				first: isFirst,
 				last: isLast,
-				'is-selected': option.isSelected,
+				'is-selected': option.title === settings.algorithmOption.title,
 			})}
 		>
 			{option.title}
