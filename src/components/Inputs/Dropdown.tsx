@@ -8,10 +8,11 @@ interface DropdownProps {
 	value: any;
 	options?: string[] | DropdownItem[];
 	onChange?: (newValue: any) => void;
+	valueEquator?: (a: any, b: any) => boolean;
 	className?: string;
 }
 
-const Dropdown = ({ value, onChange, options, className }: DropdownProps) => {
+const Dropdown = ({ value, onChange, options, valueEquator, className }: DropdownProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const anchorEl = useRef<HTMLButtonElement>(null);
 
@@ -25,44 +26,62 @@ const Dropdown = ({ value, onChange, options, className }: DropdownProps) => {
 				<span>{value}</span>
 				<i className="fa fa-chevron-down chevron" />
 			</button>
-			{isOpen && (
-				<DropdownFloatingList
-					anchorEl={anchorEl}
-					options={options}
-					selectedOption={value}
-					onSelect={val => {
-						if (val && onChange) {
-							onChange(val);
-						}
-						setIsOpen(false);
-					}}
-				/>
-			)}
+			<DropdownFloatingList
+				open={isOpen}
+				options={options}
+				anchorEl={anchorEl}
+				selectedOption={value}
+				valueEquator={valueEquator}
+				onSelect={val => {
+					if (val && onChange) {
+						onChange(val);
+					}
+					setIsOpen(false);
+				}}
+			/>
 		</>
 	);
 };
 
 interface DropdownFloatingListProps {
+	open: boolean;
 	anchorEl: React.RefObject<HTMLButtonElement>;
 	options: string[] | DropdownItem[] | undefined;
 	selectedOption: string | undefined;
+	valueEquator?: (a: any, b: any) => boolean;
 	onSelect: (option?: any) => void;
 }
 
-const DropdownFloatingList = ({ anchorEl, onSelect, options, selectedOption }: DropdownFloatingListProps) => {
-	useEffect(() => {
-		const handler = () => onSelect(undefined);
-		document.body.addEventListener('click', handler);
-		return () => document.body.removeEventListener('click', handler);
-	}, []);
+const DropdownFloatingList = ({
+	open,
+	anchorEl,
+	onSelect,
+	options,
+	valueEquator,
+	selectedOption,
+}: DropdownFloatingListProps) => {
+	const [isVisible, setIsVisible] = useState(false);
 
-	const anchorRect = anchorEl.current?.getBoundingClientRect();
+	useEffect(() => {
+		setIsVisible(open);
+		if (open) {
+			const handler = () => onSelect(undefined);
+			document.body.addEventListener('click', handler);
+			return () => document.body.removeEventListener('click', handler);
+		}
+	}, [open]);
+
+	const isEqual = (a: any, b: any) => {
+		if (valueEquator) return valueEquator(a, b);
+		return a === b;
+	};
 
 	// TODO: extra calculations for bottom screen cutoff
+	const anchorRect = anchorEl.current?.getBoundingClientRect();
 
 	return (
 		<div
-			className="dropdown-floating-list"
+			className={clsx('dropdown-floating-list', { visible: isVisible })}
 			style={{
 				top: (anchorRect?.bottom || 0) + 10,
 				left: anchorRect?.left,
@@ -75,7 +94,7 @@ const DropdownFloatingList = ({ anchorEl, onSelect, options, selectedOption }: D
 						return (
 							<DropdownFloatingListItem
 								key={i + op}
-								selected={op === selectedOption}
+								selected={isEqual(op, selectedOption)}
 								onSelect={() => onSelect(op)}
 							>
 								{op}
@@ -86,7 +105,7 @@ const DropdownFloatingList = ({ anchorEl, onSelect, options, selectedOption }: D
 					return (
 						<DropdownFloatingListItem
 							key={i + val}
-							selected={val === selectedOption}
+							selected={isEqual(val, selectedOption)}
 							onSelect={() => onSelect(val)}
 						>
 							{op.label}

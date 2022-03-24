@@ -56,7 +56,10 @@ $transition-curve: linear;
 	z-index: 100;
 	position: fixed;
 	min-height: $border-radius;
-	max-height: 200px;
+	background-color: $input-background-color;
+	max-height: 0;
+	top: -100;
+	left: -100;
 
 	border-radius: $border-radius;
 	border: $focused-border;
@@ -72,6 +75,14 @@ $transition-curve: linear;
 	scrollbar-width: none;
 	&::-webkit-scrollbar {
 		display: none;
+	}
+
+	opacity: 0;
+	transition: opacity 200ms ease-out, max-height 200ms ease-out;
+
+	&.visible {
+		opacity: 1;
+		max-height: 200px;
 	}
 
 	.floating-list-item {

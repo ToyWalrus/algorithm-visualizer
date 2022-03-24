@@ -26,14 +26,15 @@ const VisualizationSettings = (props: VisualizationSettingsProps) => {
 		<div className="visualization-settings">
 			<OptionRow optionLabel="Number of nodes">
 				<InputField
-					value={props.nodeCount}
 					type="number"
+					value={props.nodeCount}
 					onChange={v => props.onNodeCountChange(v as number)}
 				/>
 			</OptionRow>
 			<OptionRow optionLabel="Visual sort speed">
 				<Dropdown
 					value={sortSpeedString(props.sortSpeed)}
+					valueEquator={(a, b) => sortSpeedString(a) === b}
 					options={dropdownOptions}
 					onChange={props.onSortSpeedChange}
 					className="visual-sort-speed-dropdown"
