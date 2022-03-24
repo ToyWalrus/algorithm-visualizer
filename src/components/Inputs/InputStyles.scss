@@ -103,6 +103,10 @@ $transition-curve: linear;
 			background-color: $hover-color;
 		}
 
+		&:disabled {
+			cursor: default;
+		}
+
 		.check-icon {
 			color: $primary-color;
 			opacity: 0;

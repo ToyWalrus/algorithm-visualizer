@@ -4,12 +4,17 @@ import './InputStyles.scss';
 
 interface InputFieldProps {
 	value: string | number;
-	onChange: (newValue: string | number) => void;
+	onChange?: (newValue: string | number) => void;
+	onSubmit?: (newValue: string | number) => void;
 	className?: string;
 	type?: string;
+	min?: number;
+	max?: number;
+	step?: number;
+	maxLength?: number;
 }
 
-const InputField = ({ value, onChange, type, className }: InputFieldProps) => {
+const InputField = ({ value, onChange, onSubmit, type, className, ...props }: InputFieldProps) => {
 	const [internalValue, setInternalValue] = useState(value);
 
 	useEffect(() => {
@@ -18,8 +23,8 @@ const InputField = ({ value, onChange, type, className }: InputFieldProps) => {
 
 	const finishInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newVal = e.target.value;
-		if (onChange) {
-			onChange(newVal);
+		if (onSubmit) {
+			onSubmit(newVal);
 		} else {
 			setInternalValue(newVal);
 		}
@@ -30,7 +35,16 @@ const InputField = ({ value, onChange, type, className }: InputFieldProps) => {
 			className={clsx('input-field', className)}
 			type={type || 'text'}
 			value={internalValue}
-			onChange={e => setInternalValue(e.target.value)}
+			maxLength={props.maxLength}
+			step={props.step}
+			min={props.min}
+			max={props.max}
+			onChange={e => {
+				if (onChange) {
+					onChange(e.target.value);
+				}
+				setInternalValue(e.target.value);
+			}}
 			onSubmit={finishInput}
 			onBlur={finishInput}
 		/>

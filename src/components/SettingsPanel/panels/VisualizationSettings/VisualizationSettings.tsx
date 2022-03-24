@@ -17,9 +17,10 @@ const VisualizationSettings = () => {
 		<div className="visualization-settings">
 			<OptionRow optionLabel="Number of nodes">
 				<InputField
+					min={5}
 					type="number"
 					value={settings.nodeCount}
-					onChange={v => updateSettings({ nodeCount: Number(v) })}
+					onSubmit={v => updateSettings({ nodeCount: Number(v) })}
 				/>
 			</OptionRow>
 			<OptionRow optionLabel="Visual sort speed">

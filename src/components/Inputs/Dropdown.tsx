@@ -97,6 +97,7 @@ const DropdownFloatingList = ({
 							<DropdownFloatingListItem
 								key={i + op + selected}
 								selected={selected}
+								visible={isVisible}
 								onSelect={() => onSelect(op)}
 							>
 								{op}
@@ -108,6 +109,7 @@ const DropdownFloatingList = ({
 					return (
 						<DropdownFloatingListItem
 							key={i + val + selected}
+							visible={isVisible}
 							selected={selected}
 							onSelect={() => onSelect(val)}
 						>
@@ -122,15 +124,17 @@ const DropdownFloatingList = ({
 interface DropdownFloatingListItemProps {
 	selected: boolean;
 	onSelect: VoidFunction;
+	visible: boolean;
 }
 
 const DropdownFloatingListItem = ({
 	children,
 	selected,
 	onSelect,
+	visible,
 }: React.PropsWithChildren<DropdownFloatingListItemProps>) => {
 	return (
-		<button className="floating-list-item" onClick={onSelect}>
+		<button className="floating-list-item" onClick={onSelect} disabled={!visible}>
 			<span>{children}</span>
 			<i className={clsx('fa fa-check check-icon', { selected })} />
 		</button>
