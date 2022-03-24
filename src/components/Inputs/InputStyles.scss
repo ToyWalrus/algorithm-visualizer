@@ -53,13 +53,9 @@ $transition-curve: linear;
 }
 
 .dropdown-floating-list {
-	z-index: 100;
-	position: fixed;
-	min-height: $border-radius;
-	background-color: $input-background-color;
+	min-height: 0;
 	max-height: 0;
-	top: -100;
-	left: -100;
+	background-color: $input-background-color;
 
 	border-radius: $border-radius;
 	border: $focused-border;
@@ -69,20 +65,15 @@ $transition-curve: linear;
 	align-items: stretch;
 	overflow-y: scroll;
 
-	box-shadow: 2px 2px 7px -5px $border-color;
-
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 	&::-webkit-scrollbar {
 		display: none;
 	}
 
-	opacity: 0;
-	transition: opacity 200ms ease-out, max-height 200ms ease-out;
-
 	&.visible {
-		opacity: 1;
 		max-height: 200px;
+		min-height: $border-radius;
 	}
 
 	.floating-list-item {

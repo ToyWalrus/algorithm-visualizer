@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import './InputStyles.scss';
+import ElevatedContainer from 'components/ElevatedContainer/ElevatedContainer';
 
 export type DropdownItem = { value: any; label: string };
 
@@ -60,14 +61,11 @@ const DropdownFloatingList = ({
 	valueEquator,
 	selectedOption,
 }: DropdownFloatingListProps) => {
-	const [isVisible, setIsVisible] = useState(false);
+	const [isVisible, setIsVisible] = useState(open);
 
 	useEffect(() => {
-		setIsVisible(open);
-		if (open) {
-			const handler = () => onSelect(undefined);
-			document.body.addEventListener('click', handler);
-			return () => document.body.removeEventListener('click', handler);
+		if (isVisible !== open) {
+			setIsVisible(open);
 		}
 	}, [open]);
 
@@ -76,17 +74,13 @@ const DropdownFloatingList = ({
 		return a === b;
 	};
 
-	// TODO: extra calculations for bottom screen cutoff
-	const anchorRect = anchorEl.current?.getBoundingClientRect();
-
 	return (
-		<div
+		<ElevatedContainer
+			open={isVisible}
+			anchorEl={anchorEl}
+			copyWidthOfAnchorEl
 			className={clsx('dropdown-floating-list', { visible: isVisible })}
-			style={{
-				top: (anchorRect?.bottom || 0) + 10,
-				left: anchorRect?.left,
-				width: anchorRect?.width,
-			}}
+			onClose={() => onSelect(undefined)}
 		>
 			{options &&
 				options.map((op: string | DropdownItem, i: number) => {
@@ -117,7 +111,7 @@ const DropdownFloatingList = ({
 						</DropdownFloatingListItem>
 					);
 				})}
-		</div>
+		</ElevatedContainer>
 	);
 };
 
