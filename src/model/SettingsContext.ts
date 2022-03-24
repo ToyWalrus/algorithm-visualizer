@@ -1,5 +1,5 @@
 import React from 'react';
-import { SortSpeed } from '../utils/Enums';
+import { SortSpeed } from 'utils/Enums';
 import allAlgorithms, { AlgorithmOption } from './Algorithms';
 
 // https://www.figma.com/file/jiEIMLcab13bjbBR5dtGQ0/Algorithm-Visualizer?node-id=0%3A1

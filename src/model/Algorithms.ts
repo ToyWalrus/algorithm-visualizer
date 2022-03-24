@@ -1,7 +1,7 @@
-import BubbleSort from '../algorithms/BubbleSort';
-import MergeSort from '../algorithms/MergeSort';
-import QuickSort from '../algorithms/QuickSort';
-import SortAlgorithm from '../algorithms/SortAlgorithm';
+import BubbleSort from 'algorithms/BubbleSort';
+import MergeSort from 'algorithms/MergeSort';
+import QuickSort from 'algorithms/QuickSort';
+import SortAlgorithm, { CompareFunc } from 'algorithms/SortAlgorithm';
 import Node from './Node';
 
 export interface AlgorithmOption {
@@ -12,7 +12,7 @@ export interface AlgorithmOption {
 	uses?: string;
 }
 
-const comparator = (a: Node, b: Node) => {
+const comparator: CompareFunc = (a: Node, b: Node) => {
 	let v1 = a.value as number;
 	let v2 = b.value as number;
 	if (v1 < v2) return -1;

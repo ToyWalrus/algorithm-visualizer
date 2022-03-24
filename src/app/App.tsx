@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import Node from '../model/Node';
-import SettingsPanel from '../components/SettingsPanel/SettingsPanel';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
+import { NavItem } from 'components/NavItems/NavItems';
+import SettingsPanel from 'components/SettingsPanel/SettingsPanel';
+import AlgorithmSelector from 'components/SettingsPanel/panels/AlgorithmSelector/AlgorithmSelector';
+import AlgorithmInfo from 'components/SettingsPanel/panels/AlgorithmInfo/AlgorithmInfo';
+import VisualizationSettings from 'components/SettingsPanel/VisualizationSettings/VisualizationSettings';
+import SettingsProvider from 'components/SettingsProvider';
+import Node from 'model/Node';
 import routes from './routes';
-import { NavItem } from '../components/NavItems/NavItems';
 import './App.css';
-import AlgorithmSelector from '../components/SettingsPanel/panels/AlgorithmSelector/AlgorithmSelector';
-import AlgorithmInfo from '../components/SettingsPanel/panels/AlgorithmInfo/AlgorithmInfo';
-import VisualizationSettings from '../components/SettingsPanel/VisualizationSettings/VisualizationSettings';
-import SettingsProvider from '../components/SettingsProvider';
 
 // https://www.framer.com/api/motion/animation/
 const App = () => {

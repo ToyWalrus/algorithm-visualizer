@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import clsx from 'clsx';
+import SettingsContext from 'model/SettingsContext';
+import allAlgorithms, { AlgorithmOption } from 'model/Algorithms';
 import './AlgorithmSelector.scss';
-import SettingsContext from '../../../../model/SettingsContext';
-import allAlgorithms, { AlgorithmOption } from '../../../../model/Algorithms';
 
 const AlgorithmSelector = () => {
 	const { updateSettings } = useContext(SettingsContext);

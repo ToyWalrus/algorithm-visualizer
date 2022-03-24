@@ -1,4 +1,4 @@
-import Node from '../model/Node';
+import Node from 'model/Node';
 
 /**
  * A function that takes two `Node`s and

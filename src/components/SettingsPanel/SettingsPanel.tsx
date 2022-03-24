@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import clsx from 'clsx';
-import SettingsContext from '../../model/SettingsContext';
+import SettingsContext from 'model/SettingsContext';
 import './SettingsPanel.scss';
 
 interface SettingsPanelProps {

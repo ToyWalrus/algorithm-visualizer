@@ -1,4 +1,4 @@
-import Node from '../model/Node';
+import Node from 'model/Node';
 import SortAlgorithm from './SortAlgorithm';
 
 // Just for my own reference, it seems that the

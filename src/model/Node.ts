@@ -1,4 +1,4 @@
-import theme from '../app/theme/theme';
+import theme from 'app/theme/theme';
 
 interface NodeProps {
 	value: string | number;

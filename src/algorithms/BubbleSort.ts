@@ -1,4 +1,4 @@
-import Node from '../model/Node';
+import Node from 'model/Node';
 import SortAlgorithm from './SortAlgorithm';
 
 export default class BubbleSort extends SortAlgorithm {

@@ -1,12 +1,13 @@
+import React from 'react';
 import VisualizationArea, { VisualizationAreaComponentProps } from '../VisualizationArea/VisualizationArea';
-import MergeSort from '../../../algorithms/MergeSort';
+import MergeSort from 'algorithms/MergeSort';
 
 const MergeSortVisualizer = ({ items, sortStepDelay }: VisualizationAreaComponentProps) => {
 	return (
-		<div className='sort-visualizer'>
+		<div className="sort-visualizer">
 			<VisualizationArea
 				items={items}
-				title='Merge Sort'
+				title="Merge Sort"
 				sortStepDelay={sortStepDelay}
 				sorter={
 					new MergeSort((a, b) => {

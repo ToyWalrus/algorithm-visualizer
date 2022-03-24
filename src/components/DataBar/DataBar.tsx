@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
 import React from 'react';
+import { motion } from 'framer-motion';
 import './DataBar.scss';
 
 interface DataBarProps {
@@ -32,10 +32,10 @@ const DataBar = (args: DataBarProps) => {
 	return (
 		<motion.div
 			layoutId={args.uniqueId}
-			className='data-bar'
+			className="data-bar"
 			transition={{ duration: args.animationDuration || 0.25, type: 'spring' }}
 		>
-			<div className='fill-area' style={getStyle(args)}>
+			<div className="fill-area" style={getStyle(args)}>
 				{args.text}
 			</div>
 		</motion.div>

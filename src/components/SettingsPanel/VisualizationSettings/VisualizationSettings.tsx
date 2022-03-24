@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { SortSpeed, sortSpeedString } from '../../../utils/Enums';
+import { SortSpeed, sortSpeedString } from 'utils/Enums';
 import clsx from 'clsx';
-import Dropdown from '../../Inputs/Dropdown';
-import InputField from '../../Inputs/InputField';
-import SettingsContext from '../../../model/SettingsContext';
+import Dropdown from 'components/Inputs/Dropdown';
+import InputField from 'components/Inputs/InputField';
+import SettingsContext from 'model/SettingsContext';
 import './VisualizationSettings.scss';
 
 const dropdownOptions = Object.values(SortSpeed)

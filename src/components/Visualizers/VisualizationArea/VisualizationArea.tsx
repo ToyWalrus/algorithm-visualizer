@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import shuffle from 'shuffle-array';
+import React, { useEffect, useState } from 'react';
 import { Button, Typography } from '@material-ui/core';
-import DataBar, { DataBarProps } from '../../DataBar/DataBar';
 import { AnimateSharedLayout } from 'framer-motion';
-import SortAlgorithm from '../../../algorithms/SortAlgorithm';
-import useForceUpdate from '../../../utils/useForceUpdate';
-import Node from '../../../model/Node';
+import shuffle from 'shuffle-array';
+import DataBar, { DataBarProps } from 'components/DataBar/DataBar';
+import SortAlgorithm from 'algorithms/SortAlgorithm';
+import useForceUpdate from 'utils/useForceUpdate';
+import Node from 'model/Node';
 import './VisualizationArea.css';
 
 export interface VisualizationAreaComponentProps {
@@ -25,12 +25,12 @@ const VisualizationArea = ({ title, ...args }: VisualizationAreaProps) => {
 		useVisualizationAreaHook(args);
 
 	return (
-		<div className='visualization-area'>
-			<div className='control-buttons'>
-				<Button variant='contained' onClick={onStartClick}>
+		<div className="visualization-area">
+			<div className="control-buttons">
+				<Button variant="contained" onClick={onStartClick}>
 					Start
 				</Button>
-				<Button variant='contained' onClick={onStopClick}>
+				<Button variant="contained" onClick={onStopClick}>
 					Stop
 				</Button>
 				<Button variant="contained" onClick={onResetClick}>
