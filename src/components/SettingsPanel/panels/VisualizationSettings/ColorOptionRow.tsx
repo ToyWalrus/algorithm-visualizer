@@ -74,8 +74,9 @@ interface BlockPickerStyleProps {
 	input: CSSProperties;
 }
 
-const borderRadius = 5;
+const borderRadius = 8;
 const commonStyles = {
+	card: { borderRadius },
 	input: { display: 'none' },
 	triangle: { left: '10%' },
 	body: { paddingBottom: 0 },
@@ -86,6 +87,7 @@ const getStylesForAlternateRow = (size?: number): Partial<Classes<BlockPickerSty
 		default: {
 			...commonStyles,
 			card: {
+				...commonStyles.card,
 				height: size,
 			},
 		},
@@ -102,6 +104,7 @@ const getStylesForPrimaryRow = (size?: number): Partial<Classes<BlockPickerStyle
 				top: size || 150,
 			},
 			card: {
+				...commonStyles.card,
 				height: size,
 				display: 'flex',
 				flexDirection: 'column-reverse',

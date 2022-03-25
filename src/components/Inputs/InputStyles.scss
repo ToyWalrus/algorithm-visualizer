@@ -104,7 +104,7 @@ $font-size: c.$emphasis-font-size;
 		.check-icon {
 			color: $primary-color;
 			opacity: 0;
-			transition: opacity 100ms linear;
+			transition: opacity $transition-time $transition-curve;
 
 			&.selected {
 				opacity: 1;
@@ -114,7 +114,7 @@ $font-size: c.$emphasis-font-size;
 }
 
 input.input-field {
-	width: 1rem;
+	width: 87%; // I don't like this solution but I can't get the two input fields to match width any other way
 	&[type='number']::-webkit-inner-spin-button,
 	&[type='number']::-webkit-outer-spin-button {
 		// TODO: maybe make as chevron icons instead?

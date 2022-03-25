@@ -23,7 +23,7 @@ $quarter-padding: c.$quarter-padding * 1px;
 		}
 
 		.option-input {
-			flex: 2;
+			flex: 5;
 		}
 	}
 
@@ -43,7 +43,7 @@ $quarter-padding: c.$quarter-padding * 1px;
 		}
 
 		.color-button {
-			border-radius: 5px;
+			border-radius: c.$border-radius * 1px;
 			height: 30px;
 			width: 30px;
 			border: c.$default-border;
@@ -76,8 +76,9 @@ $quarter-padding: c.$quarter-padding * 1px;
 	}
 
 	.option-label {
-		flex: 1;
+		flex: 2;
 		margin-left: $half-padding;
+		padding-right: $half-padding;
 		line-height: 1em;
 		font-weight: 500;
 	}

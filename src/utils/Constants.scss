@@ -1,7 +1,7 @@
 @use 'sass:math';
 @use 'sass:color';
 
-$settings-panel-width: 400;
+$settings-panel-width: 425;
 
 // Transition vars
 $transition-time: 150;
@@ -20,7 +20,7 @@ $app-background-color: #282c34;
 
 // Border  vars
 $border-width: 1;
-$border-radius: 10;
+$border-radius: 8;
 $border-color: $text-color;
 $default-border: $border-width * 1px solid $border-color;
 $focused-border: $border-width * 1px solid $primary-color;
