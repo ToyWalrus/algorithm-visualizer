@@ -1,19 +1,24 @@
-$settings-panel-width: 400px;
-$drop-shadow-color: #3a3a3a;
+@use '../../utils/Constants' as c;
+
+$settings-panel-width: c.$settings-panel-width * 1px;
+$drop-shadow-color: c.$drop-shadow-color;
+$default-padding: c.$default-padding * 1px;
+$half-padding: c.$half-padding * 1px;
+$quarter-padding: c.$quarter-padding * 1px;
 
 .settings-panel {
 	z-index: 1;
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	background-color: #f5f5f5;
+	background-color: c.$surface;
 	left: -$settings-panel-width;
 	width: $settings-panel-width;
 	box-shadow: 0 0 $drop-shadow-color;
 
 	display: flex;
 	flex-direction: column;
-	padding: 16px 0;
+	padding: $default-padding 0;
 
 	overflow-y: auto;
 
@@ -29,13 +34,13 @@ $drop-shadow-color: #3a3a3a;
 	}
 
 	.panel-section {
-		padding-top: 16px;
-		padding-left: 24px;
-		padding-right: 16px;
+		padding-top: $default-padding;
+		padding-left: c.$default-padding * 1.5px;
+		padding-right: $default-padding;
 
 		.section-title {
-			margin-top: 8px;
-			margin-bottom: 4px;
+			margin-top: $half-padding;
+			margin-bottom: $quarter-padding;
 			font-weight: 400;
 		}
 

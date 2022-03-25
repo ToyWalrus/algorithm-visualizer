@@ -1,3 +1,7 @@
+@use '../../utils/Constants' as c;
+
+$border-radius: c.$border-radius * 1px;
+
 .data-bar {
 	position: relative;
 	height: 100%;
@@ -8,7 +12,7 @@
 	display: flex;
 	position: absolute;
 	bottom: 0;
-	border-top-right-radius: 10px;
-	border-top-left-radius: 10px;
-	color: whitesmoke;
+	border-top-right-radius: $border-radius;
+	border-top-left-radius: $border-radius;
+	color: c.$light-surface;
 }

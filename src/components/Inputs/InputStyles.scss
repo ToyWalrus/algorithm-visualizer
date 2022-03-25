@@ -1,18 +1,21 @@
-$primary-color: #9340cf;
-$hover-color: #9340cf3e;
-$border-color: #262626;
+@use '../../utils/Constants' as c;
 
-$border-radius: 10px;
-$default-border: 1px solid $border-color;
-$focused-border: 1px solid $primary-color;
-$input-background-color: white;
-$vertical-padding: 8px;
-$horizontal-padding: 16px;
+$primary-color: c.$primary-color;
+$border-color: c.$border-color;
+$hover-color: c.$primary-color-faded-2;
+
+$vertical-padding: c.$half-padding * 1px;
+$horizontal-padding: c.$default-padding * 1px;
+$input-background-color: c.$light-surface;
+$border-radius: c.$border-radius * 1px;
 $list-item-height: 30px;
-$font-size: 1.1em;
 
-$transition-time: 100ms;
 $transition-curve: linear;
+$transition-time: c.$short-transition-time * 1ms;
+$default-border: c.$default-border;
+$focused-border: c.$focused-border;
+
+$font-size: c.$emphasis-font-size;
 
 .input-field {
 	min-width: 200px;

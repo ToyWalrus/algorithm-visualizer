@@ -99,7 +99,7 @@ const getStylesForPrimaryRow = (size?: number): Partial<Classes<BlockPickerStyle
 			triangle: {
 				...commonStyles.triangle,
 				transform: 'rotateZ(180deg)',
-				top: size || 184, // 184 is the default height of the picker, with the extra padding on the body gone
+				top: size || 150,
 			},
 			card: {
 				height: size,

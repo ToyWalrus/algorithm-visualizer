@@ -1,0 +1,33 @@
+@use 'sass:math';
+@use 'sass:color';
+
+$settings-panel-width: 400;
+
+// Transition vars
+$transition-time: 150;
+$short-transition-time: 100;
+
+// Color vars
+$primary-color: #9340cf;
+$primary-color-faded: color.scale($primary-color, $lightness: 30%);
+$primary-color-faded-2: color.scale($primary-color, $lightness: 70%);
+
+$surface: #ececec;
+$light-surface: color.scale($surface, $lightness: 50%);
+$text-color: color.invert($surface);
+$drop-shadow-color: #3a3a3a;
+$app-background-color: #282c34;
+
+// Border  vars
+$border-width: 1;
+$border-radius: 10;
+$border-color: $text-color;
+$default-border: $border-width * 1px solid $border-color;
+$focused-border: $border-width * 1px solid $primary-color;
+$emphasis-font-size: 1.1em;
+
+// Dimension vars
+$default-padding: 16;
+$quarter-padding: math.div($default-padding, 4);
+$half-padding: math.div($default-padding, 2);
+$double-padding: $default-padding * 2;

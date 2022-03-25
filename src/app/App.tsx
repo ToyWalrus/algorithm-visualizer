@@ -7,7 +7,6 @@ import VisualizationSettings from 'components/SettingsPanel/panels/Visualization
 import SettingsProvider from 'components/SettingsProvider';
 import SettingsContext from 'model/SettingsContext';
 import routes from './routes';
-import './App.css';
 
 // https://www.framer.com/api/motion/animation/
 const App = () => {

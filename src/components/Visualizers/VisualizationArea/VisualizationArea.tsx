@@ -9,7 +9,7 @@ import shuffle from 'shuffle-array';
 import { sortSpeedValue } from 'utils/Enums';
 import { AlgorithmSettings } from 'model/SettingsContext';
 import clsx from 'clsx';
-import './VisualizationArea.css';
+import './VisualizationArea.scss';
 
 export interface VisualizationAreaComponentProps {
 	settings: AlgorithmSettings;
@@ -47,6 +47,7 @@ const VisualizationArea = ({ title, ...props }: VisualizationAreaProps) => {
 					{title}
 				</Typography>
 			)}
+			<div className="spacer" />
 			<AnimateSharedLayout>
 				<div className="data-bars">
 					{items.map((node, idx) => (
