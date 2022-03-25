@@ -2,13 +2,12 @@ import React from 'react';
 import BubbleSort from 'algorithms/BubbleSort';
 import VisualizationArea, { VisualizationAreaComponentProps } from '../VisualizationArea/VisualizationArea';
 
-const BubbleSortVisualizer = ({ items, sortStepDelay }: VisualizationAreaComponentProps) => {
+const BubbleSortVisualizer = (props: VisualizationAreaComponentProps) => {
 	return (
 		<div className="sort-visualizer">
 			<VisualizationArea
-				items={items}
+				{...props}
 				title="Bubble Sort"
-				sortStepDelay={sortStepDelay}
 				sorter={
 					new BubbleSort((a, b) => {
 						let v1 = a.value as number;

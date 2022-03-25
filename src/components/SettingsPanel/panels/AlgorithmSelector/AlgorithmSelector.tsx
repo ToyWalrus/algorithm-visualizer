@@ -4,7 +4,11 @@ import SettingsContext from 'model/SettingsContext';
 import allAlgorithms, { AlgorithmOption } from 'model/Algorithms';
 import './AlgorithmSelector.scss';
 
-const AlgorithmSelector = () => {
+interface AlgorithmSelectorProps {
+	onSelectAlgorithm?: (op: AlgorithmOption) => void;
+}
+
+const AlgorithmSelector = ({ onSelectAlgorithm }: AlgorithmSelectorProps) => {
 	const { updateSettings } = useContext(SettingsContext);
 
 	return (
@@ -16,6 +20,9 @@ const AlgorithmSelector = () => {
 					isLast={i === allAlgorithms.length - 1}
 					onSelect={() => {
 						updateSettings({ algorithmOption: op });
+						if (onSelectAlgorithm) {
+							onSelectAlgorithm(op);
+						}
 					}}
 					option={op}
 				/>

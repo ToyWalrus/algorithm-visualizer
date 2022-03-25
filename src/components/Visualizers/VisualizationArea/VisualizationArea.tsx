@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Typography } from '@material-ui/core';
 import { AnimateSharedLayout } from 'framer-motion';
 import shuffle from 'shuffle-array';
@@ -7,10 +7,11 @@ import SortAlgorithm from 'algorithms/SortAlgorithm';
 import useForceUpdate from 'utils/useForceUpdate';
 import Node from 'model/Node';
 import './VisualizationArea.css';
+import { SortSpeed, sortSpeedValue } from 'utils/Enums';
+import { AlgorithmSettings } from 'model/SettingsContext';
 
 export interface VisualizationAreaComponentProps {
-	items: Node[];
-	sortStepDelay?: number;
+	activeSettings: AlgorithmSettings;
 }
 
 interface VisualizationAreaProps extends VisualizationAreaComponentProps {
@@ -20,9 +21,8 @@ interface VisualizationAreaProps extends VisualizationAreaComponentProps {
 
 let timer: NodeJS.Timeout | undefined;
 
-const VisualizationArea = ({ title, ...args }: VisualizationAreaProps) => {
-	const { onResetClick, highestVal, items, onSortStepClick, onStartClick, onStopClick } =
-		useVisualizationAreaHook(args);
+const VisualizationArea = ({ title, ...props }: VisualizationAreaProps) => {
+	const { onResetClick, items, onSortStepClick, onStartClick, onStopClick } = useVisualizationAreaHook(props);
 
 	return (
 		<div className="visualization-area">
@@ -48,7 +48,10 @@ const VisualizationArea = ({ title, ...args }: VisualizationAreaProps) => {
 			<AnimateSharedLayout>
 				<div className="data-bars">
 					{items.map((node, idx) => (
-						<DataBar {...getDataBarArgs(node, highestVal)} key={'db_' + node.id + '_' + idx.toString()} />
+						<DataBar
+							{...getDataBarProps(node, props.activeSettings.nodeCount)}
+							key={'db_' + node.id + '_' + idx.toString()}
+						/>
 					))}
 				</div>
 			</AnimateSharedLayout>
@@ -56,16 +59,31 @@ const VisualizationArea = ({ title, ...args }: VisualizationAreaProps) => {
 	);
 };
 
-const useVisualizationAreaHook = ({ items: initialItems, sorter, sortStepDelay }: VisualizationAreaProps) => {
-	let [items, setItems] = useState(initialItems);
-	let [sortIterator, setSortIterator] = useState(sorter.sort(items));
-	let forceUpdate = useForceUpdate();
-	let highestVal = 0;
+const useVisualizationAreaHook = ({ activeSettings, sorter }: VisualizationAreaProps) => {
+	const createNodes = () => {
+		const items: Node[] = [];
+		for (let i = 1; i <= activeSettings.nodeCount; ++i) {
+			items.push(
+				new Node({
+					id: i.toString(),
+					value: i,
+					index: i - 1,
+					primaryColor: activeSettings.selectedColors.primaryColor,
+					alternateColor: activeSettings.selectedColors.alternateColor,
+				})
+			);
+		}
+		return items;
+	};
 
-	if (initialItems && initialItems.length) {
-		highestVal = initialItems.reduce((prev, cur) => ((prev.value as number) > (cur.value as number) ? prev : cur))
-			.value as number;
-	}
+	const items = useMemo(createNodes, [
+		activeSettings.nodeCount,
+		activeSettings.selectedColors.primaryColor,
+		activeSettings.selectedColors.alternateColor,
+	]);
+
+	const [sortIterator, setSortIterator] = useState(sorter.sort(items));
+	const forceUpdate = useForceUpdate();
 
 	const onSortStepClick = (): boolean => {
 		if (sortIterator && !sortIterator.next().done) {
@@ -95,7 +113,7 @@ const useVisualizationAreaHook = ({ items: initialItems, sorter, sortStepDelay }
 					});
 					forceUpdate();
 				}
-			}, sortStepDelay || 200);
+			}, sortSpeedValue(activeSettings.sortSpeed) || 200);
 		};
 
 		onStopClick();
@@ -112,14 +130,10 @@ const useVisualizationAreaHook = ({ items: initialItems, sorter, sortStepDelay }
 	};
 
 	useEffect(() => {
-		setItems(initialItems);
-	}, [initialItems.length]);
-
-	useEffect(() => {
 		if (timer) {
 			onStartClick();
 		}
-	}, [sortStepDelay]);
+	}, [activeSettings.sortSpeed]);
 
 	return {
 		items,
@@ -127,13 +141,12 @@ const useVisualizationAreaHook = ({ items: initialItems, sorter, sortStepDelay }
 		onStopClick,
 		onResetClick,
 		onSortStepClick,
-		highestVal,
 	};
 };
 
-const getDataBarArgs = (node: Node, highestVal: number): DataBarProps => {
+const getDataBarProps = (node: Node, highestVal: number): DataBarProps => {
 	return {
-		value: (node.value as number) / highestVal,
+		value: Number(node.value) / highestVal,
 		uniqueId: `db_${node.id}`,
 		color: node.color,
 		index: node.index,

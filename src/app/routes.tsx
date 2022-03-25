@@ -6,12 +6,13 @@ import {
 } from '@material-ui/icons';
 import BubbleSortVisualizer from 'components/Visualizers/BubbleSortVisualizer/BubbleSortVisualizer';
 import QuickSortVisualizer from 'components/Visualizers/QuickSortVisualizer/QuickSortVisualizer';
+import { VisualizationAreaComponentProps } from 'components/Visualizers/VisualizationArea/VisualizationArea';
 
 interface RouteProps {
 	path: string;
 	title: string;
 	icon?: JSX.Element;
-	Visualizer?: (args: any) => JSX.Element;
+	Visualizer?: (args: VisualizationAreaComponentProps) => JSX.Element;
 }
 
 const routes: RouteProps[] = [

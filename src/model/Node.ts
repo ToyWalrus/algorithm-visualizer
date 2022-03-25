@@ -1,9 +1,9 @@
-import theme from 'app/theme/theme';
-
 interface NodeProps {
 	value: string | number;
 	id: string;
 	index?: number;
+	primaryColor: string;
+	alternateColor?: string;
 }
 
 export default class Node {
@@ -24,7 +24,8 @@ export default class Node {
 	isBeingSorted: boolean;
 
 	get color(): string {
-		return this.isBeingSorted ? theme.palette.secondary.main : theme.palette.info.main;
+		if (!this.props.alternateColor) return this.props.primaryColor;
+		return this.isBeingSorted ? this.props.alternateColor : this.props.primaryColor;
 	}
 
 	get id(): string {

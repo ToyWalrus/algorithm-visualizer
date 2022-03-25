@@ -2,14 +2,13 @@ import React from 'react';
 import QuickSort from 'algorithms/QuickSort';
 import VisualizationArea, { VisualizationAreaComponentProps } from '../VisualizationArea/VisualizationArea';
 
-const QuickSortVisualizer = ({ items, sortStepDelay }: VisualizationAreaComponentProps) => {
+const QuickSortVisualizer = (props: VisualizationAreaComponentProps) => {
 	return (
 		<div className="sort-visualizer">
 			{/* Display the pivot number as well as bar values */}
 			<VisualizationArea
+				{...props}
 				title="Quick Sort"
-				items={items}
-				sortStepDelay={sortStepDelay}
 				sorter={
 					new QuickSort((a, b) => {
 						let v1 = a.value as number;

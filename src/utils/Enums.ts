@@ -30,8 +30,11 @@ export const sortSpeedString = (val: SortSpeed) => {
 	}
 };
 
+/**
+ * @returns The value in milliseconds each sort step should take
+ */
 export const sortSpeedValue = (val: SortSpeed) => {
-	const normalSetting = 0.1;
+	const normalSetting = 100;
 	switch (val) {
 		case SortSpeed.verySlow:
 			return normalSetting * 15;
