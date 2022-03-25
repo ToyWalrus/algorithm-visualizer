@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { SortSpeed, sortSpeedString } from 'utils/Enums';
 import clsx from 'clsx';
 import Dropdown from 'components/Inputs/Dropdown';
 import InputField from 'components/Inputs/InputField';
 import SettingsContext from 'model/SettingsContext';
+import ElevatedContainer from 'components/ElevatedContainer/ElevatedContainer';
 import './VisualizationSettings.scss';
+import ColorOptionRow from './ColorOptionRow';
 
 const dropdownOptions = Object.values(SortSpeed)
 	.filter(v => typeof v !== 'string')
@@ -33,10 +35,9 @@ const VisualizationSettings = () => {
 				/>
 			</OptionRow>
 			<ColorOptionRow
+				isPrimary
 				colorString={settings.selectedColors.primaryColor}
 				onColorChange={v => updateSettings({ selectedColors: { primaryColor: v } })}
-				optionLabel="Primary color"
-				buttonClassName="primary"
 			/>
 			<ColorOptionRow
 				colorString={settings.selectedColors.alternateColor || settings.selectedColors.primaryColor}
@@ -48,8 +49,6 @@ const VisualizationSettings = () => {
 						},
 					})
 				}
-				optionLabel="Alternate color"
-				buttonClassName="alternate"
 			/>
 		</div>
 	);
@@ -63,26 +62,6 @@ const OptionRow = ({ children, optionLabel }: React.PropsWithChildren<OptionRowP
 	return (
 		<div className="visualization-option-row">
 			<span className="option-input">{children}</span>
-			<span className="option-label">{optionLabel}</span>
-		</div>
-	);
-};
-
-interface ColorOptionRowProps extends OptionRowProps {
-	colorString: string;
-	onColorChange: (newColorString: string) => void;
-	buttonClassName?: string;
-}
-
-const ColorOptionRow = ({ optionLabel, colorString, onColorChange, buttonClassName }: ColorOptionRowProps) => {
-	// TODO: add color picker
-	return (
-		<div className="visualization-color-option-row">
-			<button
-				className={clsx('color-button', buttonClassName)}
-				style={{ backgroundColor: `#${colorString}` }}
-				onClick={e => onColorChange(colorString)}
-			/>
 			<span className="option-label">{optionLabel}</span>
 		</div>
 	);

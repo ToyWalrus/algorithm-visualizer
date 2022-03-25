@@ -51,7 +51,6 @@ const SettingsProvider = ({ children }: React.PropsWithChildren<any>) => {
 						nodeCount,
 						sortSpeed,
 						selectedColors,
-						colorOptions: settings.colorOptions, // probably belongs somewhere else
 					};
 
 					localStorage.setItem(storageKey, JSON.stringify(updated));

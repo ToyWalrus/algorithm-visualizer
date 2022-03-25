@@ -64,6 +64,12 @@ $border-color: #262626;
 				border-top-right-radius: 0;
 			}
 		}
+
+		.picker-container {
+			&:not(.visible) {
+				left: -300px !important;
+			}
+		}
 	}
 
 	.option-label {

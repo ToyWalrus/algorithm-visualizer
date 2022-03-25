@@ -14,7 +14,6 @@ export interface AlgorithmSettings {
 	nodeCount: number;
 	algorithmOption: AlgorithmOption;
 	selectedColors: NodeColor;
-	colorOptions?: NodeColor[];
 }
 
 const defaultColors: NodeColor = {
@@ -27,8 +26,9 @@ export const defaultSettings: AlgorithmSettings = Object.freeze({
 	algorithmOption: allAlgorithms[1],
 	sortSpeed: SortSpeed.normal,
 	selectedColors: defaultColors,
-	colorOptions: [defaultColors],
 });
+
+export const colorOptions = Object.freeze(['f2cf63', '9340cf', 'f15bb5', '00bbf9', '00f5d4']);
 
 export default React.createContext({
 	settings: defaultSettings,
