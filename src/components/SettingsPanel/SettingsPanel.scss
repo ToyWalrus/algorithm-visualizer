@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../utils/Constants' as c;
 
 $settings-panel-width: c.$settings-panel-width * 1px;
@@ -5,6 +6,8 @@ $drop-shadow-color: c.$drop-shadow-color;
 $default-padding: c.$default-padding * 1px;
 $half-padding: c.$half-padding * 1px;
 $quarter-padding: c.$quarter-padding * 1px;
+$border-radius: c.$border-radius * 1px;
+$transition-time: c.$short-transition-time * 1ms;
 
 .settings-panel {
 	z-index: 1;
@@ -45,7 +48,7 @@ $quarter-padding: c.$quarter-padding * 1px;
 		}
 
 		&:first-child {
-			padding-top: 8px;
+			padding-top: $half-padding;
 
 			.section-title {
 				margin-top: 0;
@@ -71,9 +74,43 @@ $quarter-padding: c.$quarter-padding * 1px;
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				margin-top: 8px;
+				margin-top: $half-padding;
 
-				.algorithm-result {
+				.run-algorithm-button {
+					color: c.$light-surface;
+					font-size: c.$emphasis-font-size;
+					font-weight: 500;
+
+					padding: $half-padding $default-padding;
+					background-color: c.$primary-color-faded;
+
+					border-radius: $border-radius;
+					box-shadow: 2px 1px 2px $drop-shadow-color;
+					border: none;
+
+					transition: all $transition-time linear;
+
+					&:not(:disabled) {
+						cursor: pointer;
+
+						&:hover {
+							// background-color: c.$primary-color-faded-2;
+							// color: c.$text-color;
+							box-shadow: 5px 2px 10px -2px $drop-shadow-color;
+						}
+
+						&:active {
+							background-color: c.$primary-color;
+						}
+					}
+
+					&:disabled {
+						background-color: color.scale($drop-shadow-color, $lightness: 30%);
+						color: color.scale(c.$light-surface, $lightness: -10%);
+					}
+				}
+
+				.algorithm-result-table {
 					margin-left: 24px;
 				}
 			}

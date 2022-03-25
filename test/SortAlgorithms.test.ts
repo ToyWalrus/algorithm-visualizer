@@ -98,7 +98,7 @@ const sortList = (sorter: SortAlgorithm, arr: Node[], timed?: boolean): void => 
 const makeNodeList = (...args: number[]): Node[] => {
 	const list: Node[] = [];
 	args.forEach((arg, idx) => {
-		list.push(new Node({ id: idx.toString(), value: arg, index: idx }));
+		list.push(new Node({ id: idx.toString(), value: arg, index: idx, primaryColor: '' }));
 	});
 	return list;
 };

@@ -4,9 +4,8 @@ import clsx from 'clsx';
 import Dropdown from 'components/Inputs/Dropdown';
 import InputField from 'components/Inputs/InputField';
 import SettingsContext from 'model/SettingsContext';
-import ElevatedContainer from 'components/ElevatedContainer/ElevatedContainer';
-import './VisualizationSettings.scss';
 import ColorOptionRow from './ColorOptionRow';
+import './VisualizationSettings.scss';
 
 const dropdownOptions = Object.values(SortSpeed)
 	.filter(v => typeof v !== 'string')
@@ -20,6 +19,7 @@ const VisualizationSettings = () => {
 			<OptionRow optionLabel="Number of nodes">
 				<InputField
 					min={5}
+					max={100}
 					type="number"
 					value={settings.nodeCount}
 					onSubmit={v => updateSettings({ nodeCount: Number(v) })}

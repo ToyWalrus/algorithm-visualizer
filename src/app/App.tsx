@@ -44,13 +44,13 @@ const App = () => {
 			<Switch>
 				{routes.map(({ path, Visualizer }) => (
 					<Route key={path} path={path}>
-						{Visualizer && (
+						{/* {Visualizer && (
 							<SettingsContext.Consumer>
 								{({ settings }) => (
 									<Visualizer isSettingsPanelOpen={settingsPanelOpen} settings={settings} />
 								)}
 							</SettingsContext.Consumer>
-						)}
+						)} */}
 					</Route>
 				))}
 			</Switch>

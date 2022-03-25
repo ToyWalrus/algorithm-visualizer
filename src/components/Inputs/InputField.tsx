@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import './InputStyles.scss';
 
@@ -16,13 +16,27 @@ interface InputFieldProps {
 
 const InputField = ({ value, onChange, onSubmit, type, className, ...props }: InputFieldProps) => {
 	const [internalValue, setInternalValue] = useState(value);
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		setInternalValue(value);
 	}, [value]);
 
 	const finishInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const newVal = e.target.value;
+		let newVal = e.target.value as any;
+
+		if (type === 'number') {
+			let num = Number(newVal);
+			if (typeof props.min === 'number' && num < props.min) {
+				newVal = props.min;
+				setInternalValue(newVal);
+			}
+			if (typeof props.max === 'number' && num > props.max) {
+				newVal = props.max;
+				setInternalValue(newVal);
+			}
+		}
+
 		if (onSubmit) {
 			onSubmit(newVal);
 		} else {
@@ -32,6 +46,7 @@ const InputField = ({ value, onChange, onSubmit, type, className, ...props }: In
 
 	return (
 		<input
+			ref={inputRef}
 			className={clsx('input-field', className)}
 			type={type || 'text'}
 			value={internalValue}
@@ -44,6 +59,11 @@ const InputField = ({ value, onChange, onSubmit, type, className, ...props }: In
 					onChange(e.target.value);
 				}
 				setInternalValue(e.target.value);
+			}}
+			onKeyDown={e => {
+				if (e.key.toLowerCase() === 'enter') {
+					inputRef.current?.blur();
+				}
 			}}
 			onSubmit={finishInput}
 			onBlur={finishInput}
