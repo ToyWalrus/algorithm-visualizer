@@ -1,17 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Typography } from '@material-ui/core';
 import { AnimateSharedLayout } from 'framer-motion';
-import shuffle from 'shuffle-array';
 import DataBar, { DataBarProps } from 'components/DataBar/DataBar';
 import SortAlgorithm from 'algorithms/SortAlgorithm';
 import useForceUpdate from 'utils/useForceUpdate';
 import Node from 'model/Node';
-import './VisualizationArea.css';
-import { SortSpeed, sortSpeedValue } from 'utils/Enums';
+import shuffle from 'shuffle-array';
+import { sortSpeedValue } from 'utils/Enums';
 import { AlgorithmSettings } from 'model/SettingsContext';
+import clsx from 'clsx';
+import './VisualizationArea.css';
 
 export interface VisualizationAreaComponentProps {
-	activeSettings: AlgorithmSettings;
+	settings: AlgorithmSettings;
+	isSettingsPanelOpen: boolean;
 }
 
 interface VisualizationAreaProps extends VisualizationAreaComponentProps {
@@ -25,7 +27,7 @@ const VisualizationArea = ({ title, ...props }: VisualizationAreaProps) => {
 	const { onResetClick, items, onSortStepClick, onStartClick, onStopClick } = useVisualizationAreaHook(props);
 
 	return (
-		<div className="visualization-area">
+		<div className={clsx('visualization-area', { 'settings-open': props.isSettingsPanelOpen })}>
 			<div className="control-buttons">
 				<Button variant="contained" onClick={onStartClick}>
 					Start
@@ -49,7 +51,7 @@ const VisualizationArea = ({ title, ...props }: VisualizationAreaProps) => {
 				<div className="data-bars">
 					{items.map((node, idx) => (
 						<DataBar
-							{...getDataBarProps(node, props.activeSettings.nodeCount)}
+							{...getDataBarProps(node, props.settings.nodeCount)}
 							key={'db_' + node.id + '_' + idx.toString()}
 						/>
 					))}
@@ -59,17 +61,17 @@ const VisualizationArea = ({ title, ...props }: VisualizationAreaProps) => {
 	);
 };
 
-const useVisualizationAreaHook = ({ activeSettings, sorter }: VisualizationAreaProps) => {
+const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) => {
 	const createNodes = () => {
 		const items: Node[] = [];
-		for (let i = 1; i <= activeSettings.nodeCount; ++i) {
+		for (let i = 1; i <= settings.nodeCount; ++i) {
 			items.push(
 				new Node({
 					id: i.toString(),
 					value: i,
 					index: i - 1,
-					primaryColor: activeSettings.selectedColors.primaryColor,
-					alternateColor: activeSettings.selectedColors.alternateColor,
+					primaryColor: settings.selectedColors.primaryColor,
+					alternateColor: settings.selectedColors.alternateColor,
 				})
 			);
 		}
@@ -77,9 +79,9 @@ const useVisualizationAreaHook = ({ activeSettings, sorter }: VisualizationAreaP
 	};
 
 	const items = useMemo(createNodes, [
-		activeSettings.nodeCount,
-		activeSettings.selectedColors.primaryColor,
-		activeSettings.selectedColors.alternateColor,
+		settings.nodeCount,
+		settings.selectedColors.primaryColor,
+		settings.selectedColors.alternateColor,
 	]);
 
 	const [sortIterator, setSortIterator] = useState(sorter.sort(items));
@@ -113,7 +115,7 @@ const useVisualizationAreaHook = ({ activeSettings, sorter }: VisualizationAreaP
 					});
 					forceUpdate();
 				}
-			}, sortSpeedValue(activeSettings.sortSpeed) || 200);
+			}, sortSpeedValue(settings.sortSpeed) || 200);
 		};
 
 		onStopClick();
@@ -133,7 +135,7 @@ const useVisualizationAreaHook = ({ activeSettings, sorter }: VisualizationAreaP
 		if (timer) {
 			onStartClick();
 		}
-	}, [activeSettings.sortSpeed]);
+	}, [settings.sortSpeed]);
 
 	return {
 		items,

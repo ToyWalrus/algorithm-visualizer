@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import SettingsPanel from 'components/SettingsPanel/SettingsPanel';
 import AlgorithmSelector from 'components/SettingsPanel/panels/AlgorithmSelector/AlgorithmSelector';
@@ -11,7 +11,7 @@ import './App.css';
 
 // https://www.framer.com/api/motion/animation/
 const App = () => {
-	const history = useHistory();
+	const { history, settingsPanelOpen } = useAppHook();
 
 	const settingsPanelSections = [
 		{
@@ -41,13 +41,15 @@ const App = () => {
 
 	return (
 		<SettingsProvider>
-			<SettingsPanel sections={settingsPanelSections} />
+			<SettingsPanel isOpen={settingsPanelOpen} sections={settingsPanelSections} />
 			<Switch>
 				{routes.map(({ path, Visualizer }) => (
 					<Route key={path} path={path}>
 						{Visualizer && (
 							<SettingsContext.Consumer>
-								{({ settings }) => <Visualizer activeSettings={settings} />}
+								{({ settings }) => (
+									<Visualizer isSettingsPanelOpen={settingsPanelOpen} settings={settings} />
+								)}
 							</SettingsContext.Consumer>
 						)}
 					</Route>
@@ -55,6 +57,35 @@ const App = () => {
 			</Switch>
 		</SettingsProvider>
 	);
+};
+
+const useAppHook = () => {
+	const panelBreakpoint = 1000;
+	const [settingsPanelOpen, setSettingsPanelOpen] = useState(window.innerWidth >= panelBreakpoint);
+	const history = useHistory();
+
+	useEffect(() => {
+		const checkSettingsPanelBreakpoint = () => {
+			if (window.innerWidth < panelBreakpoint) {
+				setSettingsPanelOpen(false);
+			} else if (window.innerWidth >= panelBreakpoint) {
+				setSettingsPanelOpen(true);
+			}
+		};
+
+		window.addEventListener('resize', checkSettingsPanelBreakpoint);
+		return () => window.removeEventListener('resize', checkSettingsPanelBreakpoint);
+	}, []);
+
+	return {
+		settingsPanelOpen,
+		setSettingsPanelOpen: (open: boolean) => {
+			const canControlPanel = window.innerWidth < panelBreakpoint;
+			if (!canControlPanel) return;
+			setSettingsPanelOpen(open);
+		},
+		history,
+	};
 };
 
 export default App;

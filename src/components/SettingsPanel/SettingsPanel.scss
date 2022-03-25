@@ -2,6 +2,7 @@ $settings-panel-width: 400px;
 $drop-shadow-color: #3a3a3a;
 
 .settings-panel {
+	z-index: 1;
 	position: absolute;
 	top: 0;
 	bottom: 0;
