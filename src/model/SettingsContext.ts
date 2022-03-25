@@ -4,6 +4,8 @@ import allAlgorithms, { AlgorithmOption } from './Algorithms';
 
 // https://www.figma.com/file/jiEIMLcab13bjbBR5dtGQ0/Algorithm-Visualizer?node-id=0%3A1
 
+export const colorOptions = Object.freeze(['fee440', '9340cf', 'f15bb5', '00bbf9', '00f5d4']);
+
 export interface NodeColor {
 	primaryColor: string;
 	alternateColor?: string;
@@ -17,8 +19,8 @@ export interface AlgorithmSettings {
 }
 
 const defaultColors: NodeColor = {
-	primaryColor: 'F2CF63',
-	alternateColor: '9340CF',
+	primaryColor: colorOptions[0],
+	alternateColor: colorOptions[1],
 };
 
 export const defaultSettings: AlgorithmSettings = Object.freeze({
@@ -27,8 +29,6 @@ export const defaultSettings: AlgorithmSettings = Object.freeze({
 	sortSpeed: SortSpeed.normal,
 	selectedColors: defaultColors,
 });
-
-export const colorOptions = Object.freeze(['f2cf63', '9340cf', 'f15bb5', '00bbf9', '00f5d4']);
 
 export default React.createContext({
 	settings: defaultSettings,
