@@ -30,4 +30,11 @@ export default class BubbleSort extends SortAlgorithm {
 			endIdx--;
 		} while (didSwap);
 	}
+
+	sortFunctionToString(): string[] {
+		const args = ['values'];
+		let funcString = this.sort.toString();
+		funcString = funcString.substring(funcString.indexOf('{') + 1, funcString.lastIndexOf('}'));
+		return [...args, funcString];
+	}
 }

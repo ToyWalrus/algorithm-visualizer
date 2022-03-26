@@ -15,7 +15,7 @@ const App = () => {
 	const settingsPanelSections = [
 		{
 			title: 'Algorithm Selection',
-			content: (
+			children: (
 				<AlgorithmSelector
 					onSelectAlgorithm={op => {
 						for (const route of routes) {
@@ -30,11 +30,11 @@ const App = () => {
 		},
 		{
 			title: 'Algorithm Info',
-			content: <AlgorithmInfo />,
+			children: <AlgorithmInfo />,
 		},
 		{
 			title: 'Settings',
-			content: <VisualizationSettings />,
+			children: <VisualizationSettings />,
 		},
 	];
 

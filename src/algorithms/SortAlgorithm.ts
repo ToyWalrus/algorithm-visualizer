@@ -30,6 +30,24 @@ export default abstract class SortAlgorithm {
 	 */
 	abstract sort(values: Node[]): Generator;
 
+	/**
+	 * Get a string representation of the sort
+	 * functionality to be used in a `new Function()`
+	 * constructor.
+	 */
+	abstract sortFunctionToString(): string[];
+
+	/**
+	 * Get a string representation of the
+	 * comparator function.
+	 */
+	comparatorFunctionToString(): string[] {
+		const args = ['a', 'b'];
+		let funcString = this.comparator.toString();
+		funcString = funcString.substring(funcString.indexOf('{') + 1, funcString.lastIndexOf('}'));
+		return [...args, funcString];
+	}
+
 	listValues = (prefix: String, arr: Node[]): void => {
 		console.log(
 			prefix,

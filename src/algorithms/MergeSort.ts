@@ -60,4 +60,8 @@ export default class MergeSort extends SortAlgorithm {
 			}
 		}
 	}
+
+	sortFunctionToString(): string[] {
+		return [];
+	}
 }

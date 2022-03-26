@@ -59,4 +59,8 @@ export default class QuickSort extends SortAlgorithm {
 
 		return i;
 	}
+
+	sortFunctionToString(): string[] {
+		return [];
+	}
 }
