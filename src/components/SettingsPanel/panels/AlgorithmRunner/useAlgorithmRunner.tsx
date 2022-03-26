@@ -49,9 +49,9 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 			const algorithmRunningSetter = runningAlgorithms[i][1];
 
 			worker({
-				// we have to stringify the function since this is being passed to another "thread"
+				// We have to stringify the function since this is being passed to a web worker
+				// and it can't serialize classes & functions
 				algorithmFunctionStrings: settings.algorithmOption.algorithm.sortFunctionToString(),
-				comparatorFunctionStrings: settings.algorithmOption.algorithm.comparatorFunctionToString(),
 				shuffleFunctionStrings: ['n', shuffleFunctionString],
 				nodeCount: settings.nodeCount * multiplier,
 			}).then(millisecondsPassed => {
@@ -70,23 +70,16 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 
 interface RunAlgorithmProps {
 	algorithmFunctionStrings: string[];
-	comparatorFunctionStrings: string[];
 	shuffleFunctionStrings: string[];
 	nodeCount: number;
 }
 
 // To prevent killing the web page when node count is huge, break this functionality into a webworker
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
-const runAlgorithm = ({
-	algorithmFunctionStrings,
-	shuffleFunctionStrings,
-	comparatorFunctionStrings,
-	nodeCount,
-}: RunAlgorithmProps) => {
+const runAlgorithm = ({ algorithmFunctionStrings, shuffleFunctionStrings, nodeCount }: RunAlgorithmProps) => {
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction
 	const GeneratorFunction = Object.getPrototypeOf(function* () {}).constructor;
 	const algorithm = new GeneratorFunction(...algorithmFunctionStrings);
-	const comparator = new GeneratorFunction(...comparatorFunctionStrings);
 	const shuffle = new Function(...shuffleFunctionStrings);
 
 	const vals: { value: number }[] = [];

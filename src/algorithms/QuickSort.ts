@@ -3,17 +3,17 @@ import SortAlgorithm from './SortAlgorithm';
 
 export default class QuickSort extends SortAlgorithm {
 	*sort(values: Node[]): Generator<unknown, any, unknown> {
-		yield* this.quicksort(values, 0, values.length - 1);
+		yield* this.quickSort(values, 0, values.length - 1);
 	}
 
 	// This is using the Lomuto partition scheme
 	// https://en.wikipedia.org/wiki/Quicksort#Lomuto_partition_scheme
-	private *quicksort(values: Node[], low: number, high: number): Generator {
+	private *quickSort(values: Node[], low: number, high: number): Generator {
 		if (low < high) {
 			let pivot = yield* this.partition(values, low, high);
 
-			yield* this.quicksort(values, low, pivot - 1);
-			yield* this.quicksort(values, pivot, high);
+			yield* this.quickSort(values, low, pivot - 1);
+			yield* this.quickSort(values, pivot, high);
 		}
 	}
 
@@ -61,6 +61,14 @@ export default class QuickSort extends SortAlgorithm {
 	}
 
 	sortFunctionToString(): string[] {
-		return [];
+		const args = ['values'];
+		const sortFuncString = this.sort.toString();
+		const quickSortFuncString = this.quickSort.toString();
+		const partitionFuncString = this.partition.toString();
+		let funcString = this.getYieldAndCompareFunctionString();
+		funcString += `\nthis.quickSort = function*${quickSortFuncString.substring(quickSortFuncString.indexOf('('))}`;
+		funcString += `\nthis.partition = function*${partitionFuncString.substring(partitionFuncString.indexOf('('))}`;
+		funcString += '\n' + sortFuncString.substring(sortFuncString.indexOf('{') + 1, sortFuncString.lastIndexOf('}'));
+		return [...args, funcString];
 	}
 }

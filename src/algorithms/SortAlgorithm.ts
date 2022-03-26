@@ -37,17 +37,6 @@ export default abstract class SortAlgorithm {
 	 */
 	abstract sortFunctionToString(): string[];
 
-	/**
-	 * Get a string representation of the
-	 * comparator function.
-	 */
-	comparatorFunctionToString(): string[] {
-		const args = ['a', 'b'];
-		let funcString = this.comparator.toString();
-		funcString = funcString.substring(funcString.indexOf('{') + 1, funcString.lastIndexOf('}'));
-		return [...args, funcString];
-	}
-
 	listValues = (prefix: String, arr: Node[]): void => {
 		console.log(
 			prefix,
@@ -71,8 +60,8 @@ export default abstract class SortAlgorithm {
 	protected getYieldAndCompareFunctionString(): string {
 		const comparatorFuncString = this.comparator.toString();
 		const yieldFuncString = this.yieldAndCompare.toString();
-		let funcString = `this.yieldAndCompare = function*${yieldFuncString.substring(yieldFuncString.indexOf('('))}`;
-		funcString = `this.comparator = ${comparatorFuncString} ${funcString}`;
+		let funcString = `this.comparator = ${comparatorFuncString}`;
+		funcString += `\nthis.yieldAndCompare = function*${yieldFuncString.substring(yieldFuncString.indexOf('('))}`;
 		return funcString;
 	}
 }

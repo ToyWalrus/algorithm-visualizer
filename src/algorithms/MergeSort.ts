@@ -62,6 +62,14 @@ export default class MergeSort extends SortAlgorithm {
 	}
 
 	sortFunctionToString(): string[] {
-		return [];
+		const args = ['values'];
+		const sortFuncString = this.sort.toString();
+		const mergeSortFuncString = this.mergeSort.toString();
+		const mergeFuncString = this.merge.toString();
+		let funcString = this.getYieldAndCompareFunctionString();
+		funcString += `\nthis.mergeSort = function*${mergeSortFuncString.substring(mergeSortFuncString.indexOf('('))}`;
+		funcString += `\nthis.merge = function*${mergeFuncString.substring(mergeFuncString.indexOf('('))}`;
+		funcString += '\n' + sortFuncString.substring(sortFuncString.indexOf('{') + 1, sortFuncString.lastIndexOf('}'));
+		return [...args, funcString];
 	}
 }
