@@ -17,6 +17,8 @@ const shuffleFunctionString = knuthShuffle
 	.substring(knuthShuffle.toString().indexOf('{') + 1, knuthShuffle.toString().lastIndexOf('}'));
 
 const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlgorithmRunnerProps) => {
+	const [currentAlgorithmTitle, setCurrentAlgorithmTitle] = useState(settings.algorithmOption.title);
+
 	const runTimes: RunTimeUseState[] = [];
 	const runningAlgorithms: RunningAlgorithmsUseState[] = [];
 	const workers: Worker[] = [];
@@ -36,10 +38,14 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 
 	// Reset run time whenever applicable settings change
 	useEffect(() => {
-		setAllTo(runTimes, undefined);
+		if (runningAlgorithms.every(el => !el[0])) {
+			setAllTo(runTimes, undefined);
+			setCurrentAlgorithmTitle(settings.algorithmOption.title);
+		}
 	}, dependencyArr);
 
 	const onRunAlgorithm = () => {
+		setCurrentAlgorithmTitle(settings.algorithmOption.title);
 		setAllTo(runningAlgorithms, true);
 
 		for (let i = 0; i < nodeMultipliers.length; ++i) {
@@ -65,6 +71,7 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 		runTimes: runTimes.map(v => v[0]),
 		runningAlgorithms: runningAlgorithms.map(v => v[0]),
 		onRunAlgorithm,
+		currentAlgorithmTitle,
 	};
 };
 

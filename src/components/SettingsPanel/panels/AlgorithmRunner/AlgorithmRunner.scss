@@ -1,17 +1,19 @@
 @use '../../../../utils/Constants' as c;
 @use 'sass:color';
 
-$settings-panel-width: c.$settings-panel-width * 1px;
 $drop-shadow-color: c.$drop-shadow-color;
 $default-padding: c.$default-padding * 1px;
 $half-padding: c.$half-padding * 1px;
 $quarter-padding: c.$quarter-padding * 1px;
 $border-radius: c.$border-radius * 1px;
 $transition-time: c.$short-transition-time * 1ms;
+$table-border: c.$default-border;
 
 .algorithm-runner {
-	font-style: italic;
-	font-size: 0.95em;
+	.disclaimer {
+		font-style: italic;
+		font-size: 0.95em;
+	}
 
 	.text-highlight {
 		font-weight: bold;
@@ -20,13 +22,13 @@ $transition-time: c.$short-transition-time * 1ms;
 	.run-algorithm-section {
 		display: flex;
 		flex-direction: row;
-		align-items: center;
 		margin-top: $half-padding;
 
 		.run-algorithm-button {
+			margin: $default-padding 0;
+
 			color: c.$light-surface;
 			font-size: c.$emphasis-font-size;
-			font-weight: 500;
 
 			padding: $half-padding $default-padding;
 			background-color: c.$primary-color-faded;
@@ -58,7 +60,51 @@ $transition-time: c.$short-transition-time * 1ms;
 		}
 
 		.algorithm-result-table {
+			flex: 1;
+			font-style: normal;
 			margin-left: 24px;
+			font-size: 0.9em;
+
+			border: $table-border;
+			border-spacing: 0;
+
+			tbody {
+				border-top: $table-border;
+
+				td {
+					margin: 0;
+					padding: $quarter-padding;
+					max-width: 50px;
+					border-right: $table-border;
+					border-right-style: dashed;
+
+					&:first-child {
+						border-right-style: solid;
+					}
+
+					&:last-child {
+						border: none;
+					}
+				}
+
+				tr:not(:last-child) {
+					td {
+						border-bottom: $table-border;
+					}
+				}
+			}
+
+			.row-head,
+			.node-count {
+				font-weight: 500;
+			}
+
+			.algorithm-title {
+				padding: $quarter-padding;
+				border-bottom: $table-border;
+				text-align: center;
+				letter-spacing: 4px;
+			}
 		}
 	}
 }
