@@ -12,8 +12,16 @@ export type CompareFunc = (a: Node, b: Node) => -1 | 0 | 1;
 export default abstract class SortAlgorithm {
 	comparator: CompareFunc;
 
-	constructor(comparator: CompareFunc) {
-		this.comparator = comparator;
+	constructor(comparator?: CompareFunc) {
+		this.comparator =
+			comparator ||
+			((a, b) => {
+				let v1 = a.value as number;
+				let v2 = b.value as number;
+				if (v1 < v2) return -1;
+				if (v1 > v2) return 1;
+				return 0;
+			});
 	}
 
 	/**
