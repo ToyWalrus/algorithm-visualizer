@@ -5,7 +5,7 @@ import './AlgorithmRunner.scss';
 
 const AlgorithmRunner = () => {
 	const { settings } = useContext(SettingsContext);
-	const nodeMultipliers = [1]; //, 100, 1000];
+	const nodeMultipliers = [1, 1000, 10000];
 	const dependencyArr = [settings.nodeCount, settings.algorithmOption.title];
 
 	const { runTimes, runningAlgorithms, onRunAlgorithm } = useAlgorithmRunner({

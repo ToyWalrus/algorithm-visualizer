@@ -35,6 +35,7 @@ export default class BubbleSort extends SortAlgorithm {
 		const args = ['values'];
 		let funcString = this.sort.toString();
 		funcString = funcString.substring(funcString.indexOf('{') + 1, funcString.lastIndexOf('}'));
+		funcString = `this.yieldAndCompare = ${this.getYieldAndCompareFunctionString()} ${funcString}`;
 		return [...args, funcString];
 	}
 }

@@ -67,4 +67,10 @@ export default abstract class SortAlgorithm {
 
 		return result;
 	}
+
+	protected getYieldAndCompareFunctionString(): string {
+		let funcString = this.yieldAndCompare.toString();
+		funcString = `function*${funcString.substring(funcString.indexOf('('))}`;
+		return funcString;
+	}
 }

@@ -12,6 +12,9 @@ type RunTimeType = number | undefined;
 type RunTimeUseState = [RunTimeType, React.Dispatch<React.SetStateAction<RunTimeType>>];
 type RunningAlgorithmsUseState = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 type Worker = (args: RunAlgorithmProps) => Promise<number>;
+const shuffleFunctionString = knuthShuffle
+	.toString()
+	.substring(knuthShuffle.toString().indexOf('{') + 1, knuthShuffle.toString().lastIndexOf('}'));
 
 const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlgorithmRunnerProps) => {
 	const runTimes: RunTimeUseState[] = [];
@@ -49,6 +52,7 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 				// we have to stringify the function since this is being passed to another "thread"
 				algorithmFunctionStrings: settings.algorithmOption.algorithm.sortFunctionToString(),
 				comparatorFunctionStrings: settings.algorithmOption.algorithm.comparatorFunctionToString(),
+				shuffleFunctionStrings: ['n', shuffleFunctionString],
 				nodeCount: settings.nodeCount * multiplier,
 			}).then(millisecondsPassed => {
 				runtimeSetter(millisecondsPassed / 1000);
@@ -67,37 +71,35 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 interface RunAlgorithmProps {
 	algorithmFunctionStrings: string[];
 	comparatorFunctionStrings: string[];
+	shuffleFunctionStrings: string[];
 	nodeCount: number;
 }
 
 // To prevent killing the web page when node count is huge, break this functionality into a webworker
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
-const runAlgorithm = ({ algorithmFunctionStrings, comparatorFunctionStrings, nodeCount }: RunAlgorithmProps) => {
+const runAlgorithm = ({
+	algorithmFunctionStrings,
+	shuffleFunctionStrings,
+	comparatorFunctionStrings,
+	nodeCount,
+}: RunAlgorithmProps) => {
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction
 	const GeneratorFunction = Object.getPrototypeOf(function* () {}).constructor;
-	console.log('a', JSON.stringify(algorithmFunctionStrings));
-
 	const algorithm = new GeneratorFunction(...algorithmFunctionStrings);
-	console.log('b', comparatorFunctionStrings);
-
 	const comparator = new GeneratorFunction(...comparatorFunctionStrings);
-	console.log('c');
+	const shuffle = new Function(...shuffleFunctionStrings);
 
 	const vals: { value: number }[] = [];
 	for (let i = 0; i < nodeCount; ++i) {
 		vals.push({ value: i });
 	}
 
-	console.log('d');
+	const shuffledList = shuffle(vals.slice(0));
 
-	const shuffledList = knuthShuffle(vals.slice(0));
-
-	console.log('e');
-
-	const startTime = window.performance.now();
+	const startTime = self.performance.now();
 	const stepper = algorithm.call({ comparator }, shuffledList);
 	while (!stepper.next().done);
-	const endTime = window.performance.now();
+	const endTime = self.performance.now();
 
 	return endTime - startTime;
 };
