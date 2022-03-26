@@ -97,7 +97,7 @@ const runAlgorithm = ({
 	const shuffledList = shuffle(vals.slice(0));
 
 	const startTime = self.performance.now();
-	const stepper = algorithm.call({ comparator }, shuffledList);
+	const stepper = algorithm(shuffledList);
 	while (!stepper.next().done);
 	const endTime = self.performance.now();
 

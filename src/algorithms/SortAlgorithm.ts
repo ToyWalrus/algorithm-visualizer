@@ -15,13 +15,13 @@ export default abstract class SortAlgorithm {
 	constructor(comparator?: CompareFunc) {
 		this.comparator =
 			comparator ||
-			((a, b) => {
+			function (a, b) {
 				let v1 = a.value as number;
 				let v2 = b.value as number;
 				if (v1 < v2) return -1;
 				if (v1 > v2) return 1;
 				return 0;
-			});
+			};
 	}
 
 	/**
@@ -69,8 +69,10 @@ export default abstract class SortAlgorithm {
 	}
 
 	protected getYieldAndCompareFunctionString(): string {
-		let funcString = this.yieldAndCompare.toString();
-		funcString = `function*${funcString.substring(funcString.indexOf('('))}`;
+		const comparatorFuncString = this.comparator.toString();
+		const yieldFuncString = this.yieldAndCompare.toString();
+		let funcString = `this.yieldAndCompare = function*${yieldFuncString.substring(yieldFuncString.indexOf('('))}`;
+		funcString = `this.comparator = ${comparatorFuncString} ${funcString}`;
 		return funcString;
 	}
 }
