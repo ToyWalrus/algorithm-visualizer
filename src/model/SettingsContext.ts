@@ -25,7 +25,7 @@ const defaultColors: NodeColor = {
 
 export const defaultSettings: AlgorithmSettings = Object.freeze({
 	nodeCount: 10,
-	algorithmOption: allAlgorithms[1],
+	algorithmOption: allAlgorithms[0],
 	sortSpeed: SortSpeed.normal,
 	selectedColors: defaultColors,
 });

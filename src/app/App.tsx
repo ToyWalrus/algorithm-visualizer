@@ -5,7 +5,7 @@ import AlgorithmSelector from 'components/SettingsPanel/panels/AlgorithmSelector
 import AlgorithmInfo from 'components/SettingsPanel/panels/AlgorithmInfo/AlgorithmInfo';
 import VisualizationSettings from 'components/SettingsPanel/panels/VisualizationSettings/VisualizationSettings';
 import SettingsProvider from 'components/SettingsProvider';
-import SettingsContext from 'model/SettingsContext';
+import SettingsContext, { defaultSettings } from 'model/SettingsContext';
 import routes from './routes';
 
 // https://www.framer.com/api/motion/animation/
@@ -42,17 +42,33 @@ const App = () => {
 		<SettingsProvider>
 			<SettingsPanel isOpen={settingsPanelOpen} sections={settingsPanelSections} />
 			<Switch>
-				{routes.map(({ path, Visualizer }) => (
-					<Route key={path} path={path}>
-						{/* {Visualizer && (
-							<SettingsContext.Consumer>
-								{({ settings }) => (
-									<Visualizer isSettingsPanelOpen={settingsPanelOpen} settings={settings} />
-								)}
-							</SettingsContext.Consumer>
-						)} */}
-					</Route>
-				))}
+				{routes.map(({ path, Visualizer, title }) => {
+					const createVisualizer = () => {
+						return (
+							Visualizer && (
+								<SettingsContext.Consumer>
+									{({ settings }) => (
+										<Visualizer isSettingsPanelOpen={settingsPanelOpen} settings={settings} />
+									)}
+								</SettingsContext.Consumer>
+							)
+						);
+					};
+					const defaultRoute = defaultSettings.algorithmOption.title.toLowerCase() === title.toLowerCase();
+
+					return (
+						<>
+							{defaultRoute && (
+								<Route key="default-route" exact path="/">
+									{createVisualizer()}
+								</Route>
+							)}
+							<Route key={path} path={path}>
+								{createVisualizer()}
+							</Route>
+						</>
+					);
+				})}
 			</Switch>
 		</SettingsProvider>
 	);

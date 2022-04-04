@@ -28,15 +28,16 @@ interface DataBarProps {
 	animationDuration?: number;
 }
 
-const DataBar = (args: DataBarProps) => {
+const DataBar = (props: DataBarProps) => {
+	console.log(getStyle(props));
 	return (
 		<motion.div
-			layoutId={args.uniqueId}
+			layoutId={props.uniqueId}
 			className="data-bar"
-			transition={{ duration: args.animationDuration || 0.25, type: 'spring' }}
+			transition={{ duration: props.animationDuration || 0.25, type: 'spring' }}
 		>
-			<div className="fill-area" style={getStyle(args)}>
-				{args.text}
+			<div className="fill-area" style={getStyle(props)}>
+				{props.text}
 			</div>
 		</motion.div>
 	);
@@ -45,7 +46,7 @@ const DataBar = (args: DataBarProps) => {
 const getStyle = ({ color = 'steelblue', width, value }: DataBarProps): React.CSSProperties => {
 	value = Math.max(Math.min(value, 1), 0);
 	return {
-		backgroundColor: color,
+		backgroundColor: `#${color}`,
 		height: (value * 100).toPrecision(2) + '%',
 		width: (width && `${width}px`) || '95%',
 	};

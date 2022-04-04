@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Typography } from '@material-ui/core';
 import { AnimateSharedLayout } from 'framer-motion';
 import DataBar, { DataBarProps } from 'components/DataBar/DataBar';
 import SortAlgorithm from 'algorithms/SortAlgorithm';
@@ -28,25 +27,7 @@ const VisualizationArea = ({ title, ...props }: VisualizationAreaProps) => {
 
 	return (
 		<div className={clsx('visualization-area', { 'settings-open': props.isSettingsPanelOpen })}>
-			<div className="control-buttons">
-				<Button variant="contained" onClick={onStartClick}>
-					Start
-				</Button>
-				<Button variant="contained" onClick={onStopClick}>
-					Stop
-				</Button>
-				<Button variant="contained" onClick={onResetClick}>
-					Shuffle/Reset
-				</Button>
-				<Button variant="contained" onClick={onSortStepClick}>
-					Sort Step
-				</Button>
-			</div>
-			{title && (
-				<Typography className="title" color="primary" variant="h1">
-					{title}
-				</Typography>
-			)}
+			<h1 className="title">{title}</h1>
 			<div className="spacer" />
 			<AnimateSharedLayout>
 				<div className="data-bars">
