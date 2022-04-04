@@ -4,6 +4,8 @@ import './AlgorithmControls.scss';
 
 interface AlgorithmControlsProps {
 	hasStartedSorting: boolean;
+	hasFinishedSorting: boolean;
+	canStartSorting: boolean;
 
 	onStart: VoidFunction;
 	onStop: VoidFunction;
@@ -14,10 +16,18 @@ interface AlgorithmControlsProps {
 const AlgorithmControls = (props: AlgorithmControlsProps) => {
 	return (
 		<div className="algorithm-controls">
-			<ControlButton icon="play" onClick={props.onStart} disabled={props.hasStartedSorting}>
+			<ControlButton
+				icon="play"
+				onClick={props.onStart}
+				disabled={!props.canStartSorting || props.hasStartedSorting}
+			>
 				Start
 			</ControlButton>
-			<ControlButton icon="forward-step" onClick={props.onSortStep}>
+			<ControlButton
+				icon="forward-step"
+				onClick={props.onSortStep}
+				disabled={props.hasFinishedSorting || !props.canStartSorting}
+			>
 				Step
 			</ControlButton>
 			<ControlButton icon="stop" onClick={props.onStop} disabled={!props.hasStartedSorting}>

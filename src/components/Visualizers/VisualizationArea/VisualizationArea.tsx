@@ -1,16 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimateSharedLayout } from 'framer-motion';
 import DataBar, { DataBarProps } from 'components/DataBar/DataBar';
 import SortAlgorithm from 'algorithms/SortAlgorithm';
-import useForceUpdate from 'utils/useForceUpdate';
 import Node from 'model/Node';
 import shuffle from 'shuffle-array';
 import { sortSpeedValue } from 'utils/Enums';
 import { AlgorithmSettings } from 'model/SettingsContext';
 import clsx from 'clsx';
 import TitleRow from './TitleRow';
-import './VisualizationArea.scss';
 import AlgorithmControls from './AlgorithmControls';
+import './VisualizationArea.scss';
 
 export interface VisualizationAreaComponentProps {
 	settings: AlgorithmSettings;
@@ -22,17 +21,26 @@ interface VisualizationAreaProps extends VisualizationAreaComponentProps {
 	title: string;
 }
 
-let timer: NodeJS.Timeout | undefined;
-
 const VisualizationArea = (props: VisualizationAreaProps) => {
-	const { onResetClick, items, onSortStepClick, onStartClick, onStopClick, isSorting } =
-		useVisualizationAreaHook(props);
+	const {
+		onResetClick,
+		items,
+		onSortStepClick,
+		canStart,
+		isFinished,
+		sortStep,
+		onStartClick,
+		onStopClick,
+		isSorting,
+	} = useVisualizationAreaHook(props);
 
 	return (
 		<div className={clsx('visualization-area', { 'settings-open': props.isSettingsPanelOpen })}>
-			<TitleRow title={props.title} hasFinishedSorting={false} hasStartedSorting={isSorting} sortStep={0} />
+			<TitleRow title={props.title} hasFinishedSorting={isFinished} sortStep={sortStep} />
 			<AlgorithmControls
 				hasStartedSorting={isSorting}
+				hasFinishedSorting={isFinished}
+				canStartSorting={canStart}
 				onSortStep={onSortStepClick}
 				onShuffle={onResetClick}
 				onStart={onStartClick}
@@ -54,6 +62,12 @@ const VisualizationArea = (props: VisualizationAreaProps) => {
 };
 
 const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) => {
+	const nodeRecreationDependencies = [
+		settings.nodeCount,
+		settings.selectedColors.primaryColor,
+		settings.selectedColors.alternateColor,
+	];
+
 	const createNodes = () => {
 		const items: Node[] = [];
 		for (let i = 1; i <= settings.nodeCount; ++i) {
@@ -70,15 +84,13 @@ const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) 
 		return items;
 	};
 
-	const items = useMemo(createNodes, [
-		settings.nodeCount,
-		settings.selectedColors.primaryColor,
-		settings.selectedColors.alternateColor,
-	]);
-
+	const timer = useRef<NodeJS.Timeout | undefined>(undefined);
+	const items = useMemo(createNodes, nodeRecreationDependencies);
+	const [sortStep, setSortStep] = useState(0);
+	const [canStart, setCanStart] = useState(false);
 	const [isSorting, setIsSorting] = useState(false);
+	const [isFinished, setIsFinished] = useState(true);
 	const [sortIterator, setSortIterator] = useState(sorter.sort(items));
-	const forceUpdate = useForceUpdate();
 
 	const unsetNodesBeingSorted = () => {
 		items.forEach(node => {
@@ -88,36 +100,36 @@ const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) 
 
 	const onSortStepClick = (): boolean => {
 		if (sortIterator && !sortIterator.next().done) {
-			forceUpdate();
+			setSortStep(prev => prev + 1);
 			return true;
 		} else {
 			onStopClick();
 			unsetNodesBeingSorted();
-			forceUpdate();
+			setIsFinished(true);
+			setCanStart(false);
 			return false;
 		}
 	};
 
 	const onStopClick = () => {
-		if (timer) {
-			clearTimeout(timer);
-			timer = undefined;
+		if (timer.current) {
+			clearTimeout(timer.current);
+			timer.current = undefined;
 		}
 		setIsSorting(false);
 	};
 
 	const onStartClick = () => {
-		const stepFunction = () => {
-			return setTimeout(() => {
+		const stepFunction = () =>
+			setTimeout(() => {
 				if (onSortStepClick()) {
-					timer = stepFunction();
+					timer.current = stepFunction();
 				}
 			}, sortSpeedValue(settings.sortSpeed) || 200);
-		};
 
 		onStopClick();
 		setIsSorting(true);
-		timer = stepFunction();
+		timer.current = stepFunction();
 	};
 
 	const onResetClick = () => {
@@ -126,18 +138,29 @@ const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) 
 		items.forEach(node => {
 			node.isBeingSorted = false;
 		});
+
+		setSortStep(0);
+		setIsFinished(false);
+		setCanStart(true);
 		setSortIterator(sorter.sort(items));
 	};
 
 	useEffect(() => {
-		if (timer) {
+		if (timer.current) {
 			onStartClick();
 		}
 	}, [settings.sortSpeed]);
 
+	useEffect(() => {
+		setCanStart(false);
+	}, nodeRecreationDependencies);
+
 	return {
 		items,
+		sortStep,
+		canStart,
 		isSorting,
+		isFinished,
 		onStartClick,
 		onStopClick,
 		onResetClick,

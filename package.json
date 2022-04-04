@@ -28,7 +28,7 @@
 		"build": "react-scripts build",
 		"test": "jest test/ --passWithNoTests",
 		"tdd": "jest --watch",
-		"lint": "eslint . --ext .ts",
+		"lint": "eslint . --ext .tsx",
 		"eject": "react-scripts eject",
 		"new-component": "npx generate-react-cli component"
 	},

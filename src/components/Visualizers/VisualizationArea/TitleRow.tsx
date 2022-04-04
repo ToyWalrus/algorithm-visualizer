@@ -4,13 +4,12 @@ import './TitleRow.scss';
 interface TitleRowProps {
 	title: string;
 	sortStep: number;
-	hasStartedSorting: boolean;
 	hasFinishedSorting: boolean;
 }
 
-const TitleRow = ({ title, sortStep, hasStartedSorting, hasFinishedSorting }: TitleRowProps) => {
-	const firstInfo = `Sorted in ${hasFinishedSorting ? sortStep : '#'} steps`;
-	const secondInfo = `Step: ${hasStartedSorting ? sortStep : '#'}`;
+const TitleRow = ({ title, sortStep, hasFinishedSorting }: TitleRowProps) => {
+	const firstInfo = `Sorted in ${hasFinishedSorting && sortStep > 0 ? sortStep : '#'} steps`;
+	const secondInfo = `Step: ${sortStep > 0 ? sortStep : '#'}`;
 
 	return (
 		<div className="title-row">
