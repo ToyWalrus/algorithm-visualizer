@@ -25,13 +25,14 @@ interface VisualizationAreaProps extends VisualizationAreaComponentProps {
 let timer: NodeJS.Timeout | undefined;
 
 const VisualizationArea = (props: VisualizationAreaProps) => {
-	const { onResetClick, items, onSortStepClick, onStartClick, onStopClick } = useVisualizationAreaHook(props);
+	const { onResetClick, items, onSortStepClick, onStartClick, onStopClick, isSorting } =
+		useVisualizationAreaHook(props);
 
 	return (
 		<div className={clsx('visualization-area', { 'settings-open': props.isSettingsPanelOpen })}>
-			<TitleRow title={props.title} hasFinishedSorting={false} hasStartedSorting={false} sortStep={0} />
+			<TitleRow title={props.title} hasFinishedSorting={false} hasStartedSorting={isSorting} sortStep={0} />
 			<AlgorithmControls
-				hasStartedSorting={false}
+				hasStartedSorting={isSorting}
 				onSortStep={onSortStepClick}
 				onShuffle={onResetClick}
 				onStart={onStartClick}
@@ -75,8 +76,15 @@ const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) 
 		settings.selectedColors.alternateColor,
 	]);
 
+	const [isSorting, setIsSorting] = useState(false);
 	const [sortIterator, setSortIterator] = useState(sorter.sort(items));
 	const forceUpdate = useForceUpdate();
+
+	const unsetNodesBeingSorted = () => {
+		items.forEach(node => {
+			node.isBeingSorted = false;
+		});
+	};
 
 	const onSortStepClick = (): boolean => {
 		if (sortIterator && !sortIterator.next().done) {
@@ -84,6 +92,8 @@ const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) 
 			return true;
 		} else {
 			onStopClick();
+			unsetNodesBeingSorted();
+			forceUpdate();
 			return false;
 		}
 	};
@@ -93,6 +103,7 @@ const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) 
 			clearTimeout(timer);
 			timer = undefined;
 		}
+		setIsSorting(false);
 	};
 
 	const onStartClick = () => {
@@ -100,16 +111,12 @@ const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) 
 			return setTimeout(() => {
 				if (onSortStepClick()) {
 					timer = stepFunction();
-				} else {
-					items.forEach(node => {
-						node.isBeingSorted = false;
-					});
-					forceUpdate();
 				}
 			}, sortSpeedValue(settings.sortSpeed) || 200);
 		};
 
 		onStopClick();
+		setIsSorting(true);
 		timer = stepFunction();
 	};
 
@@ -130,6 +137,7 @@ const useVisualizationAreaHook = ({ settings, sorter }: VisualizationAreaProps) 
 
 	return {
 		items,
+		isSorting,
 		onStartClick,
 		onStopClick,
 		onResetClick,

@@ -8,22 +8,15 @@ interface AlgorithmControlsProps {
 	onStart: VoidFunction;
 	onStop: VoidFunction;
 	onSortStep: VoidFunction;
-	onPause?: VoidFunction;
 	onShuffle: VoidFunction;
 }
 
 const AlgorithmControls = (props: AlgorithmControlsProps) => {
 	return (
 		<div className="algorithm-controls">
-			{props.hasStartedSorting && props.onPause ? (
-				<ControlButton icon="pause" onClick={props.onPause}>
-					Pause
-				</ControlButton>
-			) : (
-				<ControlButton icon="play" onClick={props.onStart} disabled={props.hasStartedSorting}>
-					Start
-				</ControlButton>
-			)}
+			<ControlButton icon="play" onClick={props.onStart} disabled={props.hasStartedSorting}>
+				Start
+			</ControlButton>
 			<ControlButton icon="forward-step" onClick={props.onSortStep}>
 				Step
 			</ControlButton>

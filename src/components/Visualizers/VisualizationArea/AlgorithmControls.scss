@@ -23,6 +23,8 @@ $margin: c.$half-padding * 1px;
 		flex-direction: row;
 		align-items: center;
 
+		transition: color c.$transition-time * 0.5ms linear;
+
 		.control-button-icon {
 			margin-right: $margin;
 			&.rotated {
