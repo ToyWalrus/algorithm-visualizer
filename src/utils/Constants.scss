@@ -15,6 +15,7 @@ $primary-color-faded-2: color.scale($primary-color, $lightness: 70%);
 $surface: #ececec;
 $light-surface: color.scale($surface, $lightness: 50%);
 $text-color: color.invert($surface);
+$disabled-color-over-background: color.scale($surface, $lightness: -40%);
 $drop-shadow-color: #3a3a3a;
 $app-background-color: #282c34;
 

@@ -29,7 +29,6 @@ interface DataBarProps {
 }
 
 const DataBar = (props: DataBarProps) => {
-	console.log(getStyle(props));
 	return (
 		<motion.div
 			layoutId={props.uniqueId}

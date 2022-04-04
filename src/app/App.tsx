@@ -7,6 +7,10 @@ import VisualizationSettings from 'components/SettingsPanel/panels/Visualization
 import SettingsProvider from 'components/SettingsProvider';
 import SettingsContext, { defaultSettings } from 'model/SettingsContext';
 import routes from './routes';
+import {
+	VisualizationAreaComponentProps,
+	VisualizationAreaProps,
+} from 'components/Visualizers/VisualizationArea/VisualizationArea';
 
 // https://www.framer.com/api/motion/animation/
 const App = () => {
@@ -38,37 +42,30 @@ const App = () => {
 		},
 	];
 
+	const defaultRoute = routes.find(
+		r => r.title.toLowerCase() === defaultSettings.algorithmOption.title.toLowerCase()
+	);
+
+	const createVisualizer = (Visualizer: (args: VisualizationAreaComponentProps) => JSX.Element) => (
+		<SettingsContext.Consumer>
+			{({ settings }) => <Visualizer isSettingsPanelOpen={settingsPanelOpen} settings={settings} />}
+		</SettingsContext.Consumer>
+	);
+
 	return (
 		<SettingsProvider>
 			<SettingsPanel isOpen={settingsPanelOpen} sections={settingsPanelSections} />
 			<Switch>
-				{routes.map(({ path, Visualizer, title }) => {
-					const createVisualizer = () => {
-						return (
-							Visualizer && (
-								<SettingsContext.Consumer>
-									{({ settings }) => (
-										<Visualizer isSettingsPanelOpen={settingsPanelOpen} settings={settings} />
-									)}
-								</SettingsContext.Consumer>
-							)
-						);
-					};
-					const defaultRoute = defaultSettings.algorithmOption.title.toLowerCase() === title.toLowerCase();
-
-					return (
-						<>
-							{defaultRoute && (
-								<Route key="default-route" exact path="/">
-									{createVisualizer()}
-								</Route>
-							)}
-							<Route key={path} path={path}>
-								{createVisualizer()}
-							</Route>
-						</>
-					);
-				})}
+				{defaultRoute && defaultRoute.Visualizer && (
+					<Route key="default-route" exact path="/">
+						{createVisualizer(defaultRoute.Visualizer)}
+					</Route>
+				)}
+				{routes.map(({ path, Visualizer }) => (
+					<Route key={path} path={path}>
+						{Visualizer && createVisualizer(Visualizer)}
+					</Route>
+				))}
 			</Switch>
 		</SettingsProvider>
 	);

@@ -8,8 +8,9 @@ import shuffle from 'shuffle-array';
 import { sortSpeedValue } from 'utils/Enums';
 import { AlgorithmSettings } from 'model/SettingsContext';
 import clsx from 'clsx';
-import './VisualizationArea.scss';
 import TitleRow from './TitleRow';
+import './VisualizationArea.scss';
+import AlgorithmControls from './AlgorithmControls';
 
 export interface VisualizationAreaComponentProps {
 	settings: AlgorithmSettings;
@@ -29,7 +30,14 @@ const VisualizationArea = (props: VisualizationAreaProps) => {
 	return (
 		<div className={clsx('visualization-area', { 'settings-open': props.isSettingsPanelOpen })}>
 			<TitleRow title={props.title} hasFinishedSorting={false} hasStartedSorting={false} sortStep={0} />
-			<div className="algorithm-controls"></div>
+			<AlgorithmControls
+				hasStartedSorting={false}
+				onSortStep={onSortStepClick}
+				onShuffle={onResetClick}
+				onStart={onStartClick}
+				onStop={onStopClick}
+			/>
+			<div className="spacer" />
 			<AnimateSharedLayout>
 				<div className="data-bars">
 					{items.map((node, idx) => (
