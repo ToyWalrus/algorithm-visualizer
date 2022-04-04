@@ -9,6 +9,7 @@ import { sortSpeedValue } from 'utils/Enums';
 import { AlgorithmSettings } from 'model/SettingsContext';
 import clsx from 'clsx';
 import './VisualizationArea.scss';
+import TitleRow from './TitleRow';
 
 export interface VisualizationAreaComponentProps {
 	settings: AlgorithmSettings;
@@ -17,18 +18,18 @@ export interface VisualizationAreaComponentProps {
 
 interface VisualizationAreaProps extends VisualizationAreaComponentProps {
 	sorter: SortAlgorithm;
-	title?: string;
+	title: string;
 }
 
 let timer: NodeJS.Timeout | undefined;
 
-const VisualizationArea = ({ title, ...props }: VisualizationAreaProps) => {
+const VisualizationArea = (props: VisualizationAreaProps) => {
 	const { onResetClick, items, onSortStepClick, onStartClick, onStopClick } = useVisualizationAreaHook(props);
 
 	return (
 		<div className={clsx('visualization-area', { 'settings-open': props.isSettingsPanelOpen })}>
-			<h1 className="title">{title}</h1>
-			<div className="spacer" />
+			<TitleRow title={props.title} hasFinishedSorting={false} hasStartedSorting={false} sortStep={0} />
+			<div className="algorithm-controls"></div>
 			<AnimateSharedLayout>
 				<div className="data-bars">
 					{items.map((node, idx) => (

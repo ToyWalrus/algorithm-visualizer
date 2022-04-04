@@ -1,0 +1,25 @@
+@use '../../../utils/Constants' as c;
+
+.title-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	color: c.$surface;
+
+	.title {
+		align-self: center;
+		font-weight: 700;
+		font-size: 2.5em;
+		letter-spacing: 2px;
+		margin: 0;
+	}
+
+	.sorting-info {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-end;
+		font-size: 0.9em;
+	}
+}

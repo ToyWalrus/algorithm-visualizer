@@ -10,7 +10,7 @@ $half-padding: c.$half-padding * 1px;
 
 	background-color: c.$app-background-color;
 
-	padding: $half-padding $default-padding;
+	padding: $default-padding;
 	padding-bottom: 0;
 
 	height: 100vh;
@@ -20,11 +20,6 @@ $half-padding: c.$half-padding * 1px;
 
 	&.settings-open {
 		margin-left: c.$settings-panel-width * 1px;
-	}
-
-	.title {
-		align-self: center;
-		color: c.$surface;
 	}
 
 	.spacer {
