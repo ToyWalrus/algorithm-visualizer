@@ -15,6 +15,7 @@ $quarter-padding: c.$quarter-padding * 1px;
 	left: -$settings-panel-width;
 	width: $settings-panel-width;
 	box-shadow: 0 0 $drop-shadow-color;
+	color: c.$text-color;
 
 	display: flex;
 	flex-direction: column;

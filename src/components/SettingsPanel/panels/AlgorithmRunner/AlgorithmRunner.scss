@@ -10,6 +10,8 @@ $transition-time: c.$short-transition-time * 1ms;
 $table-border: c.$default-border;
 
 .algorithm-runner {
+	margin-top: $default-padding;
+
 	.disclaimer {
 		font-style: italic;
 		font-size: 0.95em;

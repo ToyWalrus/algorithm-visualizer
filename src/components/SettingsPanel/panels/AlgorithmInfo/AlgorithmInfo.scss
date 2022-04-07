@@ -4,6 +4,10 @@ $primary-color: c.$primary-color;
 $default-padding: c.$default-padding * 1px;
 $half-padding: c.$half-padding * 1px;
 
+$red: #af2020;
+$blue: #2046af;
+$green: #669e1c;
+
 .algorithm-info {
 	display: flex;
 	flex-direction: column;
@@ -13,21 +17,51 @@ $half-padding: c.$half-padding * 1px;
 		display: flex;
 		flex-direction: row;
 		align-items: flex-start;
-		margin-top: $default-padding;
-
-		&:first-child {
-			margin-top: $half-padding;
-		}
+		margin-top: $half-padding;
 
 		.info-text {
 			margin-left: $default-padding;
 		}
 
+		.italic {
+			font-style: italic;
+		}
+
+		.emphasis {
+			font-weight: 500;
+			font-size: 1.05em;
+
+			&.low {
+				font-size: 1em;
+			}
+		}
+
 		&.complexity {
-			.info-text > * {
+			.complexity-formula {
 				font-style: italic;
 				font-weight: 500;
 			}
+
+			sub {
+				margin-right: $half-padding;
+				font-weight: 400;
+			}
+		}
+
+		.red {
+			color: $red;
+		}
+
+		.blue {
+			color: $blue;
+		}
+
+		.green {
+			color: $green;
+		}
+
+		.primary {
+			color: c.$primary-color-darker;
 		}
 
 		.info-icon {
@@ -46,6 +80,11 @@ $half-padding: c.$half-padding * 1px;
 
 			background-color: c.$primary-color-faded-2;
 			border-radius: 100%;
+		}
+
+		.info-icon,
+		.info-icon-backdrop {
+			margin-top: c.$quarter-padding * 1px;
 		}
 	}
 }

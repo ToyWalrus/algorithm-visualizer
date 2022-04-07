@@ -10,8 +10,8 @@ const AlgorithmInfo = () => {
 	return (
 		<div className="algorithm-info">
 			<InfoSection text={selectedAlgorithm.description} className="description" />
-			<InfoSection text={selectedAlgorithm.complexity} className="complexity" prependElement="Complexity: " />
-			{selectedAlgorithm.uses && <InfoSection text={selectedAlgorithm.uses} className="uses" />}
+			{selectedAlgorithm.extraInfo && <InfoSection text={selectedAlgorithm.extraInfo} />}
+			<InfoSection text={selectedAlgorithm.complexity} className="complexity" />
 		</div>
 	);
 };
