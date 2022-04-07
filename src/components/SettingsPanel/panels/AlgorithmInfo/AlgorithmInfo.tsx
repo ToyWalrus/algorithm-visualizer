@@ -9,27 +9,22 @@ const AlgorithmInfo = () => {
 
 	return (
 		<div className="algorithm-info">
-			<InfoSection text={selectedAlgorithm.description} className="description" />
-			{selectedAlgorithm.extraInfo && <InfoSection text={selectedAlgorithm.extraInfo} />}
-			<InfoSection text={selectedAlgorithm.complexity} className="complexity" />
+			<InfoSection className="description">{selectedAlgorithm.description}</InfoSection>
+			<InfoSection>{selectedAlgorithm.extraInfo}</InfoSection>
+			<InfoSection className="complexity">{selectedAlgorithm.complexity}</InfoSection>
 		</div>
 	);
 };
 
 interface InfoSectionProps {
-	text?: string | JSX.Element;
-	prependElement?: string | JSX.Element;
 	className?: string;
 }
 
-const InfoSection = ({ text, className, prependElement }: InfoSectionProps) => {
+const InfoSection = ({ children, className }: React.PropsWithChildren<InfoSectionProps>) => {
 	return (
 		<div className={clsx('info-section', className)}>
 			<InfoIcon />
-			<div className="info-text">
-				{prependElement}
-				{text}
-			</div>
+			<div className="info-text">{children}</div>
 		</div>
 	);
 };
