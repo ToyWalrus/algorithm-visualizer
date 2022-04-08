@@ -53,17 +53,24 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 			const worker = workers[i];
 			const runtimeSetter = runTimes[i][1];
 			const algorithmRunningSetter = runningAlgorithms[i][1];
-
-			worker({
+			const workerArgs = {
 				// We have to stringify the function since this is being passed to a web worker
 				// and it can't serialize classes & functions
 				algorithmFunctionStrings: settings.algorithmOption.algorithm.sortFunctionToString(),
 				shuffleFunctionStrings: ['n', shuffleFunctionString],
 				nodeCount: settings.nodeCount * multiplier,
-			}).then(millisecondsPassed => {
-				runtimeSetter(millisecondsPassed / 1000);
-				algorithmRunningSetter(false);
-			});
+			};
+
+			worker(workerArgs)
+				.then(millisecondsPassed => {
+					runtimeSetter(millisecondsPassed / 1000);
+					algorithmRunningSetter(false);
+				})
+				.catch(e => {
+					runtimeSetter(-1);
+					algorithmRunningSetter(false);
+					console.error('Unable to complete algorithm:', { error: e, workerArgs });
+				});
 		}
 	};
 
