@@ -23,10 +23,15 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 	const runningAlgorithms: RunningAlgorithmsUseState[] = [];
 	const workers: Worker[] = [];
 
+	const remoteDependencies: string[] = [];
+	remoteDependencies.push(window.location.origin + '/algorithms/QuickSort.js');
+	remoteDependencies.push(window.location.origin + '/algorithms/MergeSort.js');
+	remoteDependencies.push(window.location.origin + '/algorithms/BubbleSort.js');
+
 	for (let i = 0; i < nodeMultipliers.length; ++i) {
 		runTimes.push(useState<number | undefined>());
 		runningAlgorithms.push(useState<boolean>(false));
-		workers.push(useWorker(runAlgorithm)[0]);
+		workers.push(useWorker(runAlgorithm, { remoteDependencies })[0]);
 	}
 
 	const setAllTo = (arr: (RunTimeUseState | RunningAlgorithmsUseState)[], value: any) => {
@@ -53,12 +58,10 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 			const worker = workers[i];
 			const runtimeSetter = runTimes[i][1];
 			const algorithmRunningSetter = runningAlgorithms[i][1];
-			const workerArgs = {
-				// We have to stringify the function since this is being passed to a web worker
-				// and it can't serialize classes & functions
-				algorithmFunctionStrings: settings.algorithmOption.algorithm.sortFunctionToString(),
+			const workerArgs: RunAlgorithmProps = {
 				shuffleFunctionStrings: ['n', shuffleFunctionString],
 				nodeCount: settings.nodeCount * multiplier,
+				algorithm: settings.algorithmOption.algorithm.constructor.name,
 			};
 
 			worker(workerArgs)
@@ -83,18 +86,35 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 };
 
 interface RunAlgorithmProps {
-	algorithmFunctionStrings: string[];
 	shuffleFunctionStrings: string[];
 	nodeCount: number;
+	algorithm: string;
 }
+
+// Have to declare these as variables here so
+// that the analyzer won't freak out on using them
+// in the web worker function
+let BubbleSort, QuickSort, MergeSort;
 
 // To prevent killing the web page when node count is huge, break this functionality into a webworker
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
-const runAlgorithm = ({ algorithmFunctionStrings, shuffleFunctionStrings, nodeCount }: RunAlgorithmProps) => {
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction
-	const GeneratorFunction = Object.getPrototypeOf(function* () {}).constructor;
-	const algorithm = new GeneratorFunction(...algorithmFunctionStrings);
+const runAlgorithm = ({ algorithm: algorithmName, shuffleFunctionStrings, nodeCount }: RunAlgorithmProps) => {
 	const shuffle = new Function(...shuffleFunctionStrings);
+
+	let algorithm: any;
+	switch (algorithmName) {
+		case 'BubbleSort':
+			algorithm = new BubbleSort();
+			break;
+		case 'QuickSort':
+			algorithm = new QuickSort();
+			break;
+		case 'MergeSort':
+			algorithm = new MergeSort();
+			break;
+		default:
+			return -1000;
+	}
 
 	const vals: { value: number }[] = [];
 	for (let i = 0; i < nodeCount; ++i) {
@@ -102,9 +122,8 @@ const runAlgorithm = ({ algorithmFunctionStrings, shuffleFunctionStrings, nodeCo
 	}
 
 	const shuffledList = shuffle(vals.slice(0));
-
 	const startTime = self.performance.now();
-	const stepper = algorithm(shuffledList);
+	const stepper = algorithm.sort(shuffledList);
 	while (!stepper.next().done);
 	const endTime = self.performance.now();
 
