@@ -104,8 +104,13 @@ let Algorithm;
 
 // To prevent killing the web page when node count is huge, break this functionality into a webworker
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
-const runAlgorithm = ({ shuffleFunctionStrings, nodeCount }: RunAlgorithmProps) => {
-	const shuffle = new Function(...shuffleFunctionStrings);
+const runAlgorithm = ({ nodeCount }: RunAlgorithmProps) => {
+	// https://cdnjs.cloudflare.com/ajax/libs/knuth-shuffle/1.0.8/index.min.js
+	const shuffle = function (n) {
+		for (var o, t, e = n.length; 0 !== e; )
+			(t = Math.floor(Math.random() * e)), (o = n[(e -= 1)]), (n[e] = n[t]), (n[t] = o);
+		return n;
+	};
 
 	let algorithm = new Algorithm();
 
