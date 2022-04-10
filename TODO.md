@@ -2,7 +2,6 @@
 
 ## Critical
 
-- Figure out how to properly minify algorithm funcion files
 - Toggle side panel
 
 ## Nice to have
