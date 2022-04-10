@@ -1,5 +1,5 @@
 'use strict';
-class BubbleSort {
+class Algorithm {
 	constructor(comparator) {
 		this.comparator =
 			comparator ||

@@ -24,9 +24,17 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 	const workers: Worker[] = [];
 
 	const remoteDependencies: string[] = [];
-	remoteDependencies.push(window.location.origin + '/algorithms/QuickSort.js');
-	remoteDependencies.push(window.location.origin + '/algorithms/MergeSort.js');
-	remoteDependencies.push(window.location.origin + '/algorithms/BubbleSort.js');
+	switch (settings.algorithmOption.algorithm.constructor.name) {
+		case 'BubbleSort':
+			remoteDependencies.push(window.location.origin + '/algorithms/BubbleSort.js');
+			break;
+		case 'MergeSort':
+			remoteDependencies.push(window.location.origin + '/algorithms/MergeSort.js');
+			break;
+		case 'QuickSort':
+			remoteDependencies.push(window.location.origin + '/algorithms/QuickSort.js');
+			break;
+	}
 
 	for (let i = 0; i < nodeMultipliers.length; ++i) {
 		runTimes.push(useState<number | undefined>());
@@ -61,7 +69,6 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 			const workerArgs: RunAlgorithmProps = {
 				shuffleFunctionStrings: ['n', shuffleFunctionString],
 				nodeCount: settings.nodeCount * multiplier,
-				algorithm: settings.algorithmOption.algorithm.constructor.name,
 			};
 
 			worker(workerArgs)
@@ -88,33 +95,19 @@ const useAlgorithmRunner = ({ settings, nodeMultipliers, dependencyArr }: UseAlg
 interface RunAlgorithmProps {
 	shuffleFunctionStrings: string[];
 	nodeCount: number;
-	algorithm: string;
 }
 
-// Have to declare these as variables here so
-// that the analyzer won't freak out on using them
+// Have to declare this here so
+// that the analyzer won't freak out on using it
 // in the web worker function
-let BubbleSort, QuickSort, MergeSort;
+let Algorithm;
 
 // To prevent killing the web page when node count is huge, break this functionality into a webworker
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
-const runAlgorithm = ({ algorithm: algorithmName, shuffleFunctionStrings, nodeCount }: RunAlgorithmProps) => {
+const runAlgorithm = ({ shuffleFunctionStrings, nodeCount }: RunAlgorithmProps) => {
 	const shuffle = new Function(...shuffleFunctionStrings);
 
-	let algorithm: any;
-	switch (algorithmName) {
-		case 'BubbleSort':
-			algorithm = new BubbleSort();
-			break;
-		case 'QuickSort':
-			algorithm = new QuickSort();
-			break;
-		case 'MergeSort':
-			algorithm = new MergeSort();
-			break;
-		default:
-			return -1000;
-	}
+	let algorithm = new Algorithm();
 
 	const vals: { value: number }[] = [];
 	for (let i = 0; i < nodeCount; ++i) {

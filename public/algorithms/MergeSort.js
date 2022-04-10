@@ -1,5 +1,5 @@
 'use strict';
-class MergeSort {
+class Algorithm {
 	constructor(comparator) {
 		this.comparator =
 			comparator ||

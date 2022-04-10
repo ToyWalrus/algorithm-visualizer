@@ -19,8 +19,8 @@ export interface AlgorithmSettings {
 }
 
 const defaultColors: NodeColor = {
-	primaryColor: colorOptions[0],
-	alternateColor: colorOptions[1],
+	primaryColor: colorOptions[1],
+	alternateColor: colorOptions[0],
 };
 
 export const defaultSettings: AlgorithmSettings = Object.freeze({

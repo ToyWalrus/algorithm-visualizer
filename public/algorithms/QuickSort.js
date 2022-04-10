@@ -1,5 +1,5 @@
 'use strict';
-class QuickSort {
+class Algorithm {
 	constructor(comparator) {
 		this.comparator =
 			comparator ||
