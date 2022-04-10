@@ -1,0 +1,19 @@
+@use '../../utils/Constants' as c;
+
+$border-color: c.$border-color;
+
+.elevated-container {
+	position: fixed;
+	z-index: 100;
+	left: -100;
+	top: 0;
+
+	box-shadow: 2px 2px 7px -5px $border-color;
+
+	opacity: 0;
+	transition: all c.$transition-time * 2ms ease-out;
+
+	&.visible {
+		opacity: 1;
+	}
+}

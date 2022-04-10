@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"target": "es5",
+		"module": "commonJS",
+		"skipLibCheck": true,
+		"downlevelIteration": true,
+		"outDir": "public/algorithms"
+	},
+	"include": ["src/algorithms"]
+}

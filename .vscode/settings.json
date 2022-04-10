@@ -1,12 +1,10 @@
 {
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2,
-    "tslint.configFile": ".eslintrc",
-    "tslint.exclude": [
-        "node_modules/",
-        "templates/",
-        "build/",
-        "dist/",
-        ".vscode/"
-    ]
+	"editor.formatOnSave": true,
+	"tslint.configFile": ".eslintrc",
+	"tslint.exclude": ["node_modules/", "templates/", "build/", "dist/", ".vscode/"],
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"prettier.configPath": ".prettierrc",
+	"typescript.preferences.jsxAttributeCompletionStyle": "none"
 }

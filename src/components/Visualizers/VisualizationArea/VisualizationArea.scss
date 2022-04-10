@@ -1,0 +1,34 @@
+@use '../../../utils/Constants' as c;
+
+$default-padding: c.$default-padding * 1px;
+$half-padding: c.$half-padding * 1px;
+
+.visualization-area {
+	display: flex;
+	flex-direction: column;
+
+	background-color: c.$app-background-color;
+
+	padding: $default-padding;
+	padding-bottom: 0;
+
+	height: 100vh;
+	overflow: hidden;
+
+	transition: margin-left c.$transition-time * 1ms ease-in-out;
+
+	&.settings-open {
+		margin-left: c.$settings-panel-width * 1px;
+	}
+
+	.spacer {
+		flex: 1;
+	}
+
+	.data-bars {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		height: 45vh;
+	}
+}

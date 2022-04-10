@@ -1,33 +1,34 @@
-import theme from '../app/theme/theme';
-
-interface NodeArgs {
-  value: string | number;
-  id: string;
-  index?: number;
+interface NodeProps {
+	value: string | number;
+	id: string;
+	index?: number;
+	primaryColor: string;
+	alternateColor?: string;
 }
 
 export default class Node {
-  private args: NodeArgs;
+	private props: NodeProps;
 
-  get value(): string | number {
-    return this.args.value;
-  }
+	constructor(props: NodeProps) {
+		this.props = props;
+		this.index = props.index;
+		this.isBeingSorted = false;
+	}
 
-  get id(): string {
-    return this.args.id;
-  }
+	get value(): string | number {
+		return this.props.value;
+	}
 
-  index?: number;
+	index?: number;
 
-  isBeingSorted: boolean;
+	isBeingSorted: boolean;
 
-  get color(): string {
-    return this.isBeingSorted ? theme.palette.secondary.main : theme.palette.info.main;
-  }
+	get color(): string {
+		if (!this.props.alternateColor) return this.props.primaryColor;
+		return this.isBeingSorted ? this.props.alternateColor : this.props.primaryColor;
+	}
 
-  constructor(args: NodeArgs) {
-    this.args = args;
-    this.index = args.index;
-    this.isBeingSorted = false;
-  }
+	get id(): string {
+		return this.props.id;
+	}
 }

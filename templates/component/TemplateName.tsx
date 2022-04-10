@@ -1,14 +1,15 @@
 import React from 'react';
 
-interface TemplateNameArgs {}
+interface TemplateNameProps {
+}
 
-const TemplateName = (args: TemplateNameArgs) => {
-  return (
-    <div className="template-name">
-      <h1>TemplateName component</h1>
-    </div>
-  );
+const TemplateName = (props: TemplateNameProps) => {
+	return (
+		<div className='template-name'>
+			<h1>TemplateName component</h1>
+		</div>
+	);
 };
 
 export default TemplateName;
-export type { TemplateNameArgs };
+export type { TemplateNameProps };

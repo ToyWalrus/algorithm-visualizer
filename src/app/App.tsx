@@ -1,95 +1,103 @@
-import { useEffect, useState } from 'react';
-import shuffle from 'shuffle-array';
-import MergeSortVisualizer from '../components/MergeSortVisualizer/MergeSortVisualizer';
-import Scaffold from '../components/Scaffold/Scaffold';
-import Node from '../model/Node';
-import SettingsPanel, { SettingsPanelArgs } from '../components/SettingsPanel/SettingsPanel';
-import './App.css';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from './theme/theme';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import SettingsPanel from 'components/SettingsPanel/SettingsPanel';
+import AlgorithmSelector from 'components/SettingsPanel/panels/AlgorithmSelector/AlgorithmSelector';
+import AlgorithmInfo from 'components/SettingsPanel/panels/AlgorithmInfo/AlgorithmInfo';
+import VisualizationSettings from 'components/SettingsPanel/panels/VisualizationSettings/VisualizationSettings';
+import SettingsProvider from 'components/SettingsProvider';
+import SettingsContext, { defaultSettings } from 'model/SettingsContext';
 import routes from './routes';
-import { Typography } from '@material-ui/core';
 import {
-  MenuOpen as MergeSortIcon,
-  BubbleChart as BubbleSortIcon,
-  LowPriority as QuickSortIcon,
-} from '@material-ui/icons';
-import { NavItem } from '../components/NavItems/NavItems';
+	VisualizationAreaComponentProps,
+	VisualizationAreaProps,
+} from 'components/Visualizers/VisualizationArea/VisualizationArea';
 
 // https://www.framer.com/api/motion/animation/
-function App() {
-  const [count, setCount] = useState(10);
-  const [updateRoute, setUpdateRoute] = useState(0);
-  const [sortSpeed, setSortSpeed] = useState(250);
-  const [nodeList, setNodeList] = useState([] as Node[]);
-  const [mappedRoutes, setMappedRoutes] = useState([] as NavItem[]);
+const App = () => {
+	const { history, settingsPanelOpen } = useAppHook();
 
-  useEffect(() => {
-    let list: number[] = [];
-    for (let i = 1; i <= count; ++i) {
-      list.push(i);
-    }
-    setNodeList(makeNodeList(...list));
-  }, [count]);
+	const settingsPanelSections = [
+		{
+			title: 'Algorithm Selection',
+			children: (
+				<AlgorithmSelector
+					onSelectAlgorithm={op => {
+						for (const route of routes) {
+							if (op.title.toLowerCase() === route.title.toLowerCase()) {
+								history.push(route.path);
+								return;
+							}
+						}
+					}}
+				/>
+			),
+		},
+		{
+			title: 'Algorithm Info',
+			children: <AlgorithmInfo />,
+		},
+		{
+			title: 'Settings',
+			children: <VisualizationSettings />,
+		},
+	];
 
-  useEffect(() => {
-    setMappedRoutes(
-      routes.map<NavItem>(route => {
-        let isActiveRoute = window.location.pathname === route.path;
-        return {
-          route,
-          selected: isActiveRoute,
-        };
-      })
-    );
-  }, [updateRoute]);
+	const defaultRoute = routes.find(
+		r => r.title.toLowerCase() === defaultSettings.algorithmOption.title.toLowerCase()
+	);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Scaffold
-          title="Algorithm Visualizer"
-          hideSideNav={false}
-          navItems={mappedRoutes}
-          onChangeRoute={() => setUpdateRoute(updateRoute + 1)}
-          settingsPanel={makeSettingsPanel({
-            sortSpeed: sortSpeed,
-            onChangeSortSpeed: setSortSpeed,
-            elementCount: count,
-            onChangeElementCount: setCount,
-          })}
-        >
-          <Switch>
-            {routes.map(route => {
-              return (
-                <Route key={route.path} path={route.path}>
-                  {route.Visualizer && <route.Visualizer items={nodeList} sortStepDelay={sortSpeed} />}
-                </Route>
-              );
-            })}
-            <Route key="home" path="/">
-              <Typography variant="h1" style={{ color: theme.palette.primary.contrastText }}>
-                Home
-              </Typography>
-            </Route>
-          </Switch>
-        </Scaffold>
-      </Router>
-    </ThemeProvider>
-  );
-}
+	const createVisualizer = (Visualizer: (args: VisualizationAreaComponentProps) => JSX.Element) => (
+		<SettingsContext.Consumer>
+			{({ settings }) => <Visualizer isSettingsPanelOpen={settingsPanelOpen} settings={settings} />}
+		</SettingsContext.Consumer>
+	);
 
-const makeSettingsPanel = (args: SettingsPanelArgs) => {
-  return <SettingsPanel {...args} />;
+	return (
+		<SettingsProvider>
+			<SettingsPanel isOpen={settingsPanelOpen} sections={settingsPanelSections} />
+			<Switch>
+				{defaultRoute && defaultRoute.Visualizer && (
+					<Route key="default-route" exact path="/">
+						{createVisualizer(defaultRoute.Visualizer)}
+					</Route>
+				)}
+				{routes.map(({ path, Visualizer }) => (
+					<Route key={path} path={path}>
+						{Visualizer && createVisualizer(Visualizer)}
+					</Route>
+				))}
+			</Switch>
+		</SettingsProvider>
+	);
 };
 
-const makeNodeList = (...args: number[] | string[]): Node[] => {
-  const list: Node[] = [];
-  args.forEach((arg, idx) => {
-    list.push(new Node({ value: arg, index: idx, id: idx }));
-  });
-  return list;
+const useAppHook = () => {
+	const panelBreakpoint = 1000;
+	const [settingsPanelOpen, setSettingsPanelOpen] = useState(window.innerWidth >= panelBreakpoint);
+	const history = useHistory();
+
+	useEffect(() => {
+		const checkSettingsPanelBreakpoint = () => {
+			if (window.innerWidth < panelBreakpoint) {
+				setSettingsPanelOpen(false);
+			} else if (window.innerWidth >= panelBreakpoint) {
+				setSettingsPanelOpen(true);
+			}
+		};
+
+		window.addEventListener('resize', checkSettingsPanelBreakpoint);
+		return () => window.removeEventListener('resize', checkSettingsPanelBreakpoint);
+	}, []);
+
+	return {
+		settingsPanelOpen,
+		setSettingsPanelOpen: (open: boolean) => {
+			const canControlPanel = window.innerWidth < panelBreakpoint;
+			if (!canControlPanel) return;
+			setSettingsPanelOpen(open);
+		},
+		history,
+	};
 };
 
 export default App;

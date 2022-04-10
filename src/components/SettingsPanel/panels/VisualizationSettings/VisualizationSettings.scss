@@ -1,0 +1,85 @@
+@use '../../../../utils/Constants' as c;
+
+$half-padding: c.$half-padding * 1px;
+$quarter-padding: c.$quarter-padding * 1px;
+
+.visualization-settings {
+	display: flex;
+	flex-direction: column;
+	margin-top: $half-padding;
+
+	.visualization-option-row {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		margin: $quarter-padding 0;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		.visual-sort-speed-dropdown {
+			width: 100%;
+		}
+
+		.option-input {
+			flex: 5;
+		}
+	}
+
+	.visualization-color-option-row {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		margin: $half-padding 0;
+
+		&:nth-child(3) {
+			margin-bottom: 0;
+		}
+
+		&:nth-child(4) {
+			margin-top: 0;
+		}
+
+		.color-button {
+			border-radius: c.$border-radius * 1px;
+			height: 30px;
+			width: 30px;
+			border: c.$default-border;
+			opacity: 1;
+
+			transition: opacity c.$transition-time * 1ms linear;
+
+			&:hover {
+				cursor: pointer;
+				opacity: 0.9;
+			}
+
+			&.primary {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+				border-bottom: none;
+			}
+
+			&.alternate {
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+			}
+		}
+
+		.picker-container {
+			&:not(.visible) {
+				left: -300px !important;
+			}
+		}
+	}
+
+	.option-label {
+		flex: 2;
+		margin-left: $half-padding;
+		padding-right: $half-padding;
+		line-height: 1em;
+		font-weight: 500;
+	}
+}

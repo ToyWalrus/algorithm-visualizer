@@ -1,0 +1,124 @@
+@use '../../utils/Constants' as c;
+
+$primary-color: c.$primary-color;
+$border-color: c.$border-color;
+$hover-color: c.$primary-color-faded-2;
+
+$vertical-padding: c.$half-padding * 1px;
+$horizontal-padding: c.$default-padding * 1px;
+$input-background-color: c.$light-surface;
+$border-radius: c.$border-radius * 1px;
+$list-item-height: 30px;
+
+$transition-curve: linear;
+$transition-time: c.$short-transition-time * 1ms;
+$default-border: c.$default-border;
+$focused-border: c.$focused-border;
+
+$font-size: c.$emphasis-font-size;
+
+.input-field {
+	min-width: 200px;
+	padding: $vertical-padding $horizontal-padding;
+	background-color: $input-background-color;
+
+	border-radius: $border-radius;
+	border: $default-border;
+
+	transition: border $transition-time $transition-curve;
+
+	font-size: $font-size;
+
+	&:focus,
+	&:hover {
+		border: $focused-border;
+	}
+
+	&.dropdown {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+
+		.chevron {
+			color: $border-color;
+			transition: color $transition-time $transition-curve;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+
+		&:focus .chevron,
+		&:hover .chevron {
+			color: $primary-color;
+		}
+	}
+}
+
+.dropdown-floating-list {
+	min-height: 0;
+	max-height: 0;
+	background-color: $input-background-color;
+
+	border-radius: $border-radius;
+	border: $focused-border;
+
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	overflow-y: scroll;
+
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	&.visible {
+		max-height: 200px;
+		min-height: $border-radius;
+	}
+
+	.floating-list-item {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: $vertical-padding $horizontal-padding;
+		background-color: $input-background-color;
+
+		transition: background-color $transition-time $transition-curve;
+		height: $list-item-height;
+		font-size: $font-size;
+		border: none;
+
+		&:hover {
+			cursor: pointer;
+			background-color: $hover-color;
+		}
+
+		&:disabled {
+			cursor: default;
+		}
+
+		.check-icon {
+			color: $primary-color;
+			opacity: 0;
+			transition: opacity $transition-time $transition-curve;
+
+			&.selected {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+input.input-field {
+	width: 87%; // I don't like this solution but I can't get the two input fields to match width any other way
+	&[type='number']::-webkit-inner-spin-button,
+	&[type='number']::-webkit-outer-spin-button {
+		// TODO: maybe make as chevron icons instead?
+		opacity: 1;
+		height: 2em;
+	}
+}

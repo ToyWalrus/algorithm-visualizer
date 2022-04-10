@@ -1,39 +1,31 @@
-import MergeSortVisualizer from '../components/MergeSortVisualizer/MergeSortVisualizer';
-import {
-  MenuOpen as MergeSortIcon,
-  BubbleChart as BubbleSortIcon,
-  LowPriority as QuickSortIcon,
-} from '@material-ui/icons';
-import BubbleSortVisualizer from '../components/BubbleSortVisualizer/BubbleSortVisualizer';
-import QuickSortVisualizer from '../components/QuickSortVisualizer/QuickSortVisualizer';
+import MergeSortVisualizer from 'components/Visualizers/MergeSortVisualizer/MergeSortVisualizer';
+import BubbleSortVisualizer from 'components/Visualizers/BubbleSortVisualizer/BubbleSortVisualizer';
+import QuickSortVisualizer from 'components/Visualizers/QuickSortVisualizer/QuickSortVisualizer';
+import { VisualizationAreaComponentProps } from 'components/Visualizers/VisualizationArea/VisualizationArea';
 
-interface RouteArgs {
-  path: string;
-  title: string;
-  icon?: JSX.Element;
-  Visualizer?: (args: any) => JSX.Element;
+interface RouteProps {
+	path: string;
+	title: string;
+	Visualizer?: (args: VisualizationAreaComponentProps) => JSX.Element;
 }
 
-const routes: RouteArgs[] = [
-  {
-    path: '/mergeSort',
-    title: 'Merge Sort',
-    Visualizer: MergeSortVisualizer,
-    icon: <MergeSortIcon className="merge-sort-icon" />,
-  },
-  {
-    path: '/bubbleSort',
-    title: 'Bubble Sort',
-    Visualizer: BubbleSortVisualizer,
-    icon: <BubbleSortIcon />,
-  },
-  {
-    path: '/quickSort',
-    title: 'Quick Sort',
-    Visualizer: QuickSortVisualizer,
-    icon: <QuickSortIcon />,
-  },
+const routes: RouteProps[] = [
+	{
+		path: '/mergeSort',
+		title: 'Merge Sort',
+		Visualizer: MergeSortVisualizer,
+	},
+	{
+		path: '/bubbleSort',
+		title: 'Bubble Sort',
+		Visualizer: BubbleSortVisualizer,
+	},
+	{
+		path: '/quickSort',
+		title: 'Quick Sort',
+		Visualizer: QuickSortVisualizer,
+	},
 ];
 
 export default routes;
-export type { RouteArgs };
+export type { RouteProps };

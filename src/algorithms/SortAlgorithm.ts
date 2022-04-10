@@ -1,4 +1,4 @@
-import Node from '../model/Node';
+import Node from 'model/Node';
 
 /**
  * A function that takes two `Node`s and
@@ -10,35 +10,58 @@ import Node from '../model/Node';
 export type CompareFunc = (a: Node, b: Node) => -1 | 0 | 1;
 
 export default abstract class SortAlgorithm {
-  comparator: CompareFunc;
+	comparator: CompareFunc;
 
-  constructor(comparator: CompareFunc) {
-    this.comparator = comparator;
-  }
+	constructor(comparator?: CompareFunc) {
+		this.comparator =
+			comparator ||
+			function (a, b) {
+				let v1 = a.value as number;
+				let v2 = b.value as number;
+				if (v1 < v2) return -1;
+				if (v1 > v2) return 1;
+				return 0;
+			};
+	}
 
-  /**
-   * Sort the given nodes.
-   * @param values nodes to be sorted.
-   */
-  abstract sort(values: Node[]): Generator;
+	/**
+	 * Sort the given nodes.
+	 * @param values nodes to be sorted.
+	 */
+	abstract sort(values: Node[]): Generator;
 
-  listValues = (prefix: String, arr: Node[]): void => {
-    console.log(
-      prefix,
-      arr.map(val => val.value)
-    );
-  };
+	/**
+	 * Get a string representation of the sort
+	 * functionality to be used in a `new Function()`
+	 * constructor.
+	 */
+	abstract sortFunctionToString(): string[];
 
-  protected *yieldAndCompare(a: Node, b: Node): Generator<any, -1 | 0 | 1, any> {
-    a.isBeingSorted = true;
-    b.isBeingSorted = true;
+	listValues = (prefix: String, arr: Node[]): void => {
+		console.log(
+			prefix,
+			arr.map(val => val.value)
+		);
+	};
 
-    yield;
-    const result = this.comparator(a, b);
+	protected *yieldAndCompare(a: Node, b: Node): Generator<any, -1 | 0 | 1, any> {
+		a.isBeingSorted = true;
+		b.isBeingSorted = true;
 
-    a.isBeingSorted = false;
-    b.isBeingSorted = false;
+		yield;
+		const result = this.comparator(a, b);
 
-    return result;
-  }
+		a.isBeingSorted = false;
+		b.isBeingSorted = false;
+
+		return result;
+	}
+
+	protected getYieldAndCompareFunctionString(): string {
+		const comparatorFuncString = this.comparator.toString();
+		const yieldFuncString = this.yieldAndCompare.toString();
+		let funcString = `this.comparator = ${comparatorFuncString}`;
+		funcString += `\nthis.yieldAndCompare = function*${yieldFuncString.substring(yieldFuncString.indexOf('('))}`;
+		return funcString;
+	}
 }

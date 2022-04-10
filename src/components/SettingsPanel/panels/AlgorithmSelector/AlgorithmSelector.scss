@@ -1,0 +1,52 @@
+@use '../../../../utils/Constants' as c;
+
+$border-radius: c.$border-radius * 1px;
+$primary-color: c.$primary-color;
+$primary-color-faded: c.$primary-color-faded;
+$selected-text-color: c.$light-surface;
+$text-color: c.$text-color;
+$transition-time: c.$transition-time * 1ms;
+
+.enum-switcher {
+	margin-top: 8px;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: repeat(3, 1fr);
+	grid-column-gap: 0;
+	grid-row-gap: 0;
+
+	.enum-switcher-item {
+		cursor: pointer;
+		padding: 8px 16px;
+		border: 1px solid $primary-color;
+		border-left: none;
+		background-color: c.$light-surface;
+
+		text-align: center;
+		font-weight: 500;
+		color: $text-color;
+
+		transition: color $transition-time ease-in, background-color $transition-time ease-in;
+
+		&.first {
+			border-bottom-left-radius: $border-radius;
+			border-top-left-radius: $border-radius;
+			border-left: 1px solid $primary-color;
+		}
+
+		&.last {
+			border-bottom-right-radius: $border-radius;
+			border-top-right-radius: $border-radius;
+		}
+
+		&.is-selected {
+			background-color: $primary-color;
+			color: $selected-text-color;
+		}
+
+		&:hover:not(.is-selected) {
+			background-color: $primary-color-faded;
+			color: $selected-text-color;
+		}
+	}
+}
